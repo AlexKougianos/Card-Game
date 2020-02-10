@@ -1,4 +1,4 @@
-// Branch kougias
+// Branch master
 
 #include "Player.hpp"
 
@@ -8,5 +8,5 @@ using namespace std;
 
 int main() {
     cout << "\n\nInitializing Game...\n\n" << endl;
-    cout << "This is kougias branch" << endl;
+    cout << "This is master branch" << endl;
 }
