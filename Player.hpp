@@ -9,8 +9,7 @@ class Player {
     private:
         string name;
     public:
-        Player();
-        
+        Player();   
 };
 
 
