@@ -1,12 +1,14 @@
-#include "GameBoard.hpp"
-#include "Player.hpp"
+#include "GreenCards.hpp"
+
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main() {
     cout << "\n\nInitializing Game...\n\n" << endl;
-    cout << "This is Kougias branch" << endl;
 
-    GameBoard gBoard = new GameBoard();
+    // GameBoard* gameBoard = new GameBoard();
+    Footsoldier* f = new Footsoldier("kougias");
+    cout << f->getName() << endl;
 }

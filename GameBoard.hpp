@@ -10,7 +10,8 @@ class GameBoard {
     Player p2;
     public:
         GameBoard();
+        void initializeGameBoard();
         void printGameStatistics();
-}
+};
 
 #endif

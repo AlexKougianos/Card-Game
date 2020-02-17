@@ -4,146 +4,162 @@
 
 using namespace std;
 
-//Green Card getters
+// Green Card getters
 string GreenCard::getName() {return name;}
 int GreenCard::getCost() {return cost;}
-bool GreenCard::isTapped() {return isTapped;}
-int GreenCard::getAtackkBonus() {return attackBonus;}
+bool GreenCard::getIsTapped() {return isTapped;}
+int GreenCard::getAttackBonus() {return attackBonus;}
 int GreenCard::getDefenceBonus() {return defenceBonus;}
 int GreenCard::getMinimumHonour() {return minimumHonour;}
 string GreenCard::getCardText() {return cardText;}
 int GreenCard::getEffectBonus() {return effectBonus;}
 int GreenCard::getEffectCost() {return effectCost;}
-int GreenCard::getDurability() {return durability;}
+
+// Green Card setters
+void GreenCard::setName(string newName) {name = newName;}
+void GreenCard::setCost(int newCost) {cost = newCost;}
+void GreenCard::setIsTapped(bool newIsTapped) {isTapped = newIsTapped;}
+void GreenCard::setAttackBonus(int newAttackBonus) {attackBonus = newAttackBonus;}
+void GreenCard::setDefenceBonus(int newDefenceBonus) {defenceBonus = newDefenceBonus;}
+void GreenCard::setMinimumHonour(int newMinimumHonour) {minimumHonour = newMinimumHonour;}
+void GreenCard::setCardText(string newCardText) {cardText = newCardText;}
+void GreenCard::setEffectBonus(int newEffectBonus) {effectBonus = newEffectBonus;}
+void GreenCard::setEffectCost(int newEffectCost) {effectCost = newEffectCost;}
 
 //##################
 //# Follower Cards #
 //##################
+
 Footsoldier::Footsoldier(string newName) {
-    name=newName;
-    cost=0;
-    isTapped=false;
-    attackBonus=2;
-    deffenceBonus=0;
-    minimumHonour=1;
-    effectBonus=1;
-    effectCost=2;
+    setName(newName);
+    setCost(0);
+    setIsTapped(false);
+    setAttackBonus(2);
+    setDefenceBonus(2);
+    setMinimumHonour(1);
+    setEffectBonus(1);
+    setEffectCost(2);
 }
 
 Archer::Archer(string newName) {
-    name=newName;
-    cost=0;
-    isTapped=false;
-    attackBonus=0;
-    deffenceBonus=2;
-    minimumHonour=1;
-    effectBonus=1;
-    effectCost=2; 
+    setName(newName);
+    setCost(0);
+    setIsTapped(false);
+    setAttackBonus(0);
+    setDefenceBonus(2);
+    setMinimumHonour(1);
+    setEffectBonus(1);
+    setEffectCost(2);
 }
 
-Cavalry::Cavarly(string newName) {
-    name=newName;
-    cost=3;
-    isTapped=false;
-    attackBonus=4;
-    deffenceBonus=2;
-    minimumHonour=3;
-    effectBonus=3;
-    effectCost=4;
+Cavalry::Cavalry(string newName) {
+    setName(newName);
+    setCost(3);
+    setIsTapped(false);
+    setAttackBonus(4);
+    setDefenceBonus(2);
+    setMinimumHonour(3);
+    setEffectBonus(3);
+    setEffectCost(4);
 }
 
 Bushido::Bushido(string newName) {
-    name=newName;
-    cost=8;
-    isTapped=false;
-    attackBonus=8;
-    deffenceBonus=8;
-    minimumHonour=6;
-    effectBonus=3;
-    effectCost=8;
+    setName(newName);
+    setCost(8);
+    setIsTapped(false);
+    setAttackBonus(8);
+    setDefenceBonus(8);
+    setMinimumHonour(6);
+    setEffectBonus(3);
+    setEffectCost(8);
 }
 
 Naval::Naval(string newName) {
-    name=newName;
-    cost=3;
-    isTapped=false;
-    attackBonus=2;
-    deffenceBonus=4;
-    minimumHonour=3;
-    effectBonus=3;
-    effectCost=4;
+    setName(newName);
+    setCost(3);
+    setIsTapped(false);
+    setAttackBonus(2);
+    setDefenceBonus(4);
+    setMinimumHonour(3);
+    setEffectBonus(3);
+    setEffectCost(4);
 }
 
 Sieger::Sieger(string newName) {
-    name=newName;
-    cost=5;
-    isTapped=false;
-    attackBonus=3;
-    deffenceBonus=3;
-    minimumHonour=2;
-    effectBonus=2;
-    effectCost=3;
+    setName(newName);
+    setCost(5);
+    setIsTapped(false);
+    setAttackBonus(3);
+    setDefenceBonus(3);
+    setMinimumHonour(2);
+    setEffectBonus(2);
+    setEffectCost(3);
 }
 
 //##############
 //# Item Cards #
 //##############
+
+int Item::getDurability() {return durability;}
+void Item::setDurability(int newDurability) {durability = newDurability;}
+
+
 Katana::Katana(string newName) {
-    name=newName;
-    cost=0;
-    isTapped=false;
-    attackBonus=2;
-    defenceBonus=0;
-    minimumHonour=1;
-    effectBonus=1;
-    effectCost=2;
-    durability=3;
+    setName(newName);
+    setCost(0);
+    setIsTapped(false);
+    setAttackBonus(2);
+    setDefenceBonus(0);
+    setMinimumHonour(1);
+    setEffectBonus(1);
+    setEffectCost(2);
+    setDurability(3);
 }
 
 Spear::Spear(string newName) {
-    name=newName;
-    cost=0;
-    isTapped=false;
-    attackBonus=0;
-    defenceBonus=2;
-    minimumHonour=1;
-    effectBonus=1;
-    effectCost=2;
-    durability=3;
+    setName(newName);
+    setCost(0);
+    setIsTapped(false);
+    setAttackBonus(0);
+    setDefenceBonus(2);
+    setMinimumHonour(1);
+    setEffectBonus(1);
+    setEffectCost(2);
+    setDurability(3);
 }
 
 Bow::Bow(string newName) {
-    name=newName;
-    cost=2;
-    isTapped=false;
-    attackBonus=2;
-    defenceBonus=2;
-    minimumHonour=2;
-    effectBonus=3;
-    effectCost=4;
-    durability=5;
+    setName(newName);
+    setCost(2);
+    setIsTapped(false);
+    setAttackBonus(2);
+    setDefenceBonus(2);
+    setMinimumHonour(2);
+    setEffectBonus(3);
+    setEffectCost(4);
+    setDurability(5);
 }
 
 Ninjato::Ninjato(string newName) {
-    name=newName;
-    cost=4;
-    isTapped=false;
-    attackBonus=3;
-    defenceBonus=3;
-    minimumHonour=3;
-    effectBonus=2;
-    effectCost=2;
-    durability=4;
+    setName(newName);
+    setCost(4);
+    setIsTapped(false);
+    setAttackBonus(3);
+    setDefenceBonus(3);
+    setMinimumHonour(3);
+    setEffectBonus(2);
+    setEffectCost(2);
+    setDurability(4);
 }
 
 Wakizashi::Wakizashi(string newName) {
-    name=newName;
-    cost=8;
-    isTapped=false;
-    attackBonus=5;
-    defenceBonus=5;
-    minimumHonour=3;
-    effectBonus=3;
-    effectCost=3;
-    durability=8;
+    setName(newName);
+    setCost(8);
+    setIsTapped(false);
+    setAttackBonus(5);
+    setDefenceBonus(5);
+    setMinimumHonour(3);
+    setEffectBonus(3);
+    setEffectCost(3);
+    setDurability(8);
 }

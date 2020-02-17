@@ -19,11 +19,11 @@ DeckBuilder::~DeckBuilder()
 		delete *it;
 		it = black->begin();
 	}
-	for (it = green->begin(); it != green->end(); it++)
+	for (it2 = green->begin(); it2 != green->end(); it++)
 	{
-		green->remove((*it));
-		delete *it;
-		it = green->begin();
+		green->remove((*it2));
+		delete *it2;
+		it2 = green->begin();
 	}
 	delete black;
 	delete green;
@@ -41,7 +41,7 @@ list<GreenCard *> *DeckBuilder::createFateDeck()
 	for (i = 0; i < NO_CAVALRY; i++)
 		green->push_back(new Cavalry("Unicorn Horses"));
 	for (i = 0; i < NO_NAVAL; i++)
-		green->push_back(new Atakebune("Yomi Ships"));
+		green->push_back(new Naval("Yomi Ships"));
 	for (i = 0; i < NO_BUSHIDO; i++)
 		green->push_back(new Bushido("7 Samurai"));
 
@@ -89,7 +89,7 @@ list<BlackCard *> *DeckBuilder::createDynastyDeck()
 	for (i = 0; i < NO_CRYSTAL_MINE; i++)
 		black->push_back(new CrystalMine("Ichinokawa Crystal Mine"));
 	for (i = 0; i < NO_SOLO; i++)
-		black->push_back(new GiftsandFavour("Gifts and Favors"));
+		black->push_back(new Solo("Gifts and Favors"));
 
 	return black;
 }

@@ -3,60 +3,72 @@
 
 #include <string>
 
+using namespace std;
+
 class GreenCard {
-    string name;
-    int cost;
-    bool isTapped;
-    int attackBonus;
-    int defenceBonus;
-    int minimumHonour;
-    string cardText;
-    int effectBonus;
-    int effectCost;
+        string name;
+        int cost;
+        bool isTapped;
+        int attackBonus;
+        int defenceBonus;
+        int minimumHonour;
+        string cardText;
+        int effectBonus;
+        int effectCost;
     public:
         virtual string getName();
         virtual int getCost();
-        virtual bool isTapped();
-        virtual int getAtackkBonus();
+        virtual bool getIsTapped();
+        virtual int getAttackBonus();
         virtual int getDefenceBonus();
         virtual int getMinimumHonour();
         virtual string getCardText();
         virtual int getEffectBonus();
         virtual int getEffectCost();
-        virtual int getDurability();    
+
+        virtual void setName(string);
+        virtual void setCost(int);
+        virtual void setIsTapped(bool);
+        virtual void setAttackBonus(int);
+        virtual void setDefenceBonus(int);
+        virtual void setMinimumHonour(int);
+        virtual void setCardText(string);
+        virtual void setEffectBonus(int);
+        virtual void setEffectCost(int);
 };
 
 //##################
 //# Follower Cards #
 //##################
-class Follower : private GreenCard {};
 
-class Footsoldier : private Follower {
+class Follower : public GreenCard {};
+
+class Footsoldier : public Follower {
     public:
         Footsoldier(string);
 };
 
-class Archer : private Follower {
+class Archer : public Follower {
     public:
         Archer(string);
 };
 
-class Cavalry : private Follower {
+class Cavalry : public Follower {
     public:
         Cavalry(string);
 };
 
-class Bushido : private Follower {
+class Bushido : public Follower {
     public:
         Bushido(string);
 };
 
-class Sieger : private Follower {
+class Sieger : public Follower {
     public:
         Sieger(string);
 };
 
-class Naval : private Follower {
+class Naval : public Follower {
     public:
         Naval(string);
 };
@@ -64,31 +76,35 @@ class Naval : private Follower {
 //##############
 //# Item Cards #
 //##############
-class Item : private GreenCard {
-    int durability;
+
+class Item : public GreenCard {
+        int durability;
+    public:
+        int getDurability();
+        void setDurability(int);
 };
 
-class Katana : private Item {
+class Katana : public Item {
     public:
         Katana(string);
 };
 
-class Spear : private Item {
-    public:
+class Spear : public Item {
+    public: 
         Spear(string);
 };
 
-class Bow : private Item {
+class Bow : public Item {
     public:
         Bow(string);
 };
 
-class Ninjato : private Item {
+class Ninjato : public Item {
     public:
         Ninjato(string);
 };
 
-class Wakizashi : private Item {
+class Wakizashi : public Item {
     public:
         Wakizashi(string);
 };
