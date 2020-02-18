@@ -12,7 +12,8 @@ int main() {
     cout << "\n\nInitializing Game...\n\n" << endl;
 
     
-    GameBoard* gameBoard = new GameBoard(50, 5);
+    GameBoard* gameBoard = new GameBoard();
+    gameBoard->printGameStatistics();
 
     // Footsoldier* f = new Footsoldier("kougias");
     // Chancellor* c = new Chancellor("leo");

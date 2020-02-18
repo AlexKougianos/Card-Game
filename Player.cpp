@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Player::Player(int decksize, int handsize) {
+Player::Player() {
     stronghold = new Stronghold("Stronghold");
     deckBuilder = new DeckBuilder();
     honour = stronghold->getStartingHonour();

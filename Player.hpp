@@ -24,7 +24,7 @@ class Player {
         list<Holding*>* holdings;
         list<Personality*>* army;
     public:
-        Player(int, int);
+        Player();
 
         int getHonour();
         int getNumberOfProvinces();

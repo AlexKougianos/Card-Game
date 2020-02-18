@@ -12,8 +12,8 @@ class GameBoard {
         Player* player1;
         Player* player2;
     public:
-        GameBoard(int, int);
-        void initializeGameBoard(int, int);
+        GameBoard();
+        void initializeGameBoard();
         void printGameStatistics();
         void gameplay();
 };
