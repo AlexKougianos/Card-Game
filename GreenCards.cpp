@@ -103,7 +103,6 @@ Sieger::Sieger(string newName) {
 int Item::getDurability() {return durability;}
 void Item::setDurability(int newDurability) {durability = newDurability;}
 
-
 Katana::Katana(string newName) {
     setName(newName);
     setCost(0);

@@ -2,100 +2,132 @@
 #define _BLACKCARD_HPP_
 
 #include <string>
+#include "GreenCards.hpp"
 
 using namespace std;
 
 class BlackCard {
-    string name;
-    int cost;
-    bool isTapped;
-    bool isRevealed;
+        string name;
+        int cost;
+        bool isTapped;
+        bool isRevealed;
     public:
         virtual string getName();
         virtual int getCost();
-        virtual bool isTapped();
-        virtual bool isRevealed();
+        virtual bool getIsTapped();
+        virtual bool getIsRevealed();
+
+        virtual void setName(string);
+        virtual void setCost(int);
+        virtual void setIsTapped(bool);
+        virtual void setIsRevealed(bool);
 };
 
 //#####################
 //# Personality Cards #
 //#####################
-class Personality : private BlackCard {};
-
-class Attacker : private Personality {
+class Personality : public BlackCard {
+        int attack;
+        int defence;
+        int honour;
+        bool isDead;
+        //GreenCard* Followers;
+        //GreenCard* Items;
     public:
-        Attacker(string newName);
+        virtual int getAttack();
+        virtual int getDefence();
+        virtual int getHonour();
+        virtual bool getIsDead();
+
+        virtual void setAttack(int);
+        virtual void setDefence(int);
+        virtual void setHonour(int);
+        virtual void setIsDead(bool);
 };
 
-class Defender : private Personality {
+class Attacker : public Personality {
     public:
-        Defender(string newName);
+        Attacker(string);
 };
 
-class Chanselor : private Personality {
+class Defender : public Personality {
     public:
-        Chanselor(string newName);
+        Defender(string);
 };
 
-class Shogun : private Personality {
+class Chanselor : public Personality {
     public:
-        Shogun(string newName);
+        Chanselor(string);
 };
 
-class Champion : private Personality {
+class Shogun : public Personality {
     public:
-        Champion(string newName);
+        Shogun(string);
+};
+
+class Champion : public Personality {
+    public:
+        Champion(string);
 };
 
 //#################
 //# Holding Cards #
 //#################
-class Holding : private BlackCard {
-    int harvestValue;
-    // Holding* upperHolding;
-    // Holding* subHolding;
-};
-
-class Solo : private Holding {
+class Holding : public BlackCard {
+        int harvestValue;
+        // Holding* upperHolding;
+        // Holding* subHolding;
     public:
-        Solo(string newName);
+        virtual int getHarvestValue();
+
+        virtual void setHarvestValue(int);
 };
 
-class Plain : private Holding {
+class Solo : public Holding {
     public:
-        Plain(string newName);
+        Solo(string);
 };
 
-class Mine : private Holding {
+class Plain : public Holding {
     public:
-        Mine(string newName);
+        Plain(string);
 };
 
-class GoldMine : private Holding {
+class Mine : public Holding {
     public:
-        GoldMine(string newName);
+        Mine(string);
 };
 
-class CrystalMine : private Holding {
+class GoldMine : public Holding {
     public:
-        CrystalMine(string newName);
+        GoldMine(string);
 };
 
-class Farmland : private Holding {
+class CrystalMine : public Holding {
     public:
-        Farmland(string newName);
+        CrystalMine(string);
 };
 
-class GiftAndFavour : private Holding {
+class Farmland : public Holding {
     public:
-        GiftAndFavour(string newName);
+        Farmland(string);
 };
 
-class Stronghold : private Holding {
+class GiftAndFavour : public Holding {
+    public:
+        GiftAndFavour(string);
+};
+
+class Stronghold : public Holding {
     int startingHonour;
     int initialDefense;
     public:
-        Stronghold(string newName);
+        Stronghold(string);
+        int getStartingHonour();
+        int getInitialDefence();
+
+        void setStartingHonour(int);
+        void setInitialDefence(int);
 };
 
 #endif
