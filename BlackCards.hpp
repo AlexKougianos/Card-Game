@@ -2,11 +2,13 @@
 #define _BLACKCARD_HPP_
 
 #include <string>
+
 #include "GreenCards.hpp"
 
 using namespace std;
 
 class BlackCard {
+    private:
         string name;
         int cost;
         bool isTapped;
@@ -27,6 +29,7 @@ class BlackCard {
 //# Personality Cards #
 //#####################
 class Personality : public BlackCard {
+    private:
         int attack;
         int defence;
         int honour;
@@ -55,9 +58,9 @@ class Defender : public Personality {
         Defender(string);
 };
 
-class Chanselor : public Personality {
+class Chancellor : public Personality {
     public:
-        Chanselor(string);
+        Chancellor(string);
 };
 
 class Shogun : public Personality {
@@ -74,6 +77,7 @@ class Champion : public Personality {
 //# Holding Cards #
 //#################
 class Holding : public BlackCard {
+    private:
         int harvestValue;
         // Holding* upperHolding;
         // Holding* subHolding;
@@ -119,8 +123,9 @@ class GiftAndFavour : public Holding {
 };
 
 class Stronghold : public Holding {
-    int startingHonour;
-    int initialDefense;
+    private:
+        int startingHonour;
+        int initialDefense;
     public:
         Stronghold(string);
         int getStartingHonour();

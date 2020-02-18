@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 #include "BlackCards.hpp"
 
 using namespace std;
@@ -55,7 +56,7 @@ Defender::Defender(string newName) {
     setIsDead(false);
 }
 
-Chanselor::Chanselor(string newName) {
+Chancellor::Chancellor(string newName) {
     setName(newName);
     setCost(15);
     setIsTapped(false);

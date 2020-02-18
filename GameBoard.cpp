@@ -1,11 +1,19 @@
 #include "GameBoard.hpp"
-#include "Player.hpp"
 
-GameBoard::GameBoard() {
-    Player *p1 = new Player();
-    Player *p2 = new Player();
+GameBoard::GameBoard(int decksize, int handsize) {
+    player1 = new Player(decksize, handsize);
+    player2 = new Player(decksize, handsize);
+    // initializeGameBoard(decksize, handsize);
+}
+
+void GameBoard::initializeGameBoard(int decksize, int handsize) {
+    
 }
 
 void GameBoard::printGameStatistics() {
+    
+}
+
+void GameBoard::gameplay() {
 
 }

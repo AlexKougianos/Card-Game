@@ -6,6 +6,7 @@
 using namespace std;
 
 class GreenCard {
+    private:
         string name;
         int cost;
         bool isTapped;

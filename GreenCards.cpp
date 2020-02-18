@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 #include "GreenCards.hpp"
 
 using namespace std;
@@ -100,7 +101,10 @@ Sieger::Sieger(string newName) {
 //# Item Cards #
 //##############
 
+// Getter
 int Item::getDurability() {return durability;}
+
+// Setter
 void Item::setDurability(int newDurability) {durability = newDurability;}
 
 Katana::Katana(string newName) {

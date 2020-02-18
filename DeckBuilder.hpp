@@ -62,8 +62,11 @@ class DeckBuilder
 		list<GreenCard *>* createFateDeck();
 	 	list<BlackCard *>* createDynastyDeck();
 
-	 	void DeckBuilder::deckShuffler(list<BlackCard *> *black);
-		void DeckBuilder::deckShuffler(list<GreenCard *> *green);
+	 	// void DeckBuilder::deckShuffler(list<BlackCard *> *black);
+		// void DeckBuilder::deckShuffler(list<GreenCard *> *green);
+
+		void deckShuffler(list<BlackCard *> *black);
+		void deckShuffler(list<GreenCard *> *green);
 };
 
 #endif
