@@ -35,3 +35,32 @@ void Player::setHand(list<GreenCard*>&) {}
 void Player::setProvinces(list<BlackCard*>&) {}
 void Player::setHoldings(list<Holding*>&) {}
 void Player::setArmy(list<Personality*>&) {}
+
+
+list<GreenCard*>* newHand(int numberOfCards) {
+    hand = new list<GreenCard*>();
+    GreenCard* tempCard;
+    for (int i=0; i<=numberOfCards) {
+        tempCard = fateDeck->pop_back();
+        hand->push_back(tempCard);
+    }
+}
+
+void Player::printHand() {
+    GreenCard* tempCard;
+    list<GreenCard*>::iterator it;
+    for (it = hand->begin(); it!=hand->end(); it++) {
+        tempCard = *it;
+        cout<<tempCard->getName()<<endl;
+    }
+}
+// //printing card names
+// list<GreenCard*>* green = player1->getFateDeck();
+// GreenCard* card;
+// list<GreenCard*>::iterator it;
+// int i = 1;
+// for (it = green->begin(); it != green->end(); it++) {
+//     card = *it;
+// 	cout << i << ": " << card->getName() << endl;
+//     i++;
+// }

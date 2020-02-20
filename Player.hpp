@@ -45,6 +45,9 @@ class Player {
         void setProvinces(list<BlackCard*>&);
         void setHoldings(list<Holding*>&);
         void setArmy(list<Personality*>&);
+
+        list<GreenCard*>* newHand(int);
+        void printHand();
 };
 
 

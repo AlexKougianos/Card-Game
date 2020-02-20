@@ -3,11 +3,18 @@
 GameBoard::GameBoard() {
     player1 = new Player();
     player2 = new Player();
+    playerTurn = NULL;
     // initializeGameBoard();
 }
 
 void GameBoard::initializeGameBoard() {
-    
+    cout<<"Give max number of cards in hand."<<endl;
+    cin>>maxNumberOfHand;
+
+    player1->newHand(maxNumberOfHand);
+    player2->newHand(maxNumberOfHand);
+
+    playerTurn = player1;
 }
 
 void GameBoard::printGameStatistics() {
@@ -23,7 +30,7 @@ void GameBoard::gameplay() {
 
 }
 
-
+player* GameBoard::getPlayer1() {return player1;}
 // //printing card names
 // list<GreenCard*>* green = player1->getFateDeck();
 // GreenCard* card;
