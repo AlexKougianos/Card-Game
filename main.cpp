@@ -11,9 +11,11 @@ using namespace std;
 int main() {
     cout << "\n\nInitializing Game...\n\n" << endl;
 
-    
     GameBoard* gameBoard = new GameBoard();
-    gameBoard->printGameStatistics();
+    gameBoard->initializeGameBoard();
+    gameBoard->getPlayer1()->printHand();
+
+    //gameBoard->printGameStatistics();
 
     // Footsoldier* f = new Footsoldier("kougias");
     // Chancellor* c = new Chancellor("leo");
