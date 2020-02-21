@@ -11,15 +11,14 @@ class GameBoard {
     private:
         Player* player1;
         Player* player2;
-        Player* playerTurn;
-        int maxNumberOfHand;
+        int playerTurn;
     public:
         GameBoard();
         void initializeGameBoard();
         void printGameStatistics();
         void gameplay();
 
-        Player* getPlayer1();
+        Player* getPlayer(int);
 };
 
 #endif

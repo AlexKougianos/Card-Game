@@ -42,24 +42,49 @@ void Player::setHoldings(list<Holding*>&) {}
 void Player::setArmy(list<Personality*>&) {}
 
 
-void Player::newHand(int numberOfCards) {
+void Player::createHand(int numberOfCards) {
     hand = new list<GreenCard*>();
+    maxHandSize = numberOfCards;
     GreenCard* tempCard;
-    for (int i=0; i<=numberOfCards; i++) {
-        tempCard = fateDeck->front();         // Getting the first item of Fate Date 
-        hand->push_front(tempCard);           // Putting it in Hand
-        fateDeck->pop_front();                // Deleting it from the Fate Deck 
+    for (int i=0; i < numberOfCards; i++) {
+        tempCard = fateDeck->front();           // Getting the first item of Fate Date 
+        hand->push_front(tempCard);             // Putting it in Hand
+        fateDeck->pop_front();                  // Deleting it from the Fate Deck 
+    }
+}
+
+void Player::createProvinces() {
+    provinces = new list<BlackCard*>();
+    BlackCard* tempCard;
+    for (int i=0; i < 4; i++) {
+        tempCard = dynastyDeck->front();         // Getting the first item of Dynasty Date 
+        provinces->push_front(tempCard);         // Putting it in the Provinces
+        dynastyDeck->pop_front();                // Deleting it from the Dynasty Deck 
     }
 }
 
 void Player::printHand() {
+    cout << "Printing hand:" << endl;
     GreenCard* tempCard;
     list<GreenCard*>::iterator it;
     for (it = hand->begin(); it!=hand->end(); it++) {
         tempCard = *it;
         cout<<tempCard->getName()<<endl;
     }
+    cout << "\n\n";
 }
+
+void Player::printProvinces() {
+    cout << "Printing Provinces:" << endl;
+    BlackCard* tempCard;
+    list<BlackCard*>::iterator it;
+    for (it = provinces->begin(); it!=provinces->end(); it++) {
+        tempCard = *it;
+        cout<<tempCard->getName()<<endl;
+    }
+    cout << "\n\n";
+}
+
 // //printing card names
 // list<GreenCard*>* green = player1->getFateDeck();
 // GreenCard* card;

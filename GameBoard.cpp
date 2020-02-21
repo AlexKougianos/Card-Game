@@ -3,18 +3,23 @@
 GameBoard::GameBoard() {
     player1 = new Player();
     player2 = new Player();
-    playerTurn = NULL;
-    // initializeGameBoard();
+    playerTurn = 0;
 }
 
 void GameBoard::initializeGameBoard() {
-    cout<<"Give max number of cards in hand."<<endl;
-    cin>>maxNumberOfHand;
+    int maxHandSize;
+    // cout << "Give max number of cards in hand."<<endl;
+    // cin >> maxHandSize;
+    maxHandSize = MAXHANDSIZE;
 
-    player1->newHand(maxNumberOfHand);
-    player2->newHand(maxNumberOfHand);
+    player1->createHand(maxHandSize);
+    player2->createHand(maxHandSize);
 
-    playerTurn = player1;
+    player1->createProvinces();
+    player2->createProvinces();
+
+    playerTurn = (player1->getHonour() >= player2->getHonour())?1:2;
+    cout << "Player" << playerTurn << " plays first\n" << endl;
 }
 
 void GameBoard::printGameStatistics() {
@@ -30,7 +35,38 @@ void GameBoard::gameplay() {
 
 }
 
-Player* GameBoard::getPlayer1() {return player1;}
+Player* GameBoard::getPlayer(int i) {
+    switch(i) {
+        case 1:
+            return player1;
+        case 2:
+            return player2;
+        default:
+            return NULL;
+    }
+}
+
+// cout << "\nPlayer1:\n\n" << endl;
+// //printing card names
+// list<GreenCard*>* green = player1->getFateDeck();
+// GreenCard* card;
+// list<GreenCard*>::iterator it;
+// int i = 1;
+// for (it = green->begin(); it != green->end(); it++) {
+//     card = *it;
+// 	cout << i << ": " << card->getName() << endl;
+//     i++;
+// }
+// cout << "\nPlayer2:\n\n" << endl;
+// //printing card names
+// i = 1;
+// green = player2->getFateDeck();
+// for (it = green->begin(); it != green->end(); it++) {
+//     card = *it;
+// 	cout << i << ": " << card->getName() << endl;
+//     i++;
+// }
+
 // //printing card names
 // list<GreenCard*>* green = player1->getFateDeck();
 // GreenCard* card;
