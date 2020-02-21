@@ -19,7 +19,7 @@ class GameBoard {
         void printGameStatistics();
         void gameplay();
 
-        player* getPlayer1();
+        Player* getPlayer1();
 };
 
 #endif

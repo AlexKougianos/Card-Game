@@ -46,7 +46,7 @@ class Player {
         void setHoldings(list<Holding*>&);
         void setArmy(list<Personality*>&);
 
-        list<GreenCard*>* newHand(int);
+        void newHand(int);
         void printHand();
 };
 

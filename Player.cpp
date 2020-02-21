@@ -8,8 +8,13 @@ Player::Player() {
     stronghold = new Stronghold("Stronghold");
     deckBuilder = new DeckBuilder();
     honour = stronghold->getStartingHonour();
+
+    // Creating decks
     fateDeck = deckBuilder->createFateDeck();
     dynastyDeck = deckBuilder->createDynastyDeck();
+    // Shuffling them
+    deckBuilder->deckShuffler(fateDeck);
+    deckBuilder->deckShuffler(dynastyDeck);
 }
 
 // Getters
@@ -37,12 +42,13 @@ void Player::setHoldings(list<Holding*>&) {}
 void Player::setArmy(list<Personality*>&) {}
 
 
-list<GreenCard*>* newHand(int numberOfCards) {
+void Player::newHand(int numberOfCards) {
     hand = new list<GreenCard*>();
     GreenCard* tempCard;
-    for (int i=0; i<=numberOfCards) {
-        tempCard = fateDeck->pop_back();
-        hand->push_back(tempCard);
+    for (int i=0; i<=numberOfCards; i++) {
+        tempCard = fateDeck->front();         // Getting the first item of Fate Date 
+        hand->push_front(tempCard);           // Putting it in Hand
+        fateDeck->pop_front();                // Deleting it from the Fate Deck 
     }
 }
 

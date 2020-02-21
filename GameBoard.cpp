@@ -30,7 +30,7 @@ void GameBoard::gameplay() {
 
 }
 
-player* GameBoard::getPlayer1() {return player1;}
+Player* GameBoard::getPlayer1() {return player1;}
 // //printing card names
 // list<GreenCard*>* green = player1->getFateDeck();
 // GreenCard* card;
