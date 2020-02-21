@@ -13,9 +13,13 @@ int main() {
 
     GameBoard* gameBoard = new GameBoard();
     gameBoard->initializeGameBoard();
-    gameBoard->getPlayer1()->printHand();
 
-    //gameBoard->printGameStatistics();
+    gameBoard->printGameStatistics();
+
+    gameBoard->getPlayer(1)->printHand();
+    gameBoard->getPlayer(2)->printHand();
+    gameBoard->getPlayer(1)->printProvinces();
+    gameBoard->getPlayer(2)->printProvinces();
 
     // Footsoldier* f = new Footsoldier("kougias");
     // Chancellor* c = new Chancellor("leo");

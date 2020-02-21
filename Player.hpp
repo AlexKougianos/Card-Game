@@ -14,6 +14,7 @@ class Player {
     private:
         int honour;
         int numberOfProvinces = 4;
+        int maxHandSize;
 
         Stronghold* stronghold;
         DeckBuilder* deckBuilder;
@@ -28,6 +29,7 @@ class Player {
 
         int getHonour();
         int getNumberOfProvinces();
+        int getMaxHandSize();
         Stronghold* getStronghold();
         list<GreenCard*>* getFateDeck();
         list<BlackCard*>* getDynastyDeck();
@@ -46,8 +48,11 @@ class Player {
         void setHoldings(list<Holding*>&);
         void setArmy(list<Personality*>&);
 
-        void newHand(int);
+        void createHand(int);
+        void createProvinces();
+
         void printHand();
+        void printProvinces();
 };
 
 
