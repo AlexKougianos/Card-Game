@@ -21,6 +21,7 @@ Player::Player() {
 
 int Player::getHonour() {return honour;}
 int Player::getNumberOfProvinces() {return numberOfProvinces;}
+int Player::getMoney() {return money;}
 Stronghold* Player::getStronghold() {return stronghold;}
 list<GreenCard*>* Player::getFateDeck() {return fateDeck;}
 list<BlackCard*>* Player::getDynastyDeck() {return dynastyDeck;}
@@ -33,6 +34,7 @@ list<Personality*>* Player::getArmy() {return army;}
 
 void Player::setHonour(int) {}
 void Player::setNumberOfProvinces(int) {}
+void Player::setMoney(int newMoney) {money = newMoney;}
 void Player::setStronghold(Stronghold&) {}
 void Player::setFateDeck(list<GreenCard*>&) {}
 void Player::setDynastyDeck(list<BlackCard*>&) {}

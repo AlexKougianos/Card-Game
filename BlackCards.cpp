@@ -6,35 +6,36 @@
 using namespace std;
 
 // Black Card getters
-string BlackCard::getName() {return name;}
-int BlackCard::getCost() {return cost;}
-bool BlackCard::getIsTapped() {return isTapped;}
-bool BlackCard::getIsRevealed() {return isRevealed;}
+string BlackCard::getName() { return name; }
+int BlackCard::getCost() { return cost; }
+bool BlackCard::getIsTapped() { return isTapped; }
+bool BlackCard::getIsRevealed() { return isRevealed; }
 
 // Black Card setters
-void BlackCard::setName(string newName) {name = newName;}
-void BlackCard::setCost(int newCost) {cost = newCost;}
-void BlackCard::setIsTapped(bool newIsTapped) {isTapped = newIsTapped;}
-void BlackCard::setIsRevealed(bool newIsRevealed) {isRevealed = newIsRevealed;}
+void BlackCard::setName(string newName) { name = newName; }
+void BlackCard::setCost(int newCost) { cost = newCost; }
+void BlackCard::setIsTapped(bool newIsTapped) { isTapped = newIsTapped; }
+void BlackCard::setIsRevealed(bool newIsRevealed) { isRevealed = newIsRevealed; }
 
 //#####################
 //# Personality Cards #
 //#####################
 
 // Getters
-int Personality::getAttack() {return attack;}
-int Personality::getDefence() {return defence;}
-int Personality::getHonour() {return honour;}
-bool Personality::getIsDead() {return isDead;}
+int Personality::getAttack() { return attack; }
+int Personality::getDefence() { return defence; }
+int Personality::getHonour() { return honour; }
+bool Personality::getIsDead() { return isDead; }
 
 // Setters
-void Personality::setAttack(int newAttack) {attack = newAttack;}
-void Personality::setDefence(int newDefence) {defence = newDefence;}
-void Personality::setHonour(int newHonour) {honour = newHonour;}
-void Personality::setIsDead(bool newIsDead) {isDead = newIsDead;}
+void Personality::setAttack(int newAttack) { attack = newAttack; }
+void Personality::setDefence(int newDefence) { defence = newDefence; }
+void Personality::setHonour(int newHonour) { honour = newHonour; }
+void Personality::setIsDead(bool newIsDead) { isDead = newIsDead; }
 
 // Constructors
-Attacker::Attacker(string newName) {
+Attacker::Attacker(string newName)
+{
     setName(newName);
     setCost(5);
     setIsTapped(false);
@@ -45,7 +46,8 @@ Attacker::Attacker(string newName) {
     setIsDead(false);
 }
 
-Defender::Defender(string newName) {
+Defender::Defender(string newName)
+{
     setName(newName);
     setCost(5);
     setIsTapped(false);
@@ -56,7 +58,8 @@ Defender::Defender(string newName) {
     setIsDead(false);
 }
 
-Chancellor::Chancellor(string newName) {
+Chancellor::Chancellor(string newName)
+{
     setName(newName);
     setCost(15);
     setIsTapped(false);
@@ -67,7 +70,8 @@ Chancellor::Chancellor(string newName) {
     setIsDead(false);
 }
 
-Shogun::Shogun(string newName) {
+Shogun::Shogun(string newName)
+{
     setName(newName);
     setCost(15);
     setIsTapped(false);
@@ -78,7 +82,8 @@ Shogun::Shogun(string newName) {
     setIsDead(false);
 }
 
-Champion::Champion(string newName) {
+Champion::Champion(string newName)
+{
     setName(newName);
     setCost(30);
     setIsTapped(false);
@@ -94,15 +99,14 @@ Champion::Champion(string newName) {
 //#################
 
 // Getters
-int Holding::getHarvestValue() {return harvestValue;}
-//getUpperHolding
-//getSubHolding
+int Holding::getHarvestValue() { return harvestValue; }
 
 // Setters
-void Holding::setHarvestValue(int newHarvestValue) {harvestValue = newHarvestValue;}
+void Holding::setHarvestValue(int newHarvestValue) { harvestValue = newHarvestValue; }
 
 // Constructors
-Solo::Solo(string newName) {
+Solo::Solo(string newName)
+{
     setName(newName);
     setCost(2);
     setIsTapped(false);
@@ -110,7 +114,8 @@ Solo::Solo(string newName) {
     setHarvestValue(2);
 }
 
-Plain::Plain(string newName) {
+Plain::Plain(string newName)
+{
     setName(newName);
     setCost(2);
     setIsTapped(false);
@@ -118,23 +123,119 @@ Plain::Plain(string newName) {
     setHarvestValue(2);
 }
 
-Mine::Mine(string newName) {
+Farmland::Farmland(string newName)
+{
+    setName(newName);
+    setCost(3);
+    setIsTapped(false);
+    setIsRevealed(false);
+    setHarvestValue(4);
+}
+
+GiftAndFavour::GiftAndFavour(string newName)
+{
+    setName(newName);
+    setCost(3);
+    setIsTapped(false);
+    setIsRevealed(false);
+    setHarvestValue(4);
+}
+
+// Mines
+
+Mine::Mine(string newName)
+{
     setName(newName);
     setCost(5);
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(3);
+    setUpperHolding(NULL);
 }
 
-GoldMine::GoldMine(string newName) {
+GoldMine *Mine::getUpperHolding()
+{
+    if (upperHolding == NULL)
+    {
+        cout << getName() << " does not have a Gold Mine!" << endl;
+    }
+    return upperHolding;
+}
+
+void Mine::setUpperHolding(GoldMine *newUpperHolding)                   // <-- chain starting from Mine
+{
+    if (upperHolding != NULL)
+    {
+        cout << getName() << " already has a Gold Mine!" << endl;
+        return;
+    }
+    upperHolding = newUpperHolding;
+    setHarvestValue(getHarvestValue() + 2);
+}
+
+// Gold
+GoldMine::GoldMine(string newName)
+{
     setName(newName);
     setCost(7);
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(5);
+    setSubHolding(NULL);
+    setUpperHolding(NULL);
 }
 
-CrystalMine::CrystalMine(string newName) {
+Mine *GoldMine::getSubHolding()
+{
+    if (subHolding == NULL)
+    {
+        cout << getName() << " does not have a Mine!" << endl;
+    }
+    return subHolding;
+}
+
+CrystalMine *GoldMine::getUpperHolding()
+{
+    if (upperHolding == NULL)
+    {
+        cout << getName() << " does not have a Crystal Mine!" << endl;
+    }
+    return upperHolding;
+}
+
+void GoldMine::setSubHolding(Mine *newSubHolding)
+{
+    if (subHolding != NULL)
+    {
+        cout << getName() << " already has a Mine!" << endl;
+        return;
+    }
+    subHolding = newSubHolding;
+    setHarvestValue(getHarvestValue() + 4);
+    if (upperHolding != NULL)
+    {
+        setHarvestValue(getHarvestValue() + 5 * 2);     // Starting Harvest value = 5
+    }
+}
+
+void GoldMine::setUpperHolding(CrystalMine *newUpperHolding)
+{
+    if (upperHolding != NULL)
+    {
+        cout << getName() << " already has a Crystal Mine!" << endl;
+        return;
+    }
+    upperHolding = newUpperHolding;
+    setHarvestValue(getHarvestValue() + 5);
+    if (subHolding != NULL)
+    {
+        setHarvestValue(getHarvestValue() + 5 * 2);     // Starting Harvest value = 5
+    }
+}
+
+// Crystal
+CrystalMine::CrystalMine(string newName)
+{
     setName(newName);
     setCost(12);
     setIsTapped(false);
@@ -142,30 +243,33 @@ CrystalMine::CrystalMine(string newName) {
     setHarvestValue(6);
 }
 
-Farmland::Farmland(string newName) {
-    setName(newName);
-    setCost(3);
-    setIsTapped(false);
-    setIsRevealed(false);
-    setHarvestValue(4);
+GoldMine *CrystalMine::getSubHolding()
+{
+    if (subHolding == NULL)
+    {
+        cout << getName() << " does not have a Gold Mine!" << endl;
+    }
+    return subHolding;
 }
 
-GiftAndFavour::GiftAndFavour(string newName) {
-    setName(newName);
-    setCost(3);
-    setIsTapped(false);
-    setIsRevealed(false);
-    setHarvestValue(4);
+void CrystalMine::setSubHolding(GoldMine *newSubHolding)
+{
+    if (subHolding != NULL)
+    {
+        cout << getName() << " already has a Gold Mine!" << endl;
+        return;
+    }
+    subHolding = newSubHolding;
+    setHarvestValue(getHarvestValue() + getHarvestValue());                         // <-- TODO add Mine
+    if(newSubHolding->getSubHolding() != NULL) {
+        setHarvestValue(getHarvestValue() + 6 * 3);     // Starting Harvest value = 6
+    }
 }
 
 // Stronghold
-int Stronghold::getStartingHonour() {return startingHonour;}
-int Stronghold::getInitialDefence() {return initialDefense;}
 
-void Stronghold::setStartingHonour(int newStartingHonour) {startingHonour = newStartingHonour;}
-void Stronghold::setInitialDefence(int newInitialDefence) {initialDefense = newInitialDefence;}
-
-Stronghold::Stronghold(string newName) {
+Stronghold::Stronghold(string newName)
+{
     setName(newName);
     setCost(0);
     setIsTapped(false);
@@ -174,3 +278,9 @@ Stronghold::Stronghold(string newName) {
     setStartingHonour(5);
     setInitialDefence(5);
 }
+
+int Stronghold::getStartingHonour() { return startingHonour; }
+int Stronghold::getInitialDefence() { return initialDefense; }
+
+void Stronghold::setStartingHonour(int newStartingHonour) { startingHonour = newStartingHonour; }
+void Stronghold::setInitialDefence(int newInitialDefence) { initialDefense = newInitialDefence; }

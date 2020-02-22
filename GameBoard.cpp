@@ -66,14 +66,3 @@ Player* GameBoard::getPlayer(int i) {
 // 	cout << i << ": " << card->getName() << endl;
 //     i++;
 // }
-
-// //printing card names
-// list<GreenCard*>* green = player1->getFateDeck();
-// GreenCard* card;
-// list<GreenCard*>::iterator it;
-// int i = 1;
-// for (it = green->begin(); it != green->end(); it++) {
-//     card = *it;
-// 	cout << i << ": " << card->getName() << endl;
-//     i++;
-// }
