@@ -95,8 +95,6 @@ Champion::Champion(string newName) {
 
 // Getters
 int Holding::getHarvestValue() {return harvestValue;}
-//getUpperHolding
-//getSubHolding
 
 // Setters
 void Holding::setHarvestValue(int newHarvestValue) {harvestValue = newHarvestValue;}
@@ -118,30 +116,6 @@ Plain::Plain(string newName) {
     setHarvestValue(2);
 }
 
-Mine::Mine(string newName) {
-    setName(newName);
-    setCost(5);
-    setIsTapped(false);
-    setIsRevealed(false);
-    setHarvestValue(3);
-}
-
-GoldMine::GoldMine(string newName) {
-    setName(newName);
-    setCost(7);
-    setIsTapped(false);
-    setIsRevealed(false);
-    setHarvestValue(5);
-}
-
-CrystalMine::CrystalMine(string newName) {
-    setName(newName);
-    setCost(12);
-    setIsTapped(false);
-    setIsRevealed(false);
-    setHarvestValue(6);
-}
-
 Farmland::Farmland(string newName) {
     setName(newName);
     setCost(3);
@@ -158,12 +132,119 @@ GiftAndFavour::GiftAndFavour(string newName) {
     setHarvestValue(4);
 }
 
-// Stronghold
-int Stronghold::getStartingHonour() {return startingHonour;}
-int Stronghold::getInitialDefence() {return initialDefense;}
+// Mines
 
-void Stronghold::setStartingHonour(int newStartingHonour) {startingHonour = newStartingHonour;}
-void Stronghold::setInitialDefence(int newInitialDefence) {initialDefense = newInitialDefence;}
+Mine::Mine(string newName) {
+    setName(newName);
+    setCost(5);
+    setIsTapped(false);
+    setIsRevealed(false);
+    setHarvestValue(3);
+    setUpperHolding(NULL);
+}
+
+Holding* Mine::getUpperHolding() {
+    if (!upperHolding) {
+        cout<<getName()<<" does not have a Gold Mine!"<<endl;
+    }
+    return upperHolding;
+}
+
+void Mine::setUpperHolding(Holding* newUpperHolding) {
+    if (upperHolding) {
+        cout<<getName()<<" already has a Gold Mine!"<<endl;
+        return;
+    }
+    upperHolding = newUpperHolding;
+    // ?
+    // if (newUpperHolding->getUpperHolding() != NULL)
+    // ?
+    setHarvestValue(getHarvestValue() + 2);
+}
+
+// Gold
+GoldMine::GoldMine(string newName) {
+    setName(newName);
+    setCost(7);
+    setIsTapped(false);
+    setIsRevealed(false);
+    setHarvestValue(5);
+    setSubHolding(NULL);
+    setUpperHolding(NULL);
+}
+
+Holding* GoldMine::getSubHolding() {
+    if (!subHolding) {
+        cout<<getName()<<" does not have a Mine!"<<endl;
+    }
+    return subHolding;
+}
+
+Holding* GoldMine::getUpperHolding() {
+    if (!upperHolding) {
+        cout<<getName()<<" does not have a Crystal Mine!"<<endl;
+    }
+    return upperHolding;
+}
+
+void GoldMine::setSubHolding(Holding* newSubHolding) {
+    if (subHolding) {
+        cout<<getName()<<" already has a Mine!"<<endl;
+        return;
+    }
+    subHolding = newSubHolding;
+    if (!upperHolding) {
+        setHarvestValue(getHarvestValue() + 4);
+    }
+    else {
+        setHarvestValue(getHarvestValue() + getHarvestValue()*2);
+    }
+    
+}
+
+void GoldMine::setUpperHolding(Holding* newUpperHolding) {
+    if (upperHolding) {
+        cout<<getName()<<" already has a Crystal Mine!"<<endl;
+        return;
+    }
+    upperHolding = newUpperHolding;
+    if (!subHolding) {
+        setHarvestValue(getHarvestValue() + 5);
+    }
+    else {
+        setHarvestValue(getHarvestValue() + getHarvestValue()*2);
+    }
+}
+
+// Crystal
+CrystalMine::CrystalMine(string newName) {
+    setName(newName);
+    setCost(12);
+    setIsTapped(false);
+    setIsRevealed(false);
+    setHarvestValue(6);
+}
+
+Holding* CrystalMine::getSubHolding() {
+    if (!subHolding) {
+        cout<<getName()<<" does not have a Gold Mine!"<<endl;
+    }
+    return subHolding;
+}
+
+void CrystalMine::setSubHolding(Holding* newSubHolding) {
+    if (subHolding) {
+        cout<<getName()<<" already has a Gold Mine!"<<endl;
+        return;
+    }
+    subHolding = newSubHolding;
+    // ?
+    // if (newSubHolding->getSubHolding() != NULL) {}
+    //
+    setHarvestValue(getHarvestValue() + getHarvestValue() * 2);
+}
+
+// Stronghold
 
 Stronghold::Stronghold(string newName) {
     setName(newName);
@@ -174,3 +255,9 @@ Stronghold::Stronghold(string newName) {
     setStartingHonour(5);
     setInitialDefence(5);
 }
+
+int Stronghold::getStartingHonour() {return startingHonour;}
+int Stronghold::getInitialDefence() {return initialDefense;}
+
+void Stronghold::setStartingHonour(int newStartingHonour) {startingHonour = newStartingHonour;}
+void Stronghold::setInitialDefence(int newInitialDefence) {initialDefense = newInitialDefence;}

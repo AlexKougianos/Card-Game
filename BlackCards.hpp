@@ -79,8 +79,7 @@ class Champion : public Personality {
 class Holding : public BlackCard {
     private:
         int harvestValue;
-        // Holding* upperHolding;
-        // Holding* subHolding;
+        Holding* subHolding;
     public:
         virtual int getHarvestValue();
 
@@ -97,21 +96,6 @@ class Plain : public Holding {
         Plain(string);
 };
 
-class Mine : public Holding {
-    public:
-        Mine(string);
-};
-
-class GoldMine : public Holding {
-    public:
-        GoldMine(string);
-};
-
-class CrystalMine : public Holding {
-    public:
-        CrystalMine(string);
-};
-
 class Farmland : public Holding {
     public:
         Farmland(string);
@@ -120,6 +104,38 @@ class Farmland : public Holding {
 class GiftAndFavour : public Holding {
     public:
         GiftAndFavour(string);
+};
+
+class Mine : public Holding {
+    private:
+        Holding* upperHolding;
+    public:
+        Mine(string);
+        Holding* getUpperHolding();
+        void setUpperHolding(Holding*);
+};
+
+class GoldMine : public Holding {
+    private:
+        Holding* subHolding;
+        Holding* upperHolding;
+    public:
+        GoldMine(string);
+
+        Holding* getSubHolding();
+        Holding* getUpperHolding();
+
+        void setSubHolding(Holding*);
+        void setUpperHolding(Holding*);
+};
+
+class CrystalMine : public Holding {
+    private:
+        Holding* subHolding;
+    public:
+        CrystalMine(string);
+        Holding* getSubHolding();
+        void setSubHolding(Holding*);
 };
 
 class Stronghold : public Holding {
@@ -136,3 +152,40 @@ class Stronghold : public Holding {
 };
 
 #endif
+
+//Mines that have pointers to each other
+/*
+class GoldMine : public Holding;
+class Mine : public Holding {
+    private:
+        GoldMine* upperHolding;
+    public:
+        Mine(string);
+        GoldMine* getUpperHolding();
+        void setUpperHolding(GoldMine*);
+};
+
+class CrystalMine : public Holding;
+class GoldMine : public Holding {
+    private:
+        Mine* subHolding;
+        CrystalMine* upperHolding;
+    public:
+        GoldMine(string);
+
+        Mine* getSubHolding();
+        CrystalMine* getUpperHolding();
+
+        void setSubHolding(Mine);
+        void setUpperHolding(CrystalMine);
+};
+
+class CrystalMine : public Holding {
+    private:
+        GoldMine* subHolding;
+    public:
+        CrystalMine(string);
+        GoldMine* getSubHolding();
+        void setSubHolding(GoldMine);
+};
+*/

@@ -14,6 +14,7 @@ class Player {
     private:
         int honour;
         int numberOfProvinces = 4;
+        int money;
         int maxHandSize;
 
         Stronghold* stronghold;
@@ -29,6 +30,7 @@ class Player {
 
         int getHonour();
         int getNumberOfProvinces();
+        int getMoney();
         int getMaxHandSize();
         Stronghold* getStronghold();
         list<GreenCard*>* getFateDeck();
@@ -40,6 +42,7 @@ class Player {
 
         void setHonour(int);
         void setNumberOfProvinces(int);
+        void setMoney(int);
         void setStronghold(Stronghold&);
         void setFateDeck(list<GreenCard*>&);
         void setDynastyDeck(list<BlackCard*>&);
