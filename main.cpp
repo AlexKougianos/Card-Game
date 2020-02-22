@@ -21,6 +21,8 @@ int main() {
     gameBoard->getPlayer(1)->printProvinces();
     gameBoard->getPlayer(2)->printProvinces();
 
+
+    // Mines
     cout<<endl<<"Harvest Values: "<<endl;
     Mine* mine = new Mine("m");
     GoldMine* gmine = new GoldMine("gm");
