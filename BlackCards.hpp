@@ -39,8 +39,8 @@ class Personality : public BlackCard {
         int defence;
         int honour;
         bool isDead;
-        list<Follower*>* followers;
-        list<Item*>* items;
+        list<Follower*>* followers = new list<Follower*>();
+        list<Item*>* items = new list<Item*>();
     public:
         virtual int getAttack();
         virtual int getDefence();
