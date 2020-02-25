@@ -2,6 +2,7 @@
 #define _GREENCARD_HPP_
 
 #include <string>
+#include "TypeConverter.hpp"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ class GreenCard {
         string cardText;
         int effectBonus;
         int effectCost;
+        int type;
     public:
         virtual string getName();
         virtual int getCost();
@@ -26,6 +28,7 @@ class GreenCard {
         virtual string getCardText();
         virtual int getEffectBonus();
         virtual int getEffectCost();
+        virtual int getType();
 
         virtual void setName(string);
         virtual void setCost(int);
@@ -36,6 +39,7 @@ class GreenCard {
         virtual void setCardText(string);
         virtual void setEffectBonus(int);
         virtual void setEffectCost(int);
+        virtual void setType(int);
 };
 
 //##################
