@@ -11,20 +11,13 @@ using namespace std;
 int main() {
     cout << "\n\nInitializing Game...\n\n" << endl;
 
-    // Items
-    Katana* kata = new Katana("Katana");
-    Spear* spea = new Spear("Spear");
-    Bow* bow  = new Bow("Bow");
+    Mine* m = new Mine("m");
+    GoldMine* gm = new GoldMine("gm");
+    CrystalMine* cm = new CrystalMine("cm");
 
-    // Followers
-    Footsoldier* foot = new Footsoldier("Footsoldiers");
-    Archer* arch = new Archer("Archer");
+    cm->setSubHolding(m);
+    cm->setSubHolding(gm);
+    cm->setSubHolding(m);
 
-    // Personality
-    Chancellor* C = new Chancellor("Chance");
-    C->addFollower(foot);
-    C->addFollower(arch);
-    C->addItem(kata);
-    C->addItem(spea);
-    C->addItem(bow);
+    cout<<cm->getHarvestValue()<<endl;
 }
