@@ -91,7 +91,7 @@ class Katana : public Item {
 };
 
 class Spear : public Item {
-    public: 
+    public:
         Spear(string);
 };
 

@@ -26,12 +26,64 @@ int Personality::getAttack() { return attack; }
 int Personality::getDefence() { return defence; }
 int Personality::getHonour() { return honour; }
 bool Personality::getIsDead() { return isDead; }
+list<Follower*>* Personality::getFollowers() { return followers; }
+list<Item*>* Personality::getItems() { return items; }
 
 // Setters
 void Personality::setAttack(int newAttack) { attack = newAttack; }
 void Personality::setDefence(int newDefence) { defence = newDefence; }
 void Personality::setHonour(int newHonour) { honour = newHonour; }
 void Personality::setIsDead(bool newIsDead) { isDead = newIsDead; }
+
+// Adders
+void Personality::addFollower(Follower* newFollower)
+{
+    if (followers->size() >= MAX_FOLLOWERS)
+    {
+        cout<<"Can not add another follower"<<endl;
+        return;
+    }
+    if (getHonour() < newFollower->getMinimumHonour())
+    {
+        cout << newFollower->getMinimumHonour() << " is required to attach " << newFollower->getName()<<endl;
+        return;
+    }
+    followers->push_front(newFollower);
+    cout << "Do you want the bonus for " << newFollower->getEffectCost() << "? (Y or y for Yes)" << endl;
+    char answer;
+    cin >> answer;
+    if (answer == 'y' or answer == 'Y')
+    {
+        newFollower->setAttackBonus(newFollower->getAttackBonus() + newFollower->getEffectBonus());
+        newFollower->setDefenceBonus(newFollower->getDefenceBonus() + newFollower->getEffectBonus());
+    }
+    setAttack(getAttack() + newFollower->getAttackBonus());
+    setDefence(getDefence() + newFollower->getDefenceBonus());
+}
+
+void Personality::addItem(Item* newItem)
+{
+    if (items->size() >= MAX_ITEM_CAPACITY)
+    {
+        cout<<"Can not add another item"<<endl;
+        return;
+    }
+    if (getHonour() < newItem->getMinimumHonour())
+    {
+        cout << newItem->getName() << " is required to attach " << newItem->getName()<<endl;
+        return;
+    }
+    cout << "Do you want the bonus for " << newItem->getEffectCost() << "? (Y or y for Yes)" << endl;
+    char answer;
+    cin >> answer;
+    if (answer == 'y' || answer == 'Y')
+    {
+        newItem->setAttackBonus(newItem->getAttackBonus() + newItem->getEffectBonus());
+        newItem->setDefenceBonus(newItem->getDefenceBonus() + newItem->getEffectBonus());
+    }
+    setAttack(getAttack() + newItem->getAttackBonus());
+    setDefence(getAttack() + newItem->getAttackBonus());
+}
 
 // Constructors
 Attacker::Attacker(string newName)
@@ -173,6 +225,9 @@ void Mine::setUpperHolding(GoldMine *newUpperHolding)                   // <-- c
         }
         upperHolding = newUpperHolding;
         setHarvestValue(getHarvestValue() + 2);
+        if (newUpperHolding->getUpperHolding() != NULL) {
+            setHarvestValue(getHarvestValue() + 6 * 3);
+        }
     }
 }
 
@@ -208,7 +263,7 @@ CrystalMine *GoldMine::getUpperHolding()
 
 void GoldMine::setSubHolding(Mine *newSubHolding)
 {
-    if (newSubHolding != NULL) 
+    if (newSubHolding != NULL)
     {
         if (subHolding != NULL)
         {
@@ -226,7 +281,7 @@ void GoldMine::setSubHolding(Mine *newSubHolding)
 
 void GoldMine::setUpperHolding(CrystalMine *newUpperHolding)
 {
-    if (newUpperHolding != NULL) 
+    if (newUpperHolding != NULL)
     {
         if (upperHolding != NULL)
         {
@@ -263,7 +318,7 @@ GoldMine *CrystalMine::getSubHolding()
 
 void CrystalMine::setSubHolding(GoldMine *newSubHolding)
 {
-    if (newSubHolding != NULL) 
+    if (newSubHolding != NULL)
     {
         if (subHolding != NULL)
         {
