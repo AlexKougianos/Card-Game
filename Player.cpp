@@ -12,6 +12,7 @@ Player::Player() {
     // Creating decks
     fateDeck = deckBuilder->createFateDeck();
     dynastyDeck = deckBuilder->createDynastyDeck();
+    
     // Shuffling them
     deckBuilder->deckShuffler(fateDeck);
     deckBuilder->deckShuffler(dynastyDeck);

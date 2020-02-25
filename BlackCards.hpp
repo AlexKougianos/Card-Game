@@ -2,6 +2,7 @@
 #define _BLACKCARD_HPP_
 
 #include <string>
+#include <list>
 
 #include "GreenCards.hpp"
 
@@ -29,24 +30,31 @@ class BlackCard {
 //# Personality Cards #
 //#####################
 
+#define MAX_ITEM_CAPACITY  2
+#define MAX_FOLLOWERS      4
+
 class Personality : public BlackCard {
     private:
         int attack;
         int defence;
         int honour;
         bool isDead;
-        //GreenCard* Followers;     list re
-        //GreenCard* Items;
+        list<Follower*>* followers;
+        list<Item*>* items;
     public:
         virtual int getAttack();
         virtual int getDefence();
         virtual int getHonour();
         virtual bool getIsDead();
+        virtual list<Follower*>* getFollowers();
+        virtual list<Item*>* getItems();
 
         virtual void setAttack(int);
         virtual void setDefence(int);
         virtual void setHonour(int);
         virtual void setIsDead(bool);
+        virtual void addFollower(Follower*);
+        virtual void addItem(Item*);
 };
 
 class Attacker : public Personality {
