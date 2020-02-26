@@ -1,18 +1,14 @@
 #ifndef _TYPECONVERTER_HPP_
 #define _TYPECONVERTER_HPP_
 
-// #include "Card.hpp"
-// #include "Personality.hpp"
-// #include "Holding.hpp"
-// #include "Follower.hpp"
-// #include "Item.hpp"
-#include "GreenCards.hpp"
 #include "BlackCards.hpp"
 
-enum Personalities{ATTACKER, DEFENDER, SHOGUN, CHANCELLOR, CHAMPION};
-enum Holdings{PLAIN, MINE, GOLD_MINE, CRYSTAL_MINE, FARMS, SOLO, STRONGHOLD};
-enum Followers{FOOTSOLDIER, ARCHER, SIΕGER, CAVALRY, NAVAL, BUSHIDO};
-enum Items{KATANA, SPEAR, BOW, NINJATO, WAKIZASHI};
+enum Personalities{ATTACKER = 1, DEFENDER, SHOGUN, CHANCELLOR, CHAMPION} PERSONALITY;
+enum Holdings{PLAIN = 6, MINE, GOLD_MINE, CRYSTAL_MINE, FARMS, SOLO, STRONGHOLD} HOLDING;
+enum Followers{FOOTSOLDIER = 13, ARCHER, SIEGER, CAVALRY, NAVAL, BUSHIDO} FOLLOWER;
+enum Items{KATANA = 18, SPEAR, BOW, NINJATO, WAKIZASHI} ITEM;
+
+// enum {PERSONALITY = 1, HOLDING, FOLLOWER, ITEM};
 
 class TypeConverter
 {

@@ -2,6 +2,7 @@
 #include <string>
 
 #include "GreenCards.hpp"
+#include "TypeConverter.hpp"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int GreenCard::getMinimumHonour() {return minimumHonour;}
 string GreenCard::getCardText() {return cardText;}
 int GreenCard::getEffectBonus() {return effectBonus;}
 int GreenCard::getEffectCost() {return effectCost;}
+int GreenCard::getType() { return type; }
 
 // Green Card setters
 void GreenCard::setName(string newName) {name = newName;}
@@ -26,6 +28,7 @@ void GreenCard::setMinimumHonour(int newMinimumHonour) {minimumHonour = newMinim
 void GreenCard::setCardText(string newCardText) {cardText = newCardText;}
 void GreenCard::setEffectBonus(int newEffectBonus) {effectBonus = newEffectBonus;}
 void GreenCard::setEffectCost(int newEffectCost) {effectCost = newEffectCost;}
+void GreenCard::setType(int newType) { type = newType; }
 
 //##################
 //# Follower Cards #
@@ -40,6 +43,7 @@ Footsoldier::Footsoldier(string newName) {
     setMinimumHonour(1);
     setEffectBonus(1);
     setEffectCost(2);
+    setType(FOOTSOLDIER);
 }
 
 Archer::Archer(string newName) {
@@ -51,6 +55,7 @@ Archer::Archer(string newName) {
     setMinimumHonour(1);
     setEffectBonus(1);
     setEffectCost(2);
+    setType(ARCHER);
 }
 
 Cavalry::Cavalry(string newName) {
@@ -62,6 +67,7 @@ Cavalry::Cavalry(string newName) {
     setMinimumHonour(3);
     setEffectBonus(3);
     setEffectCost(4);
+    setType(CAVALRY);
 }
 
 Bushido::Bushido(string newName) {
@@ -73,6 +79,7 @@ Bushido::Bushido(string newName) {
     setMinimumHonour(6);
     setEffectBonus(3);
     setEffectCost(8);
+    setType(BUSHIDO);
 }
 
 Naval::Naval(string newName) {
@@ -84,6 +91,7 @@ Naval::Naval(string newName) {
     setMinimumHonour(3);
     setEffectBonus(3);
     setEffectCost(4);
+    setType(NAVAL);
 }
 
 Sieger::Sieger(string newName) {
@@ -95,6 +103,7 @@ Sieger::Sieger(string newName) {
     setMinimumHonour(2);
     setEffectBonus(2);
     setEffectCost(3);
+    setType(SIEGER);
 }
 
 //##############
@@ -117,6 +126,7 @@ Katana::Katana(string newName) {
     setEffectBonus(1);
     setEffectCost(2);
     setDurability(3);
+    setType(KATANA);
 }
 
 Spear::Spear(string newName) {
@@ -129,6 +139,7 @@ Spear::Spear(string newName) {
     setEffectBonus(1);
     setEffectCost(2);
     setDurability(3);
+    setType(SPEAR);
 }
 
 Bow::Bow(string newName) {
@@ -141,6 +152,7 @@ Bow::Bow(string newName) {
     setEffectBonus(3);
     setEffectCost(4);
     setDurability(5);
+    setType(BOW);
 }
 
 Ninjato::Ninjato(string newName) {
@@ -153,6 +165,7 @@ Ninjato::Ninjato(string newName) {
     setEffectBonus(2);
     setEffectCost(2);
     setDurability(4);
+    setType(NINJATO);
 }
 
 Wakizashi::Wakizashi(string newName) {
@@ -165,4 +178,5 @@ Wakizashi::Wakizashi(string newName) {
     setEffectBonus(3);
     setEffectCost(3);
     setDurability(8);
+    setType(WAKIZASHI);
 }
