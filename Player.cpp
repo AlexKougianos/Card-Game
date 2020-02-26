@@ -67,13 +67,25 @@ void Player::createProvinces() {
 }
 
 void Player::untapEverything() {
-    GreenCard* tempCard;
-    list<Holding*>::iterator it;
-    for (it = holdings->begin(); it != holdings->end(); it++)
+    //untap holdings, army, provinces?
+    // segmentation if iterator on empty list       <---- !!
+    // BlackCard* tempCard;    
+    // if(holdings->size() != 0) {              // also segmentation... :(
+        // list<Holding*>::iterator it;
+        // for (it = holdings->begin(); it != holdings->end(); it++){
+            // tempCard = *it;
+            // tempCard->setIsTapped(false);
+        // }
+    // }
+    // list<Personality*>::iterator it2;
+    // for (it2 = army->begin(); it2 != army->end(); it2++){
+    //     tempCard = *it2;
+    //     tempCard->setIsTapped(false);
+    // }
 }
 
 void Player::drawFateCard() {
-
+    // check not max
 }
 
 void Player::revealProvinces() {
