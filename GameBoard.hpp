@@ -7,18 +7,29 @@
 
 using namespace std;
 
+enum Phases{starting = 1, equip, battle, economy, final};
+
 class GameBoard {
     private:
         Player* player1;
         Player* player2;
         int playerTurn;
+        int currentPhase;
     public:
         GameBoard();
         void initializeGameBoard();
         void printGameStatistics();
         void gameplay();
 
+        void startingPhase(int);
+        void equipPhase(int);
+        void battlePhase(int);
+        void economyPhase(int);
+        void finalPhase(int);
+        int checkWinningCondition();
+
         Player* getPlayer(int);
+        int getCurrentPhase();
 };
 
 #endif

@@ -54,6 +54,9 @@ class Player {
         void createHand(int);
         void createProvinces();
 
+        void untapEverything();
+        void drawFateCard();
+        void revealProvinces();
         void printHand();
         void printProvinces();
 };

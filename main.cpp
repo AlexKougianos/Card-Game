@@ -13,5 +13,7 @@ using namespace std;
 int main() {
     cout << "\n\nInitializing Game...\n\n" << endl;
 
-
+    GameBoard* gameboard = new GameBoard();
+    gameboard->initializeGameBoard();
+    gameboard->gameplay();
 }

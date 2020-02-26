@@ -9,12 +9,6 @@
 #include <ctime>
 #include <cstdlib>
 
-// #include "Card.hpp"
-// #include "Personality.hpp"
-// #include "Holding.hpp"
-// #include "Follower.hpp"
-// #include "Item.hpp"
-
 #include "GreenCards.hpp"
 #include "BlackCards.hpp"
 

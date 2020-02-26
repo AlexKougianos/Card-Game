@@ -66,24 +66,40 @@ void Player::createProvinces() {
     }
 }
 
+void Player::untapEverything() {
+    
+}
+
+void Player::drawFateCard() {
+
+}
+
+void Player::revealProvinces() {
+
+}
+
 void Player::printHand() {
-    cout << "Printing hand:" << endl;
+    cout << "Printing hand:\n" << endl;
     GreenCard* tempCard;
     list<GreenCard*>::iterator it;
-    for (it = hand->begin(); it!=hand->end(); it++) {
+    int i = 1;
+    for (it = hand->begin(); it != hand->end(); it++) {
         tempCard = *it;
-        cout<<tempCard->getName()<<endl;
+        cout << i << ": " << tempCard->getName() << endl;
+        i++;
     }
     cout << "\n\n";
 }
 
 void Player::printProvinces() {
-    cout << "Printing Provinces:" << endl;
+    cout << "Printing Provinces:\n" << endl;
     BlackCard* tempCard;
     list<BlackCard*>::iterator it;
-    for (it = provinces->begin(); it!=provinces->end(); it++) {
+    int i = 1;
+    for (it = provinces->begin(); it != provinces->end(); it++) {
         tempCard = *it;
-        cout<<tempCard->getName()<<endl;
+        cout << i << ": "<< tempCard->getName() << endl;
+        i++;
     }
     cout << "\n\n";
 }
