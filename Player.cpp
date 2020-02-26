@@ -12,7 +12,7 @@ Player::Player() {
     // Creating decks
     fateDeck = deckBuilder->createFateDeck();
     dynastyDeck = deckBuilder->createDynastyDeck();
-    
+
     // Shuffling them
     deckBuilder->deckShuffler(fateDeck);
     deckBuilder->deckShuffler(dynastyDeck);
@@ -50,9 +50,9 @@ void Player::createHand(int numberOfCards) {
     maxHandSize = numberOfCards;
     GreenCard* tempCard;
     for (int i=0; i < numberOfCards; i++) {
-        tempCard = fateDeck->front();           // Getting the first item of Fate Date 
+        tempCard = fateDeck->front();           // Getting the first item of Fate Date
         hand->push_front(tempCard);             // Putting it in Hand
-        fateDeck->pop_front();                  // Deleting it from the Fate Deck 
+        fateDeck->pop_front();                  // Deleting it from the Fate Deck
     }
 }
 
@@ -60,14 +60,16 @@ void Player::createProvinces() {
     provinces = new list<BlackCard*>();
     BlackCard* tempCard;
     for (int i=0; i < 4; i++) {
-        tempCard = dynastyDeck->front();         // Getting the first item of Dynasty Date 
+        tempCard = dynastyDeck->front();         // Getting the first item of Dynasty Date
         provinces->push_front(tempCard);         // Putting it in the Provinces
-        dynastyDeck->pop_front();                // Deleting it from the Dynasty Deck 
+        dynastyDeck->pop_front();                // Deleting it from the Dynasty Deck
     }
 }
 
 void Player::untapEverything() {
-    
+    GreenCard* tempCard;
+    list<Holding*>::iterator it;
+    for (it = holdings->begin(); it != holdings->end(); it++)
 }
 
 void Player::drawFateCard() {

@@ -1,5 +1,7 @@
-main: main.cpp GreenCards.cpp GreenCards.hpp BlackCards.cpp BlackCards.hpp Player.cpp Player.hpp GameBoard.cpp GameBoard.hpp DeckBuilder.cpp DeckBuilder.hpp
-	g++ -o main -std=c++0x main.cpp GreenCards.cpp BlackCards.cpp GameBoard.cpp Player.cpp DeckBuilder.cpp
+# main: main.cpp GreenCards.cpp BlackCards.cpp Player.cpp GameBoard.cpp DeckBuilder.cpp
+# 	g++ -Ι. -std=c++0x main.cpp GreenCards.cpp BlackCards.cpp GameBoard.cpp Player.cpp DeckBuilder.cpp -o main
+main:
+	g++ -I. *.cpp -o main
 	./main
 	rm main
 
