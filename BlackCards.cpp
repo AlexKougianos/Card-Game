@@ -79,7 +79,7 @@ void Personality::addItem(Item *newItem)
     }
 
     items->push_front(newItem);
-    
+
     cout << "Do you want the bonus for " << newItem->getEffectCost() << " gold? (y for Yes, n for No)" << endl;
     char answer;
     cin >> answer;
@@ -208,11 +208,10 @@ Mine::Mine(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(3);
-    setUpperHolding(NULL);
-    setType(MINE);
+
 }
 
-GoldMine *Mine::getUpperHolding()
+GoldMine* Mine::getUpperHolding()
 {
     if (upperHolding == NULL)
     {
@@ -221,7 +220,7 @@ GoldMine *Mine::getUpperHolding()
     return upperHolding;
 }
 
-void Mine::setUpperHolding(GoldMine *newUpperHolding) // <-- chain starting from Mine
+void Mine::setUpperHolding(GoldMine* newUpperHolding) // <-- chain starting from Mine
 {
     if (newUpperHolding != NULL)
     {
@@ -232,10 +231,24 @@ void Mine::setUpperHolding(GoldMine *newUpperHolding) // <-- chain starting from
         }
         upperHolding = newUpperHolding;
         setHarvestValue(getHarvestValue() + 2);
-        if (newUpperHolding->getUpperHolding() != NULL)
+        // if (newUpperHolding->getUpperHolding() != NULL)
+        // {
+        //     setHarvestValue(getHarvestValue() + 6 * 3);     // Crystal Initial Harvest Value = 6
+        // }
+    }
+}
+
+void Mine::setUpperHolding(CrystalMine* newUpperHolding)
+{
+    if (newUpperHolding != NULL)
+    {
+        if(getUpperHolding() == NULL)
         {
-            setHarvestValue(getHarvestValue() + 6 * 3);
+            cout << "Can not attach Crystal Mine." << endl;
+            return;
         }
+        getUpperHolding()->setUpperHolding(newUpperHolding);
+        setHarvestValue((getHarvestValue() + 5) + 6 * 3);   // Crystal Initial Harvest Value = 6
     }
 }
 
@@ -247,9 +260,7 @@ GoldMine::GoldMine(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(5);
-    setSubHolding(NULL);
-    setUpperHolding(NULL);
-    setType(GOLD_MINE);
+
 }
 
 Mine *GoldMine::getSubHolding()
@@ -317,7 +328,7 @@ CrystalMine::CrystalMine(string newName)
     setType(CRYSTAL_MINE);
 }
 
-GoldMine *CrystalMine::getSubHolding()
+GoldMine* CrystalMine::getSubHolding()
 {
     if (subHolding == NULL)
     {
@@ -326,7 +337,7 @@ GoldMine *CrystalMine::getSubHolding()
     return subHolding;
 }
 
-void CrystalMine::setSubHolding(GoldMine *newSubHolding)
+void CrystalMine::setSubHolding(GoldMine* newSubHolding)
 {
     if (newSubHolding != NULL)
     {
@@ -337,10 +348,24 @@ void CrystalMine::setSubHolding(GoldMine *newSubHolding)
         }
         subHolding = newSubHolding;
         setHarvestValue(getHarvestValue() + getHarvestValue()); // <-- TODO add Mine
-        if (newSubHolding->getSubHolding() != NULL)
+        // if (newSubHolding->getSubHolding() != NULL)
+        // {
+        //     setHarvestValue(getHarvestValue() + 6 * 3); // Starting Harvest value = 6
+        // }
+    }
+}
+
+void CrystalMine::setSubHolding(Mine* newSubHolding)
+{
+    if (newSubHolding != NULL)
+    {
+        if(getSubHolding() == NULL)
         {
-            setHarvestValue(getHarvestValue() + 6 * 3); // Starting Harvest value = 6
+            cout << "Can not attach Crystal Mine." << endl;
+            return;
         }
+        getSubHolding()->setSubHolding(newSubHolding);
+        setHarvestValue((getHarvestValue() + 5) + 6 * 3);   // Crystal Initial Harvest Value = 6
     }
 }
 

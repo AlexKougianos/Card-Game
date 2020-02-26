@@ -130,6 +130,7 @@ class Mine : public Holding {
         Mine(string);
         GoldMine* getUpperHolding();
         void setUpperHolding(GoldMine*);
+        void setUpperHolding(CrystalMine*);
 };
 
 class GoldMine : public Holding {
@@ -153,6 +154,7 @@ class CrystalMine : public Holding {
         CrystalMine(string);
         GoldMine* getSubHolding();
         void setSubHolding(GoldMine*);
+        void setSubHolding(Mine*);
 };
 
 
