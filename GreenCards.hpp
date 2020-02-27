@@ -4,6 +4,11 @@
 #include <string>
 // #include "TypeConverter.hpp"
 
+enum PERSONALITY{ATTACKER = 1, DEFENDER, SHOGUN, CHANCELLOR, CHAMPION};
+enum HOLDING{PLAIN = 6, MINE, GOLD_MINE, CRYSTAL_MINE, FARMS, SOLO, STRONGHOLD};
+enum FOLLOWER{FOOTSOLDIER = 13, ARCHER, SIEGER, CAVALRY, NAVAL, BUSHIDO};
+enum ITEM{KATANA = 18, SPEAR, BOW, NINJATO, WAKIZASHI};
+
 using namespace std;
 
 class GreenCard {
@@ -28,7 +33,7 @@ class GreenCard {
         virtual string getCardText();
         virtual int getEffectBonus();
         virtual int getEffectCost();
-        // virtual int getType();
+        virtual int getType();
 
         virtual void setName(string);
         virtual void setCost(int);
@@ -39,7 +44,7 @@ class GreenCard {
         virtual void setCardText(string);
         virtual void setEffectBonus(int);
         virtual void setEffectCost(int);
-        // virtual void setType(int);
+        virtual void setType(int);
 };
 
 //##################

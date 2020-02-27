@@ -12,7 +12,7 @@ Player::Player() {
     // Creating decks
     fateDeck = deckBuilder->createFateDeck();
     dynastyDeck = deckBuilder->createDynastyDeck();
-    
+
     // Shuffling them
     deckBuilder->deckShuffler(fateDeck);
     deckBuilder->deckShuffler(dynastyDeck);
@@ -50,9 +50,9 @@ void Player::createHand(int numberOfCards) {
     maxHandSize = numberOfCards;
     GreenCard* tempCard;
     for (int i=0; i < numberOfCards; i++) {
-        tempCard = fateDeck->front();           // Getting the first item of Fate Date 
+        tempCard = fateDeck->front();           // Getting the first item of Fate Date
         hand->push_front(tempCard);             // Putting it in Hand
-        fateDeck->pop_front();                  // Deleting it from the Fate Deck 
+        fateDeck->pop_front();                  // Deleting it from the Fate Deck
     }
 }
 
@@ -60,30 +60,77 @@ void Player::createProvinces() {
     provinces = new list<BlackCard*>();
     BlackCard* tempCard;
     for (int i=0; i < 4; i++) {
-        tempCard = dynastyDeck->front();         // Getting the first item of Dynasty Date 
+        tempCard = dynastyDeck->front();         // Getting the first item of Dynasty Date
         provinces->push_front(tempCard);         // Putting it in the Provinces
-        dynastyDeck->pop_front();                // Deleting it from the Dynasty Deck 
+        dynastyDeck->pop_front();                // Deleting it from the Dynasty Deck
     }
 }
 
+void Player::untapEverything() {
+    //untap holdings, army
+    cout << "Untap everything.." << endl;
+    
+    BlackCard* tempCard;
+    if (holdings != NULL)
+    {
+        list<Holding*>::iterator it;
+        for (it = holdings->begin(); it != holdings->end(); it++)
+        {
+            tempCard = *it;
+            tempCard->setIsTapped(false);
+        }
+    }
+    
+    if (army != NULL)
+    {
+        list<Personality*>::iterator it2;
+        for (it2 = army->begin(); it2 != army->end(); it2++)
+        {
+            tempCard = *it2;
+            tempCard->setIsTapped(false);
+        }
+    }
+}
+
+void Player::drawFateCard() {
+    cout << "Draw Fate Card.." << endl;
+
+    if(hand->size() == MAXHANDSIZE) {
+        cout << "Cannot draw another card!" << endl;
+        return;
+    }
+    GreenCard* tempCard;
+    tempCard = fateDeck->front();           // Getting the first item of Fate Date
+    hand->push_front(tempCard);             // Putting it in Hand
+    fateDeck->pop_front();                  // Deleting it from the Fate Deck
+}
+
+void Player::revealProvinces() {
+
+}
+
 void Player::printHand() {
-    cout << "Printing hand:" << endl;
+    cout << "Printing hand:\n" << endl;
     GreenCard* tempCard;
     list<GreenCard*>::iterator it;
-    for (it = hand->begin(); it!=hand->end(); it++) {
+    int i = 1;
+    for (it = hand->begin(); it != hand->end(); it++) {
         tempCard = *it;
-        cout<<tempCard->getName()<<endl;
+        cout << i << ": " << tempCard->getName() << endl;
+        i++;
     }
     cout << "\n\n";
 }
 
 void Player::printProvinces() {
-    cout << "Printing Provinces:" << endl;
+    cout << "Printing Provinces:\n" << endl;
     BlackCard* tempCard;
     list<BlackCard*>::iterator it;
-    for (it = provinces->begin(); it!=provinces->end(); it++) {
+    int i = 1;
+    for (it = provinces->begin(); it != provinces->end(); it++) {
         tempCard = *it;
-        cout<<tempCard->getName()<<endl;
+        cout << i << ": "<< tempCard->getName() << endl;
+        i++;
     }
     cout << "\n\n";
 }

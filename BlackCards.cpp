@@ -10,14 +10,14 @@ string BlackCard::getName() { return name; }
 int BlackCard::getCost() { return cost; }
 bool BlackCard::getIsTapped() { return isTapped; }
 bool BlackCard::getIsRevealed() { return isRevealed; }
-// int BlackCard::getType() { return type; }
+int BlackCard::getType() { return type; }
 
 // Black Card setters
 void BlackCard::setName(string newName) { name = newName; }
 void BlackCard::setCost(int newCost) { cost = newCost; }
 void BlackCard::setIsTapped(bool newIsTapped) { isTapped = newIsTapped; }
 void BlackCard::setIsRevealed(bool newIsRevealed) { isRevealed = newIsRevealed; }
-// void BlackCard::setType(int newType) { type = newType; }
+void BlackCard::setType(int newType) { type = newType; }
 
 //#####################
 //# Personality Cards #
@@ -103,7 +103,7 @@ Attacker::Attacker(string newName)
     setDefence(2);
     setHonour(2);
     setIsDead(false);
-    // setType(ATTACKER);
+    setType(ATTACKER);
 }
 
 Defender::Defender(string newName)
@@ -116,7 +116,7 @@ Defender::Defender(string newName)
     setDefence(3);
     setHonour(2);
     setIsDead(false);
-    // setType(DEFENDER);
+    setType(DEFENDER);
 }
 
 Chancellor::Chancellor(string newName)
@@ -129,7 +129,7 @@ Chancellor::Chancellor(string newName)
     setDefence(10);
     setHonour(8);
     setIsDead(false);
-    // setType(CHANCELLOR);
+    setType(CHANCELLOR);
 }
 
 Shogun::Shogun(string newName)
@@ -142,7 +142,7 @@ Shogun::Shogun(string newName)
     setDefence(5);
     setHonour(8);
     setIsDead(false);
-    // setType(SHOGUN);
+    setType(SHOGUN);
 }
 
 Champion::Champion(string newName)
@@ -155,7 +155,7 @@ Champion::Champion(string newName)
     setDefence(20);
     setHonour(12);
     setIsDead(false);
-    // setType(CHAMPION);
+    setType(CHAMPION);
 }
 
 //#################
@@ -176,7 +176,7 @@ Solo::Solo(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(2);
-    // setType(SOLO);
+    setType(SOLO);
 }
 
 Plain::Plain(string newName)
@@ -186,7 +186,7 @@ Plain::Plain(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(2);
-    // setType(PLAIN);
+    setType(PLAIN);
 }
 
 Farmland::Farmland(string newName)
@@ -196,7 +196,7 @@ Farmland::Farmland(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(4);
-    // setType(FARMS);
+    setType(FARMS);
 }
 
 // Mines
@@ -208,7 +208,7 @@ Mine::Mine(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(3);
-    // setType(MINE);
+    setType(MINE);
 }
 
 GoldMine* Mine::getUpperHolding()
@@ -260,7 +260,7 @@ GoldMine::GoldMine(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(5);
-    // setType(GOLD_MINE);
+    setType(GOLD_MINE);
 }
 
 Mine *GoldMine::getSubHolding()
@@ -325,7 +325,7 @@ CrystalMine::CrystalMine(string newName)
     setIsTapped(false);
     setIsRevealed(false);
     setHarvestValue(6);
-    // setType(CRYSTAL_MINE);
+    setType(CRYSTAL_MINE);
 }
 
 GoldMine* CrystalMine::getSubHolding()
@@ -380,7 +380,7 @@ Stronghold::Stronghold(string newName)
     setHarvestValue(5);
     setStartingHonour(5);
     setInitialDefence(5);
-    // setType(STRONGHOLD);
+    setType(STRONGHOLD);
 }
 
 int Stronghold::getStartingHonour() { return startingHonour; }

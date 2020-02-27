@@ -20,13 +20,13 @@ class BlackCard {
         virtual int getCost();
         virtual bool getIsTapped();
         virtual bool getIsRevealed();
-        // virtual int getType();
+        virtual int getType();
 
         virtual void setName(string);
         virtual void setCost(int);
         virtual void setIsTapped(bool);
         virtual void setIsRevealed(bool);
-        // virtual void setType(int);
+        virtual void setType(int);
 };
 
 //#####################
