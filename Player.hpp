@@ -51,14 +51,21 @@ class Player {
         void setHoldings(list<Holding*>&);
         void setArmy(list<Personality*>&);
 
+        void addHolding(Holding*);
+        void addPersonality(Personality*);
+
         void createHand(int);
         void createProvinces();
 
         void untapEverything();
         void drawFateCard();
+        void drawDynastyCard();
         void revealProvinces();
-        void printHand();
-        void printProvinces();
+
+        void printHand(bool = false);
+        void printProvinces(bool = false);
+        void printArmy();
+        void printHoldings();
 };
 
 

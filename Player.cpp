@@ -8,6 +8,7 @@ Player::Player() {
     stronghold = new Stronghold("Stronghold");
     deckBuilder = new DeckBuilder();
     honour = stronghold->getStartingHonour();
+    money = STARTINGMONEY;
 
     // Creating decks
     fateDeck = deckBuilder->createFateDeck();
@@ -16,6 +17,9 @@ Player::Player() {
     // Shuffling them
     deckBuilder->deckShuffler(fateDeck);
     deckBuilder->deckShuffler(dynastyDeck);
+
+    holdings = new list<Holding*>();
+    army = new list<Personality*>();
 }
 
 // Getters
@@ -44,6 +48,14 @@ void Player::setProvinces(list<BlackCard*>&) {}
 void Player::setHoldings(list<Holding*>&) {}
 void Player::setArmy(list<Personality*>&) {}
 
+// Adders
+void Player::addHolding(Holding* holding) {
+    holdings->push_front(holding);
+}
+
+void Player::addPersonality(Personality* personality){
+    army->push_front(personality);
+}
 
 void Player::createHand(int numberOfCards) {
     hand = new list<GreenCard*>();
@@ -93,55 +105,101 @@ void Player::untapEverything() {
 }
 
 void Player::drawFateCard() {
-    cout << "Draw Fate Card.." << endl;
+    cout << "Draw Fate Card..." << endl;
 
     if(hand->size() == MAXHANDSIZE) {
         cout << "Cannot draw another card!" << endl;
         return;
     }
     GreenCard* tempCard;
-    tempCard = fateDeck->front();           // Getting the first item of Fate Date
-    hand->push_front(tempCard);             // Putting it in Hand
-    fateDeck->pop_front();                  // Deleting it from the Fate Deck
+    tempCard = fateDeck->front();               // Getting the first item of Fate Date
+    hand->push_front(tempCard);                 // Putting it in Hand
+    fateDeck->pop_front();                      // Deleting it from the Fate Deck
+}
+
+void Player::drawDynastyCard() {
+    cout << "Draw Dynasty Card..." << endl;
+
+    if(provinces->size() == 4) {
+        cout << "Cannot draw another card!" << endl;
+        return;
+    }
+    BlackCard* tempCard;
+    tempCard = dynastyDeck->front();            // Getting the first item of Dynasty Date
+    provinces->push_back(tempCard);             // Putting it in Provinces
+    dynastyDeck->pop_front();                   // Deleting it from the Dynasty Deck
 }
 
 void Player::revealProvinces() {
-
+    cout << "Reveal Provinces..." << endl;
+    BlackCard* tempCard;
+    list<BlackCard*>::iterator it;
+    for (it = provinces->begin(); it != provinces->end(); it++) {
+        tempCard = *it;
+        tempCard->setIsRevealed(true);
+    }
 }
 
-void Player::printHand() {
-    cout << "Printing hand:\n" << endl;
+void Player::printHand(bool costs) {
+    cout << "\nPrinting hand:\n" << endl;
     GreenCard* tempCard;
     list<GreenCard*>::iterator it;
     int i = 1;
     for (it = hand->begin(); it != hand->end(); it++) {
         tempCard = *it;
-        cout << i << ": " << tempCard->getName() << endl;
+        cout << i << ": " << tempCard->getName();
+        if(costs){
+            cout << " (" << tempCard->getCost() << "g)";
+        }
+        cout << endl;
         i++;
     }
-    cout << "\n\n";
+    cout << "\n";
 }
 
-void Player::printProvinces() {
-    cout << "Printing Provinces:\n" << endl;
+void Player::printProvinces(bool costs) {
+    cout << "\nPrinting Revealed Provinces:\n" << endl;
     BlackCard* tempCard;
     list<BlackCard*>::iterator it;
     int i = 1;
     for (it = provinces->begin(); it != provinces->end(); it++) {
         tempCard = *it;
+        if(tempCard->getIsRevealed() == true) {
+            cout << i << ": "<< tempCard->getName();
+            if(costs){
+                cout << " (" << tempCard->getCost() << "g)";
+            }
+            cout << endl;
+        }
+        i++;
+    }
+    cout << "\n";
+}
+
+void Player::printArmy() {
+    cout << "\nPrinting Army:\n" << endl;
+    Personality* tempCard;
+    list<Personality*>::iterator it;
+    int i = 1;
+    for (it = army->begin(); it != army->end(); it++) {
+        tempCard = *it;
+        if(tempCard->getIsDead() == false) {
+            cout << i << ": "<< tempCard->getName() << endl;
+        }
+        i++;
+    }
+    cout << "\n";
+}
+
+void Player::printHoldings() {
+    cout << "\nPrinting Holdings:\n" << endl;
+    BlackCard* tempCard;
+    list<Holding*>::iterator it;
+    int i = 1;
+    for (it = holdings->begin(); it != holdings->end(); it++) {
+        tempCard = *it;
         cout << i << ": "<< tempCard->getName() << endl;
         i++;
     }
-    cout << "\n\n";
+    cout << "\n";
 }
-
-// //printing card names
-// list<GreenCard*>* green = player1->getFateDeck();
-// GreenCard* card;
-// list<GreenCard*>::iterator it;
-// int i = 1;
-// for (it = green->begin(); it != green->end(); it++) {
-//     card = *it;
-// 	cout << i << ": " << card->getName() << endl;
-//     i++;
-// }
