@@ -73,8 +73,8 @@ void Player::untapEverything() {
     if (holdings != NULL)
     {
         list<Holding*>::iterator it;
-        for (it = holdings->begin(); it != holdings->end(); it++){
-    printHand();
+        for (it = holdings->begin(); it != holdings->end(); it++)
+        {
             tempCard = *it;
             tempCard->setIsTapped(false);
         }
