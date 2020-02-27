@@ -15,6 +15,7 @@
 #define DECKSIZE          40
 #define MAXDECKSIZE       60
 
+#define STARTINGHANDSIZE  4
 #define MAXHANDSIZE		  6
 
 #define NO_PERSONALITIES  25

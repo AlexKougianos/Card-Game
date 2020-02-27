@@ -67,7 +67,8 @@ void Player::createProvinces() {
 }
 
 void Player::untapEverything() {
-    //untap holdings, army, provinces?
+    //untap holdings, army
+    cout << "Untap everything.." << endl;
     
     BlackCard* tempCard;
     if (holdings != NULL)
@@ -92,7 +93,16 @@ void Player::untapEverything() {
 }
 
 void Player::drawFateCard() {
-    // check not max
+    cout << "Draw Fate Card.." << endl;
+
+    if(hand->size() == MAXHANDSIZE) {
+        cout << "Cannot draw another card!" << endl;
+        return;
+    }
+    GreenCard* tempCard;
+    tempCard = fateDeck->front();           // Getting the first item of Fate Date
+    hand->push_front(tempCard);             // Putting it in Hand
+    fateDeck->pop_front();                  // Deleting it from the Fate Deck
 }
 
 void Player::revealProvinces() {

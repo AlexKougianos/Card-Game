@@ -10,13 +10,13 @@ GameBoard::GameBoard()
 
 void GameBoard::initializeGameBoard()
 {
-    int maxHandSize;
-    // cout << "Give max number of cards in hand."<<endl;
-    // cin >> maxHandSize;
-    maxHandSize = MAXHANDSIZE;
+    int handSize;
+    // cout << "Give starting number of cards in hand."<<endl;
+    // cin >> handSize;
+    handSize = STARTINGHANDSIZE;
 
-    player1->createHand(maxHandSize);
-    player2->createHand(maxHandSize);
+    player1->createHand(handSize);
+    player2->createHand(handSize);
 
     player1->createProvinces();
     player2->createProvinces();
