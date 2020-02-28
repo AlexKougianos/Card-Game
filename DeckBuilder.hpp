@@ -18,6 +18,8 @@
 #define STARTINGHANDSIZE  4
 #define MAXHANDSIZE		  6
 
+#define STARTINGMONEY	  10
+
 #define NO_PERSONALITIES  25
 #define NO_DEFENSIVE      10
 #define NO_ATTACKING      10

@@ -6,7 +6,7 @@ DeckBuilder::DeckBuilder()
 {
 	black = new list<BlackCard *>();
 	green = new list<GreenCard *>();
-	srand(unsigned(time(NULL)));
+	// srand(unsigned(time(NULL)));
 }
 
 DeckBuilder::~DeckBuilder()
