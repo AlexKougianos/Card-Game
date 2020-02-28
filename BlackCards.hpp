@@ -56,8 +56,11 @@ class Personality : public BlackCard {
         virtual void setDefence(int);
         virtual void setHonour(int);
         virtual void setIsDead(bool);
+
         virtual void addFollower(Follower*);
         virtual void addItem(Item*);
+
+        virtual void print();
 };
 
 class Attacker : public Personality {

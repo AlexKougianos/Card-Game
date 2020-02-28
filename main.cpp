@@ -1,5 +1,4 @@
 #include "GameBoard.hpp"
-
 #include "TypeConverter.hpp"
 #include "Player.hpp"
 // #include "GreenCards.hpp"

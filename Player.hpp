@@ -53,6 +53,8 @@ class Player {
 
         void addHolding(Holding*);
         void addPersonality(Personality*);
+        bool addItem(Personality*, Item*);
+        bool addFollower(Personality*, Follower*);
 
         void createHand(int);
         void createProvinces();
@@ -64,8 +66,11 @@ class Player {
 
         void printHand(bool = false);
         void printProvinces(bool = false);
-        void printArmy();
+        void printArmy(bool = false);
         void printHoldings();
+
+        void equip();
+        void economy();
 };
 
 
