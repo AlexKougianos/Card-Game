@@ -19,6 +19,7 @@
 #define MAXHANDSIZE		  6
 
 #define STARTINGMONEY	  10
+#define PROVINCEDEFENCE	  5
 
 #define NO_PERSONALITIES  25
 #define NO_DEFENSIVE      10

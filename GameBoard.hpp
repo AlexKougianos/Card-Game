@@ -23,7 +23,7 @@ class GameBoard {
 
         void startingPhase(int);
         void equipPhase(int);
-        void battlePhase(int);
+        void battlePhase(int, int);
         void economyPhase(int);
         void finalPhase(int);
         int checkWinningCondition();

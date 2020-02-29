@@ -16,6 +16,9 @@ class Player {
         int numberOfProvinces = 4;
         int money;
         int maxHandSize;
+        int toAttack;
+        int totalAttack;
+        int totalDefence;
 
         Stronghold* stronghold;
         DeckBuilder* deckBuilder;
@@ -32,6 +35,9 @@ class Player {
         int getNumberOfProvinces();
         int getMoney();
         int getMaxHandSize();
+        int getToAttack();
+        int getTotalAttack();
+        int getTotalDefence();
         Stronghold* getStronghold();
         list<GreenCard*>* getFateDeck();
         list<BlackCard*>* getDynastyDeck();
@@ -43,6 +49,9 @@ class Player {
         void setHonour(int);
         void setNumberOfProvinces(int);
         void setMoney(int);
+        void setToAttack(int);
+        void setTotalAttack(int);
+        void setTotalDefence(int);
         void setStronghold(Stronghold&);
         void setFateDeck(list<GreenCard*>&);
         void setDynastyDeck(list<BlackCard*>&);
@@ -70,6 +79,8 @@ class Player {
         void printHoldings();
 
         void equip();
+        void prepareBattle(Player*);
+        void battle(Player*);
         void economy();
 };
 

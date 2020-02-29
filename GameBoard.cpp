@@ -38,8 +38,7 @@ void GameBoard::gameplay()
         cout << "\e[1m"
              << "\n----- BATTLE PHASE: -----\n"
              << "\e[0m" << endl;
-        battlePhase(1);
-        battlePhase(2);
+        battlePhase(1, 2);
         cout << "\e[1m"
              << "\n----- ECONOMY PHASE: -----\n"
              << "\e[0m" << endl;
@@ -76,12 +75,38 @@ void GameBoard::equipPhase(int player)
     currentPlayer->equip();
 }
 
-void GameBoard::battlePhase(int player)
+void GameBoard::battlePhase(int player1, int player2)
 {
-    Player *currentPlayer = getPlayer(player);
+    Player *currentPlayer1 = getPlayer(player1);
+    Player *currentPlayer2 = getPlayer(player2);
+
+    // if one player does not have an army we skip the battle phase
+    if(currentPlayer1->getArmy()->size() == 0 || currentPlayer2->getArmy()->size() == 0)
+    {
+        cout << "Players do not have army to battle yet!" << endl;
+        return;
+    }
+
     cout << "\e[1m"
-         << "     PLAYER" << player << ":\n"
+         << "     PLAYER" << player1 << ": PREPARING\n"
          << "\e[0m" << endl;
+
+    currentPlayer1->prepareBattle(currentPlayer2);
+    
+    cout << "\e[1m"
+         << "     PLAYER" << player2 << ": PREPARING\n"
+         << "\e[0m" << endl;
+    currentPlayer2->prepareBattle(currentPlayer1);
+
+    cout << "\e[1m"
+         << "     PLAYER" << player1 << ": BATTLE!\n"
+         << "\e[0m" << endl;
+    currentPlayer1->battle(currentPlayer2);
+
+    cout << "\e[1m"
+         << "     PLAYER" << player2 << ": BATTLE\n"
+         << "\e[0m" << endl;
+    currentPlayer2->battle(currentPlayer1);
 }
 
 void GameBoard::economyPhase(int player)
