@@ -10,6 +10,7 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
+// type: cout << FRED("something") << endl;
 #define FRED(x) KRED x RST
 #define FGRN(x) KGRN x RST
 #define FYEL(x) KYEL x RST
