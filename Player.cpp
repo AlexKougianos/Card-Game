@@ -10,6 +10,7 @@ Player::Player()
     deckBuilder = new DeckBuilder();
     honour = stronghold->getStartingHonour();
     money = STARTINGMONEY;
+    harvest = stronghold->getHarvestValue();
 
     // Creating decks
     fateDeck = deckBuilder->createFateDeck();
@@ -28,6 +29,7 @@ Player::Player()
 int Player::getHonour() { return honour; }
 int Player::getNumberOfProvinces() { return numberOfProvinces; }
 int Player::getMoney() { return money; }
+int Player::getHarvest() { return harvest; }
 int Player::getToAttack() { return toAttack; }
 int Player::getTotalAttack() { return totalAttack; }
 int Player::getTotalDefence() { return totalDefence; }
@@ -44,6 +46,7 @@ list<Personality *> *Player::getArmy() { return army; }
 void Player::setHonour(int) {}
 void Player::setNumberOfProvinces(int) {}
 void Player::setMoney(int newMoney) { money = newMoney; }
+void Player::setHarvest(int newHarvest) { harvest = newHarvest; }
 void Player::setToAttack(int _toAttack) { toAttack = _toAttack; }
 void Player::setTotalAttack(int _totalAttack) { totalAttack = _totalAttack; }
 void Player::setTotalDefence(int _totalDefence) { totalDefence = _totalDefence; }
@@ -57,6 +60,10 @@ void Player::setArmy(list<Personality *> &) {}
 
 void Player::addHolding(Holding *holding)
 {
+    setHarvest(getHarvest() + holding->getHarvestValue());
+
+    // links...
+
     holdings->push_front(holding);
 }
 
@@ -77,7 +84,7 @@ bool Player::addItem(Personality *personality, Item *item)
     if (personality->getHonour() < item->getMinimumHonour())
     {
         cout << item->getMinimumHonour() << " honour is required to attach ";
-        cout << item->getName() << endl;
+        cout << item->getName() << " to " << personality->getName() << endl;
         return false;
     }
 
@@ -128,7 +135,7 @@ bool Player::addFollower(Personality *personality, Follower *follower)
     if (personality->getHonour() < follower->getMinimumHonour())
     {
         cout << follower->getMinimumHonour() << " honour is required to attach ";
-        cout << follower->getName() << endl;
+        cout << follower->getName() << " to " << personality->getName() << endl;
         return false;
     }
 
@@ -353,7 +360,8 @@ void Player::equip()
 {
     if (getArmy()->size() == 0)
     {
-        cout << "Player does not have an army yet!" << endl;
+        cout << "Player does not have an army yet!\n"
+             << endl;
         return;
     }
 
@@ -382,6 +390,7 @@ void Player::equip()
                     cout << "You picked: ";
                     personality->print();
                 }
+                i++;
             }
 
             printHand(true);
@@ -462,10 +471,11 @@ void Player::prepareBattle(Player *enemyPlayer)
             i = 1;
             for (it = army->begin(); it != army->end(); it++)
             {
-                if(i == index)
+                if (i == index)
                 {
                     personality = *it;
-                    if(personality->getIsTapped() == true){
+                    if (personality->getIsTapped() == true)
+                    {
                         cout << "Personality is already Tapped" << endl;
                         break;
                     }
@@ -481,17 +491,18 @@ void Player::prepareBattle(Player *enemyPlayer)
 }
 
 // battle
-void Player::battle(Player* enemy)
+void Player::battle(Player *enemy)
 {
-    if(getToAttack() == 0)
+    if (getToAttack() == 0)
     {
         cout << "Player does not intend to attack" << endl;
         return;
     }
-    
-    
+
     cout << "Player attacks Enemy Province " << getToAttack() << endl;
-    
+
+    enterToContinue();
+
     // printing battle statistics
     cout << "\nAttacker:" << endl;
     cout << "\tAttack: " << getTotalAttack() << endl;
@@ -501,12 +512,42 @@ void Player::battle(Player* enemy)
     cout << "\tAttack: " << enemy->getTotalAttack() << endl;
     cout << "\tDefence: " << enemy->getTotalDefence() << endl;
 
+    enterToContinue();
+
     // determining winner
-    if(getTotalAttack() > enemy->getTotalDefence()) {
+    if (getTotalAttack() > enemy->getTotalDefence())           // <----TODO
+    {
         cout << "Attacker wins!" << endl;
-    } else if(getTotalAttack() < enemy->getTotalDefence()) {
+        cout << "Defender's army died" << endl;
+        Personality *personality;
+        list<Personality *>::iterator it;
+        for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
+        {
+            enemy->getArmy()->erase(it);
+            it = enemy->getArmy()->begin();
+        }
+        cout << "army size = " << enemy->getArmy()->size() << endl;
+
+        cout << "Destroying the attacked province" << endl;
+        BlackCard* tempCard;
+        list<BlackCard*>::iterator it2;
+        int i = 1;
+        for(it2 = enemy->getProvinces()->begin(); it2 != enemy->getProvinces()->end(); it2)
+        {
+            if(i == toAttack){
+                enemy->getProvinces()->erase(it2);
+                break;
+            }
+            i++;
+        }
+        cout << "enemy provinces = " << enemy->getProvinces()->size() << endl;
+    }
+    else if (getTotalAttack() < enemy->getTotalDefence())
+    {
         cout << "Defender wins!" << endl;
-    } else {
+    }
+    else
+    {
         cout << "It's a tie!" << endl;
     }
 }
@@ -566,4 +607,11 @@ void Player::economy()
             cout << "Wrong input. Try again!" << endl;
         }
     } while (answer != 0);
+}
+
+void Player::enterToContinue()
+{
+    cout << "Press Enter to Continue\n"
+         << endl;
+    cin.ignore();
 }

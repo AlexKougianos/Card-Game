@@ -15,6 +15,7 @@ class Player {
         int honour;
         int numberOfProvinces = 4;
         int money;
+        int harvest;
         int maxHandSize;
         int toAttack;
         int totalAttack;
@@ -34,6 +35,7 @@ class Player {
         int getHonour();
         int getNumberOfProvinces();
         int getMoney();
+        int getHarvest();
         int getMaxHandSize();
         int getToAttack();
         int getTotalAttack();
@@ -49,6 +51,7 @@ class Player {
         void setHonour(int);
         void setNumberOfProvinces(int);
         void setMoney(int);
+        void setHarvest(int);
         void setToAttack(int);
         void setTotalAttack(int);
         void setTotalDefence(int);
@@ -82,6 +85,8 @@ class Player {
         void prepareBattle(Player*);
         void battle(Player*);
         void economy();
+
+        void enterToContinue();
 };
 
 
