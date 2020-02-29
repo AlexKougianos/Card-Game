@@ -6,7 +6,7 @@
         {
             "label": "echo",
             "type": "shell",
-            "command": "g++ -o main -std=c++0x main.cpp GreenCards.cpp BlackCards.cpp GameBoard.cpp Player.cpp DeckBuilder.cpp",
+            "command": "g++ -o main -std=c++0x main.cpp GreenCards.cpp BlackCards.cpp GameBoard.cpp Player.cpp DeckBuilder.cpp TypeConverter.cpp",
             "group": {
                 "kind": "build",
                 "isDefault": true
