@@ -40,56 +40,48 @@ void Personality::setIsDead(bool newIsDead) { isDead = newIsDead; }
 // Adders
 void Personality::addFollower(Follower *newFollower)
 {
-    if (followers->size() >= MAX_FOLLOWERS)
-    {
-        cout << "Can not add another follower" << endl;
-        return;
-    }
-    if (getHonour() < newFollower->getMinimumHonour())
-    {
-        cout << newFollower->getMinimumHonour() << " is required to attach " << newFollower->getName() << endl;
-        return;
-    }
-
-    followers->push_front(newFollower);
-
-    cout << "Do you want the bonus for " << newFollower->getEffectCost() << " gold? (y for Yes, n for No)" << endl;
-    char answer;
-    cin >> answer;
-    if (answer == 'y' or answer == 'Y')
-    {
-        newFollower->setAttackBonus(newFollower->getAttackBonus() + newFollower->getEffectBonus());
-        newFollower->setDefenceBonus(newFollower->getDefenceBonus() + newFollower->getEffectBonus());
-    }
-    setAttack(getAttack() + newFollower->getAttackBonus());
-    setDefence(getDefence() + newFollower->getDefenceBonus());
+    followers->push_back(newFollower);
 }
 
 void Personality::addItem(Item *newItem)
 {
-    if (items->size() >= MAX_ITEM_CAPACITY)
-    {
-        cout << "Can not add another item" << endl;
-        return;
-    }
-    if (getHonour() < newItem->getMinimumHonour())
-    {
-        cout << newItem->getName() << " is required to attach " << newItem->getName() << endl;
-        return;
-    }
+    items->push_back(newItem);
+}
 
-    items->push_front(newItem);
-
-    cout << "Do you want the bonus for " << newItem->getEffectCost() << " gold? (y for Yes, n for No)" << endl;
-    char answer;
-    cin >> answer;
-    if (answer == 'y' || answer == 'Y')
-    {
-        newItem->setAttackBonus(newItem->getAttackBonus() + newItem->getEffectBonus());
-        newItem->setDefenceBonus(newItem->getDefenceBonus() + newItem->getEffectBonus());
-    }
-    setAttack(getAttack() + newItem->getAttackBonus());
-    setDefence(getAttack() + newItem->getAttackBonus());
+// Print
+void Personality::print()
+{
+    cout << getName() << " with ";
+    cout << getHonour() << " Honour." << endl;
+    // attack etc..
+    cout << "\tItems: ";
+        Item *item;
+        list<Item *>::iterator it;
+        int i = 1;
+        for (it = items->begin(); it != items->end(); it++)
+        {
+            item = *it;
+            if(i == 1)
+                cout << item->getName();
+            else
+                cout << ", " << item->getName();
+            i++;
+        }
+        cout << "\n";
+    cout << "\tFollowers: ";
+        Follower *follower;
+        list<Follower *>::iterator it2;
+        i = 1;
+        for (it2 = followers->begin(); it2 != followers->end(); it2++)
+        {
+            follower = *it2;
+            if(i == 1)
+                cout << follower->getName();
+            else
+                cout << ", " << follower->getName();
+            i++;
+        }
+        cout << "\n";
 }
 
 // Constructors

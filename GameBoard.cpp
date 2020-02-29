@@ -10,10 +10,7 @@ GameBoard::GameBoard()
 
 void GameBoard::initializeGameBoard()
 {
-    int handSize;
-    // cout << "Give starting number of cards in hand."<<endl;
-    // cin >> handSize;
-    handSize = STARTINGHANDSIZE;
+    int handSize = STARTINGHANDSIZE;
 
     player1->createHand(handSize);
     player2->createHand(handSize);
@@ -29,35 +26,49 @@ void GameBoard::gameplay()
     do
     {
         cout << "\e[1m"
-             << "\n--- Starting Phase: ---\n"
+             << "\n----- STARTING PHASE: -----\n"
              << "\e[0m" << endl;
         startingPhase(1);
+        enterToContinue();
         startingPhase(2);
-        cout << "\n--- Equip Phase: ---\n"
-             << endl;
+        enterToContinue();
+        cout << "\e[1m"
+             << "\n----- EQUIP PHASE: -----\n"
+             << "\e[0m" << endl;
         equipPhase(1);
+        enterToContinue();
         equipPhase(2);
-        cout << "\n--- Battle Phase: ---\n"
-             << endl;
-        battlePhase(1);
-        battlePhase(2);
-        cout << "\n--- Economy Phase: ---\n"
-             << endl;
+        enterToContinue();
+        cout << "\e[1m"
+             << "\n----- BATTLE PHASE: -----\n"
+             << "\e[0m" << endl;
+        battlePhase(1, 2);
+        enterToContinue();
+        cout << "\e[1m"
+             << "\n----- ECONOMY PHASE: -----\n"
+             << "\e[0m" << endl;
         economyPhase(1);
+        enterToContinue();
         economyPhase(2);
-        cout << "\n--- Final Phase: ---\n"
-             << endl;
+        enterToContinue();
+        cout << "\e[1m"
+             << "\n----- FINAL PHASE: -----\n"
+             << "\e[0m" << endl;
         finalPhase(1);
         finalPhase(2);
-    } while (checkWinningCondition() == 0);
+    } while (checkWinningCondition(1, 2) == 0);
 }
 
 void GameBoard::startingPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
     cout << "\e[1m"
-         << "Player" << player << ":\n"
+         << "     PLAYER" << player << ":\n"
          << "\e[0m" << endl;
+    cout << "You are granted with extra " << currentPlayer->getHarvest();
+    cout << " gold from your Harvest!" <<endl;
+    currentPlayer->setMoney(currentPlayer->getMoney() + currentPlayer->getHarvest());
+    cout << "You now have " << currentPlayer->getMoney() << " gold." << endl;
     currentPlayer->untapEverything();
     currentPlayer->drawFateCard();
     currentPlayer->revealProvinces();
@@ -68,171 +79,78 @@ void GameBoard::startingPhase(int player)
 void GameBoard::equipPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << "\nPlayer" << player << ": " << endl;
+    cout << "\e[1m"
+         << "     PLAYER" << player << ":\n"
+         << "\e[0m" << endl;
 
-    if (currentPlayer->getArmy()->size() == 0)
+    currentPlayer->equip();
+}
+
+void GameBoard::battlePhase(int player1, int player2)
+{
+    Player *currentPlayer1 = getPlayer(player1);
+    Player *currentPlayer2 = getPlayer(player2);
+
+    // if one player does not have an army we skip the battle phase
+    if(currentPlayer1->getArmy()->size() == 0 || currentPlayer2->getArmy()->size() == 0)
     {
-        cout << "Player does not have an army yet!" << endl;
+        cout << "Players do not have army to battle yet!" << endl;
         return;
     }
 
-    // equip
-    list<Personality *>::iterator armyIt;
-    Personality *personality;
+    cout << "\e[1m"
+         << "     PLAYER" << player1 << ": PREPARING\n"
+         << "\e[0m" << endl;
 
-    list<GreenCard *>::iterator handIt;
-    GreenCard *tempCard;
+    currentPlayer1->prepareBattle(currentPlayer2);
+    
+    cout << "\e[1m"
+         << "     PLAYER" << player2 << ": PREPARING\n"
+         << "\e[0m" << endl;
+    currentPlayer2->prepareBattle(currentPlayer1);
 
-    int handCard, armyCard, i;
+    cout << "\e[1m"
+         << "     PLAYER" << player1 << ": BATTLE!\n"
+         << "\e[0m" << endl;
+    currentPlayer1->battle(currentPlayer2);
 
-    do
-    {
-        currentPlayer->printArmy();
-        cout << "Choose which Personality to equip: (0 to exit)" << endl;
-        cin >> armyCard;
-
-        if (armyCard > 0 && armyCard <= currentPlayer->getArmy()->size())
-        {
-            i = 1;
-            for (armyIt = currentPlayer->getArmy()->begin(); armyIt != currentPlayer->getArmy()->end(); armyIt++)
-            {
-                if (i == armyCard)
-                {
-                    personality = *armyIt;
-                    cout << "You picked " << personality->getName() << endl;
-                }
-            }
-
-            currentPlayer->printHand(true);
-            cout << "\nYou have " << currentPlayer->getMoney() << " gold" << endl;
-            cout << "Choose a Fate card to buy: (0 to exit)" << endl;
-            cin >> handCard;
-
-            if(handCard > 0 && handCard <= currentPlayer->getHand()->size()) {
-                i = 1;
-                for (handIt = currentPlayer->getHand()->begin(); handIt != currentPlayer->getHand()->end(); handIt++)
-                {
-                    if (i == handCard)
-                    {
-                        tempCard = *handIt;
-                        if (currentPlayer->getMoney() >= tempCard->getCost())
-                        {
-                            cout << "You Purchased " << tempCard->getName() << endl;
-                            currentPlayer->getHand()->erase(handIt);
-                            currentPlayer->setMoney(currentPlayer->getMoney() - tempCard->getCost());
-
-                            // putting purchased card to the picked personality
-                            if (getCorrectType(tempCard->getType()) == ITEM)
-                            {
-                                cout << "ITEM" << endl;
-                                personality->addItem((Item*)tempCard);
-                            }
-                            else if (getCorrectType(tempCard->getType()) == FOLLOWER)
-                            {
-                                cout << "FOLLOWER" << endl;
-                                personality->addFollower((Follower*)tempCard);    
-                            }
-                        }
-                        else
-                        {
-                            cout << "You do not have enough money!" << endl;
-                        }
-                        break;
-                    }
-                    i++;
-                }
-            }
-            else if(handCard != 0)
-            {
-                cout << "Wrong input. Try again!" << endl;
-            }
-            
-        }
-        else if(armyCard != 0)
-        {
-            cout << "Wrong input. Try again!" << endl;
-        }
-    } while (handCard != 0 && armyCard != 0);
-}
-
-void GameBoard::battlePhase(int player)
-{
-    Player *currentPlayer = getPlayer(player);
-    cout << "Player" << player << ": " << endl;
+    cout << "\e[1m"
+         << "     PLAYER" << player2 << ": BATTLE\n"
+         << "\e[0m" << endl;
+    currentPlayer2->battle(currentPlayer1);
 }
 
 void GameBoard::economyPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << "\nPlayer" << player << ": " << endl;
+    cout << "\e[1m"
+         << "     PLAYER" << player << ":\n"
+         << "\e[0m" << endl;
 
-    list<BlackCard *>::iterator it;
-    BlackCard *tempCard;
-    int answer, i, count = 4;
-
-    do
-    {
-        currentPlayer->printProvinces(true);
-        cout << "\nYou have " << currentPlayer->getMoney() << " gold" << endl;
-
-        cout << "Give number you want to buy. (0 to exit)" << endl;
-        cin >> answer;
-
-        if (answer >= 0 && answer <= count)
-        {
-            i = 1;
-            for (it = currentPlayer->getProvinces()->begin(); it != currentPlayer->getProvinces()->end(); it++)
-            {
-                if (i == answer)
-                {
-                    tempCard = *it;
-                    if (currentPlayer->getMoney() >= tempCard->getCost())
-                    {
-                        cout << "You Purchased " << tempCard->getName() << endl;
-                        currentPlayer->getProvinces()->erase(it);
-                        currentPlayer->drawDynastyCard();
-                        count--;
-                        currentPlayer->setMoney(currentPlayer->getMoney() - tempCard->getCost());
-
-                        // putting purchased card to holdings or army
-                        if (getCorrectType(tempCard->getType()) == HOLDING)
-                        {
-                            currentPlayer->addHolding((Holding *)tempCard);
-                        }
-                        else if (getCorrectType(tempCard->getType()) == PERSONALITY)
-                        {
-                            currentPlayer->addPersonality((Personality *)tempCard);
-                        }
-                    }
-                    else
-                    {
-                        cout << "You do not have enough money!" << endl;
-                    }
-                    break;
-                }
-                i++;
-            }
-        }
-        else
-        {
-            cout << "Wrong input. Try again!" << endl;
-        }
-    } while (answer != 0);
+    currentPlayer->economy();
 }
 
 void GameBoard::finalPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << "\nPlayer" << player << ": " << endl;
+    cout << "\e[1m"
+         << "     PLAYER" << player << ":\n"
+         << "\e[0m" << endl;
 }
 
-int GameBoard::checkWinningCondition()
+int GameBoard::checkWinningCondition(int player, int enemy)
 {
-    cout << "won?" << endl;
-    int c;
-    cin >> c;
-
-    return c;
+    Player *currentPlayer = getPlayer(player);
+    Player *currentEnemy = getPlayer(enemy);
+    if(currentEnemy->getProvinces()->size() == 0) {
+        winnigMessage(player, enemy);
+        return player;
+    }
+    else if(currentPlayer->getProvinces()->size() == 0) {
+        winnigMessage(enemy, player);
+        return enemy;
+    }
+    return 0;
 }
 
 void GameBoard::printGameStatistics()
@@ -259,23 +177,50 @@ int GameBoard::getCurrentPhase()
     return currentPhase;
 }
 
-// cout << "\nPlayer1:\n\n" << endl;
-// //printing card names
-// list<GreenCard*>* green = player1->getFateDeck();
-// GreenCard* card;
-// list<GreenCard*>::iterator it;
-// int i = 1;
-// for (it = green->begin(); it != green->end(); it++) {
-//     card = *it;
-// 	cout << i << ": " << card->getName() << endl;
-//     i++;
-// }
-// cout << "\nPlayer2:\n\n" << endl;
-// //printing card names
-// i = 1;
-// green = player2->getFateDeck();
-// for (it = green->begin(); it != green->end(); it++) {
-//     card = *it;
-// 	cout << i << ": " << card->getName() << endl;
-//     i++;
-// }
+void GameBoard::enterToContinue()
+{
+    cout << "Press Enter to Continue\n" << endl;
+    cin.ignore();
+}
+
+void GameBoard::winnigMessage(int winner, int loser) {
+    cout << "       _____________________________________________         " <<endl
+         << "      / # # # # # # # # # # # # # # # # # # # # # # \\       " <<endl
+         << "     / # #                                       # # \\      " <<endl
+         << "     | #         P L A Y E R   "<< winner <<"   WON ! ! !       # |       " <<endl
+         << "     \\ # #                                       # # /      " <<endl
+         << "      \\ # # # # # # # # # # # # # # # # # # # # # # /       " <<endl<<endl<<endl;
+
+    cout << "       _____________________________________________         " <<endl
+         << "      / ------------------------------------------- \\       " <<endl
+         << "     / ___            P L A Y E R   "<< loser <<"            ___ \\      " <<endl
+         << "     | _            P E R F O R M I N G            _ |       " <<endl
+         << "     \\ ___           S E P P U K U !             ___ /      " <<endl
+         << "      \\ ------------------------------------------- /       " <<endl<<endl;
+
+    cout << "##############################|  ############################" <<endl
+         << "###########################|       |#########################" <<endl
+         << "########################|_____________|######################" <<endl
+         << "###########################|_ 	     |#######################" <<endl
+         << "##########################/ -	    /########################" <<endl
+         << "###########################\\__      |########################"<<endl
+         << "############################|__    /#########################" <<endl
+         << "##############################\\__ |_#########################"<<endl
+         << "#############################/ /    |########################" <<endl
+         << "############################| |     \\########################"<<endl
+         << "############################|  \\     \\#######################"<<endl
+         << "###########################/    \\     |######################"<<endl
+         << "###############__#########|      |     |#####################" <<endl
+         << "############___||---------|/    /     /------_###############" <<endl
+         << "###########|____  _______ | -- /     /______\\ \\##############"<<endl
+         << "###############||---------|\\  /    /--------/-###############"<<endl
+         << "#########################/  /     ||#########################" <<endl
+         << "#######################/    -/-/-//##########################" <<endl
+         << "####################/         ___/###########################" <<endl
+         << "###############_-/     __       \\   ___-#####################"<<endl
+         << "##############|          -______  /     \\####################"<<endl
+         << "################\\-                       |###################"<<endl
+         << "###################\\________________--\\__|###################"<<endl
+         << "#############################################################" <<endl
+         <<endl;
+}

@@ -23,13 +23,16 @@ class GameBoard {
 
         void startingPhase(int);
         void equipPhase(int);
-        void battlePhase(int);
+        void battlePhase(int, int);
         void economyPhase(int);
         void finalPhase(int);
-        int checkWinningCondition();
+        int checkWinningCondition(int, int);
 
         Player* getPlayer(int);
         int getCurrentPhase();
+
+        void enterToContinue();
+        void winnigMessage(int, int);
 };
 
 #endif
