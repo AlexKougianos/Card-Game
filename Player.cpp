@@ -559,53 +559,96 @@ void Player::economy()
     BlackCard *tempCard;
     int answer, i, count = 4;
 
-    do
+    do          // A loop that shows available Provinces to buy
     {
         printProvinces(true);
         cout << "\nYou have " << getMoney() << " gold" << endl;
 
         cout << "Give number you want to buy. (0 to exit)" << endl;
         cin >> answer;
+        if (answer == 0)
+        {
+            break;
+        }
 
-        if (answer >= 0 && answer <= count)
+        if (answer <= count)        // Answer has to be revealed Province
         {
             i = 1;
-            for (it = getProvinces()->begin(); it != getProvinces()->end(); it++)
+            for (it = getProvinces()->begin(); it != getProvinces()->end(); it++)   // Loop to find picked Province
             {
                 if (i == answer)
                 {
                     tempCard = *it;
+
                     if (getMoney() >= tempCard->getCost())
                     {
-                        cout << "You Purchased " << tempCard->getName() << endl;
-                        getProvinces()->erase(it);
-                        drawDynastyCard();
-                        count--;
+                        cout << "You Purchased " << tempCard->getName() << endl;    // Purchase the card
+                        getProvinces()->erase(it);                                  // Erase it from provinces
+                        drawDynastyCard();                                          // Replacing it with new, not revealed card
                         setMoney(getMoney() - tempCard->getCost());
+                        count--;                                                    // if count reaches 0, there are no revealed Provinces left
 
                         // putting purchased card to holdings or army
-                        if (getCorrectType(tempCard->getType()) == HOLDING)
+                        if (getCorrectType(tempCard->getType()) == HOLDING)         // Check is card is Holding or Personality
                         {
-                            addHolding((Holding *)tempCard);
+
+                            if (tempCard->getType() == MINE)                        // if card is Mine
+                            {
+                                if (!toSubHolding((Mine*)tempCard))                 // Check for Gold Mines to link
+                                {
+                                    addHolding((Holding*)tempCard);                 // if not, add to Holings
+                                }
+                            }
+
+                            else if (tempCard->getType() == GOLD_MINE)              // if card is Gold Mine
+                            {
+                                // Check for Crystal Mines or Mines to link
+                                if (!toSubHolding((GoldMine*)tempCard) && !toUpperHolding((GoldMine*)tempCard))             
+                                {
+                                    // if no Mine or Crystal Mines are available, add to Holdings
+                                    addHolding((Holding*)tempCard);
+                                }
+                            }
+
+                            else if (tempCard->getType() == CRYSTAL_MINE)           // if card is Crystal Mine
+                            {
+                                if (!toUpperHolding((CrystalMine*)tempCard))        // Check for Gold Mines to link
+                                {
+                                    addHolding((Holding*)tempCard);                 // if not, add to Holdings
+                                }
+                            }
+
+                            else                                                    // if card is other Holdings
+                            {
+                                addHolding((Holding *)tempCard);                    // Add to Holdings
+                            }
+
                         }
+
                         else if (getCorrectType(tempCard->getType()) == PERSONALITY)
                         {
-                            addPersonality((Personality *)tempCard);
+                            addPersonality((Personality *)tempCard);    	        // if card is Personality, add to army
                         }
+
                     }
+
                     else
                     {
                         cout << "You do not have enough money!" << endl;
                     }
-                    break;
+
+                    break;               // Start the initial loop again
                 }
+
                 i++;
             }
         }
+
         else
         {
             cout << "Wrong input. Try again!" << endl;
         }
+
     } while (answer != 0);
 }
 
@@ -614,4 +657,154 @@ void Player::enterToContinue()
     cout << "Press Enter to Continue\n"
          << endl;
     cin.ignore();
+}
+
+// Check for available Upper Holding linkings
+bool Player::toSubHolding (Mine* newMine)
+{
+    list<Holding*>::iterator it;
+    Holding* tempCard;
+
+    for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
+    {
+        tempCard = *it;
+
+        // Check if current Holding is Gold Mine and available to link
+        if (tempCard->getType() == GOLD_MINE)
+        {
+            if (((GoldMine*)tempCard)->getSubHolding() == NULL)
+            {
+                ((GoldMine*)tempCard)->setSubHolding(newMine);
+
+                cout << newMine->getName() << " linked to:";
+                cout << tempCard->getName() << endl;
+
+                return true;         // Mine linked
+            }
+        }
+
+        // Check if current is Crystal Mine with Gold Mine and available to link
+        if (tempCard->getType() == CRYSTAL_MINE)
+        {
+            if (((CrystalMine*)tempCard)->getSubHolding() != NULL)
+            {
+                if (((CrystalMine*)tempCard)->getSubHolding()->getSubHolding() == NULL)
+                {
+                    ((CrystalMine*)tempCard)->setSubHolding(newMine);
+
+                    cout << newMine->getName() << " linked to: ";
+                    cout << tempCard->getName() << endl;
+
+                    return true;    // Mine linked
+                }
+            }
+        }
+    }
+
+    return false;        // No Gold or Crystal Mines available to link
+}
+
+// Check for available Upper Holding linkings
+bool Player::toSubHolding (GoldMine* newGoldMine)
+{
+    list<Holding*>::iterator it;
+    Holding* tempCard;
+
+    for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
+    {
+        tempCard = *it;
+
+        // Check if current Holding is Crystal Mine and available to link
+        if (tempCard->getType() == CRYSTAL_MINE)
+        {
+            if (((CrystalMine*)tempCard)->getSubHolding() == NULL)
+            {
+                ((CrystalMine*)tempCard)->setSubHolding(newGoldMine);
+
+                cout << newGoldMine->getName() << " linked to: ";
+                cout << tempCard->getName() << endl;
+
+                return true;        // Gold Mine linked
+            }
+            
+        }
+        
+    }
+
+    return false;        // No Crystal Mines available to link
+}
+
+// Check for available Sub Holding linkings
+bool Player::toUpperHolding(GoldMine* newGoldMine)
+{
+    list<Holding*>::iterator it;
+    Holding* tempCard;
+
+    for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
+    {
+        tempCard = *it;
+
+        // Check if current Holding is Mine and available to link
+        if (tempCard->getType() == MINE)
+        {
+            if (((Mine*)tempCard)->getUpperHolding() == NULL)
+            {
+                ((Mine*)tempCard)->setUpperHolding(newGoldMine);
+
+                cout << newGoldMine->getName() << " linked to: ";
+                cout << tempCard->getName() << endl;
+
+                return true;        // Gold Mine linked
+            }
+            
+        }
+        
+    }
+
+    return false;        // No Mines available to link
+}
+        
+// Check for available Sub Holding linkings
+bool Player::toUpperHolding(CrystalMine* newCrystalMine)
+{
+    list<Holding*>::iterator it;
+    Holding* tempCard;
+
+    for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
+    {
+        tempCard = *it;
+
+        // Check if current Holding is Gold Mine and available to link
+        if (tempCard->getType() == GOLD_MINE)
+        {
+            if (((GoldMine*)tempCard)->getUpperHolding() == NULL)
+            {
+                ((GoldMine*)tempCard)->setUpperHolding(newCrystalMine);
+
+                cout << newCrystalMine->getName() << " linked to: ";
+                cout << tempCard->getName() << endl;
+
+                return true;         // Mine linked
+            }
+        }
+
+        // Check if current is Crystal Mine with Gold Mine and available to link
+        if (tempCard->getType() == MINE)
+        {
+            if (((Mine*)tempCard)->getUpperHolding() != NULL)
+            {
+                if (((Mine*)tempCard)->getUpperHolding()->getUpperHolding() == NULL)
+                {
+                    ((Mine*)tempCard)->setUpperHolding(newCrystalMine);
+
+                    cout << newCrystalMine->getName() << " linked to: ";
+                    cout << tempCard->getName() << endl;
+
+                    return true;    // Mine linked
+                }
+            }
+        }
+    }
+
+    return false;        // No Gold Mines or Mines available to link
 }

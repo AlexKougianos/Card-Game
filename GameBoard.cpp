@@ -32,6 +32,7 @@ void GameBoard::gameplay()
         enterToContinue();
         startingPhase(2);
         enterToContinue();
+
         cout << "\e[1m"
              << "\n----- EQUIP PHASE: -----\n"
              << "\e[0m" << endl;
@@ -39,11 +40,13 @@ void GameBoard::gameplay()
         enterToContinue();
         equipPhase(2);
         enterToContinue();
+
         cout << "\e[1m"
              << "\n----- BATTLE PHASE: -----\n"
              << "\e[0m" << endl;
         battlePhase(1, 2);
         enterToContinue();
+
         cout << "\e[1m"
              << "\n----- ECONOMY PHASE: -----\n"
              << "\e[0m" << endl;
@@ -51,6 +54,7 @@ void GameBoard::gameplay()
         enterToContinue();
         economyPhase(2);
         enterToContinue();
+        
         cout << "\e[1m"
              << "\n----- FINAL PHASE: -----\n"
              << "\e[0m" << endl;
