@@ -1,23 +1,26 @@
 #ifndef _COLORS_HPP_
 #define _COLORS_HPP_
 
-#define RST  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
+// ANSI Colour Escape Codes.
+#define RST  "\x1B[0m"      // reset colour
+
+// Bold Bright Colour Codes
+#define KRED  "\x1B[1m\x1B[91m"
+#define KGRN  "\x1B[1m\x1B[92m"
+#define KYEL  "\x1B[1m\x1B[93m"
+#define KBLU  "\x1B[1m\x1B[94m"
+#define KMAG  "\x1B[1m\x1B[95m"
+#define KCYN  "\x1B[1m\x1B[96m"
+#define KWHT  "\x1B[1m\x1B[97m"
 
 // type: cout << FRED("something") << endl;
-#define FRED(x) KRED x RST
-#define FGRN(x) KGRN x RST
-#define FYEL(x) KYEL x RST
-#define FBLU(x) KBLU x RST
-#define FMAG(x) KMAG x RST
-#define FCYN(x) KCYN x RST
-#define FWHT(x) KWHT x RST
+#define BRED(x) KRED x RST  // bright red
+#define BGRN(x) KGRN x RST  // bright green
+#define BYEL(x) KYEL x RST  // bright yellow
+#define BBLU(x) KBLU x RST  // bright blue
+#define BMAG(x) KMAG x RST  // bright magenta
+#define BCYN(x) KCYN x RST  // bright cyan
+#define BWHT(x) KWHT x RST  // white
 
 #define BOLD(x) "\x1B[1m" x RST
 #define UNDL(x) "\x1B[4m" x RST
