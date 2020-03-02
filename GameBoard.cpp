@@ -25,57 +25,58 @@ void GameBoard::gameplay()
 {
     do
     {
-        cout << "\e[1m"
-             << "\n----- STARTING PHASE: -----\n"
-             << "\e[0m" << endl;
+        cout << BGRN("----- STARTING PHASE: -----\n") << endl;
+        Sleep(1000);
         startingPhase(1);
         enterToContinue();
+
         startingPhase(2);
         enterToContinue();
 
-        cout << "\e[1m"
-             << "\n----- EQUIP PHASE: -----\n"
-             << "\e[0m" << endl;
+        cout << BGRN("----- EQUIP PHASE: -----\n") << endl;
+        Sleep(1000);
         equipPhase(1);
         enterToContinue();
+
         equipPhase(2);
         enterToContinue();
 
-        cout << "\e[1m"
-             << "\n----- BATTLE PHASE: -----\n"
-             << "\e[0m" << endl;
+        cout << BGRN("----- BATTLE PHASE: -----\n") << endl;
+        Sleep(1000);
         battlePhase(1, 2);
         enterToContinue();
 
-        cout << "\e[1m"
-             << "\n----- ECONOMY PHASE: -----\n"
-             << "\e[0m" << endl;
+        cout << BGRN("----- ECONOMY PHASE: -----\n") << endl;
+        Sleep(1000);
         economyPhase(1);
         enterToContinue();
+
         economyPhase(2);
         enterToContinue();
         
-        cout << "\e[1m"
-             << "\n----- FINAL PHASE: -----\n"
-             << "\e[0m" << endl;
-        finalPhase(1);
-        finalPhase(2);
+        cout << BGRN("----- FINAL PHASE: -----\n") << endl;
+        Sleep(1000);
+        finalPhase(1, 2);
+
     } while (checkWinningCondition(1, 2) == 0);
 }
 
 void GameBoard::startingPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << "\e[1m"
-         << "     PLAYER" << player << ":\n"
-         << "\e[0m" << endl;
-    cout << "You are granted with extra " << currentPlayer->getHarvest();
-    cout << " gold from your Harvest!" <<endl;
+    cout << BOLD("PLAYER ") << player << ":\n" << endl;
+
+    // Adding Money from harvest Value
+    cout << BYEL("You are granted with extra ") << currentPlayer->getHarvest();
+    cout << BYEL(" gold from your Harvest!") <<endl;
+
     currentPlayer->setMoney(currentPlayer->getMoney() + currentPlayer->getHarvest());
-    cout << "You now have " << currentPlayer->getMoney() << " gold." << endl;
+    cout << BYEL("You now have ") << currentPlayer->getMoney() << BYEL(" gold.") << endl;
+
     currentPlayer->untapEverything();
     currentPlayer->drawFateCard();
     currentPlayer->revealProvinces();
+
     currentPlayer->printHand();
     currentPlayer->printProvinces();
 }
@@ -83,9 +84,7 @@ void GameBoard::startingPhase(int player)
 void GameBoard::equipPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << "\e[1m"
-         << "     PLAYER" << player << ":\n"
-         << "\e[0m" << endl;
+    cout << BOLD("PLAYER ") << player << ":\n" << endl;
 
     currentPlayer->equip();
 }
@@ -96,56 +95,128 @@ void GameBoard::battlePhase(int player1, int player2)
     Player *currentPlayer2 = getPlayer(player2);
 
     // if one player does not have an army we skip the battle phase
-    if(currentPlayer1->getArmy()->size() == 0 || currentPlayer2->getArmy()->size() == 0)
+    if(currentPlayer1->getArmy()->size() == 0 && currentPlayer2->getArmy()->size() == 0)
     {
-        cout << "Players do not have army to battle yet!" << endl;
+        cout << BRED("Players do not have armies to battle!\n") << endl;
         return;
     }
 
-    cout << "\e[1m"
-         << "     PLAYER" << player1 << ": PREPARING\n"
-         << "\e[0m" << endl;
-
+    // Tapping for battle
+    cout << BOLD("PLAYER ") << player1 << BOLD(": PREPARING\n") << endl;
     currentPlayer1->prepareBattle(currentPlayer2);
     
-    cout << "\e[1m"
-         << "     PLAYER" << player2 << ": PREPARING\n"
-         << "\e[0m" << endl;
+    cout << BOLD("PLAYER ") << player2 << BOLD(": PREPARING\n") << endl;
     currentPlayer2->prepareBattle(currentPlayer1);
 
-    cout << "\e[1m"
-         << "     PLAYER" << player1 << ": BATTLE!\n"
-         << "\e[0m" << endl;
+    cout << endl << BOLD("     PLAYER ") << player1 << BOLD(": BATTLE!\n") << endl;
     currentPlayer1->battle(currentPlayer2);
 
-    cout << "\e[1m"
-         << "     PLAYER" << player2 << ": BATTLE\n"
-         << "\e[0m" << endl;
+    cout << endl << BOLD("     PLAYER ") << player2 << BOLD(": BATTLE!\n") << endl;
     currentPlayer2->battle(currentPlayer1);
 }
 
 void GameBoard::economyPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << "\e[1m"
-         << "     PLAYER" << player << ":\n"
-         << "\e[0m" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
 
     currentPlayer->economy();
 }
 
-void GameBoard::finalPhase(int player)
+void GameBoard::finalPhase(int player1, int player2)
 {
-    Player *currentPlayer = getPlayer(player);
-    cout << "\e[1m"
-         << "     PLAYER" << player << ":\n"
-         << "\e[0m" << endl;
+    discardSurplusFateCard(player1);
+    discardSurplusFateCard(player2);
+
+    printArena(player1, player2);
+}
+
+void GameBoard::discardSurplusFateCard(int player)
+{
+    Player* currentPlayer = getPlayer(player);
+
+    if (currentPlayer->getHand()->size() <= MAXHANDSIZE)
+    {
+        return;
+    }
+
+    cout << BOLD("PLAYER ") << player << ":\n" << endl;
+
+    if (currentPlayer->getHand()->size() > MAXHANDSIZE)
+    {
+        list<GreenCard*>::iterator it;
+        GreenCard* tempCard;
+        int handCard, i;
+        bool discarded = false;
+
+        cout << BRED("Too many Fate Cards!") << endl;
+        cout << BRED("Pick cards to discard. (0 to exit)");
+        currentPlayer->printHand();
+        
+        do
+        {
+            cin >> handCard;
+
+            if (handCard >= 0 && handCard <= MAXHANDSIZE + 1)
+            {
+                if (handCard == 0 && discarded == false)
+                {
+                    cout << BRED("You must discard a card! Try again.") << endl;
+                    continue;
+                }
+                discarded = true;
+                i = 1;
+                for (it = currentPlayer->getHand()->begin(); it != currentPlayer->getHand()->end(); it++)
+                {
+                    if (i == handCard)
+                    {
+                        tempCard = *it;
+                        cout << tempCard->getName() << BBLU(" was discarded!\n") << endl;
+                        currentPlayer->getHand()->erase(it);
+                        break;
+                    }
+                    i++;
+                }
+
+                cout << BRED("Discard More?") << endl;
+            }
+            else
+            {
+                cout << BRED("Wrong input. Try again!") << endl;
+            }
+            
+        } while (handCard != 0 || discarded == false);
+    }
+
+    enterToContinue();
+}
+
+void GameBoard::printArena(int player1, int player2)
+{
+    Player* p1 = getPlayer(player1);
+    Player* p2 = getPlayer(player2);
+
+    cout << BOLD("#########") << endl
+         << BOLD("# ARENA #") << endl
+         << BOLD("#########") << endl;
+
+    cout << endl << BCYN("PLAYER ") << player1 << ":\n" << endl;
+    p1->printArmy();
+    p1->printHoldings();
+    p1->printProvinces();
+    p1->printStronghold();
+
+    cout << endl << BCYN("PLAYER ") << player2 << ":\n" << endl;
+    p2->printArmy();
+    p2->printHoldings();
+    p2->printProvinces();
+    p2->printStronghold();
 }
 
 int GameBoard::checkWinningCondition(int player, int enemy)
 {
-    Player *currentPlayer = getPlayer(player);
-    Player *currentEnemy = getPlayer(enemy);
+    Player* currentPlayer = getPlayer(player);
+    Player* currentEnemy = getPlayer(enemy);
     if(currentEnemy->getProvinces()->size() == 0) {
         winnigMessage(player, enemy);
         return player;
@@ -159,11 +230,10 @@ int GameBoard::checkWinningCondition(int player, int enemy)
 
 void GameBoard::printGameStatistics()
 {
-    cout << "Printing Statistics...\n"
-         << endl;
+    cout << "Printing Statistics...\n" << endl;
 }
 
-Player *GameBoard::getPlayer(int i)
+Player* GameBoard::getPlayer(int i)
 {
     switch (i)
     {
@@ -183,7 +253,7 @@ int GameBoard::getCurrentPhase()
 
 void GameBoard::enterToContinue()
 {
-    cout << "Press Enter to Continue\n" << endl;
+    cout << BCYN("\nPress Enter to Continue\n");
     cin.ignore();
 }
 
@@ -205,8 +275,8 @@ void GameBoard::winnigMessage(int winner, int loser) {
     cout << "##############################|  ############################" <<endl
          << "###########################|       |#########################" <<endl
          << "########################|_____________|######################" <<endl
-         << "###########################|_ 	     |#######################" <<endl
-         << "##########################/ -	    /########################" <<endl
+         << "###########################|_        |#######################" <<endl
+         << "##########################/ -       /########################" <<endl
          << "###########################\\__      |########################"<<endl
          << "############################|__    /#########################" <<endl
          << "##############################\\__ |_#########################"<<endl
@@ -214,9 +284,9 @@ void GameBoard::winnigMessage(int winner, int loser) {
          << "############################| |     \\########################"<<endl
          << "############################|  \\     \\#######################"<<endl
          << "###########################/    \\     |######################"<<endl
-         << "###############__#########|      |     |#####################" <<endl
+         << "###############__#########/      |     |#####################" <<endl
          << "############___||---------|/    /     /------_###############" <<endl
-         << "###########|____  _______ | -- /     /______\\ \\##############"<<endl
+         << "###########|/_/_| _______ | -- /     /______\\ \\##############"<<endl
          << "###############||---------|\\  /    /--------/-###############"<<endl
          << "#########################/  /     ||#########################" <<endl
          << "#######################/    -/-/-//##########################" <<endl
