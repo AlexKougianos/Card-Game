@@ -3,10 +3,12 @@
 
 #include <string>
 #include <list>
+#include <windows.h>
 
 #include "BlackCards.hpp"
 #include "GreenCards.hpp"
 #include "DeckBuilder.hpp"
+#include "Colours.hpp"
 
 using namespace std;
 
@@ -85,6 +87,7 @@ class Player {
         void printProvinces(bool = false);
         void printArmy(bool = false);
         void printHoldings();
+        void printStronghold();
 
         void equip();
         void prepareBattle(Player*);
