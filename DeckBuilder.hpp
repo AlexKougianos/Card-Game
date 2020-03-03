@@ -8,6 +8,7 @@
 #include <functional>
 #include <ctime>
 #include <cstdlib>
+#include <unistd.h>
 
 #include "GreenCards.hpp"
 #include "BlackCards.hpp"

@@ -26,7 +26,7 @@ void GameBoard::gameplay()
     do
     {
         cout << BGRN("----- STARTING PHASE: -----\n") << endl;
-        Sleep(1000);
+        sleep(2);
         startingPhase(1);
         enterToContinue();
 
@@ -34,7 +34,7 @@ void GameBoard::gameplay()
         enterToContinue();
 
         cout << BGRN("----- EQUIP PHASE: -----\n") << endl;
-        Sleep(1000);
+        sleep(2);
         equipPhase(1);
         enterToContinue();
 
@@ -42,12 +42,12 @@ void GameBoard::gameplay()
         enterToContinue();
 
         cout << BGRN("----- BATTLE PHASE: -----\n") << endl;
-        Sleep(1000);
+        sleep(2);
         battlePhase(1, 2);
         enterToContinue();
 
         cout << BGRN("----- ECONOMY PHASE: -----\n") << endl;
-        Sleep(1000);
+        sleep(1);
         economyPhase(1);
         enterToContinue();
 
@@ -55,7 +55,7 @@ void GameBoard::gameplay()
         enterToContinue();
         
         cout << BGRN("----- FINAL PHASE: -----\n") << endl;
-        Sleep(1000);
+        sleep(3);
         finalPhase(1, 2);
 
     } while (checkWinningCondition(1, 2) == 0);
