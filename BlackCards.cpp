@@ -38,12 +38,12 @@ void Personality::setHonour(int newHonour) { honour = newHonour; }
 void Personality::setIsDead(bool newIsDead) { isDead = newIsDead; }
 
 // Adders
-void Personality::addFollower(Follower *newFollower)
+void Personality::addFollower(Follower *newFollower)        // Add Follower to Personality
 {
     followers->push_back(newFollower);
 }
 
-void Personality::addItem(Item *newItem)
+void Personality::addItem(Item *newItem)                    // Add item to Personality
 {
     items->push_back(newItem);
 }
@@ -53,21 +53,24 @@ void Personality::print()
 {
     cout << getName() << " with ";
     cout << getHonour() << " Honour." << endl;
-    // attack etc..
+    
+    // Printing items
     cout << "\tItems: ";
-        Item *item;
-        list<Item *>::iterator it;
-        int i = 1;
-        for (it = items->begin(); it != items->end(); it++)
-        {
-            item = *it;
-            if(i == 1)
-                cout << item->getName();
-            else
-                cout << ", " << item->getName();
-            i++;
-        }
-        cout << "\n";
+    Item *item;
+    list<Item *>::iterator it;
+    int i = 1;
+    for (it = items->begin(); it != items->end(); it++)
+    {
+        item = *it;
+        if(i == 1)
+            cout << item->getName();
+        else
+            cout << ", " << item->getName();
+        i++;
+    }
+    cout << "\n";
+
+    // Printing Followers
     cout << "\tFollowers: ";
         Follower *follower;
         list<Follower *>::iterator it2;
@@ -205,14 +208,10 @@ Mine::Mine(string newName)
 
 GoldMine* Mine::getUpperHolding()
 {
-    if (upperHolding == NULL)
-    {
-        cout << getName() << " does not have a Gold Mine!" << endl;
-    }
     return upperHolding;
 }
 
-void Mine::setUpperHolding(GoldMine* newUpperHolding) // <-- chain starting from Mine
+void Mine::setUpperHolding(GoldMine* newUpperHolding)           // Linking Gold Mine to Mine
 {
     if (newUpperHolding != NULL)
     {
@@ -223,14 +222,10 @@ void Mine::setUpperHolding(GoldMine* newUpperHolding) // <-- chain starting from
         }
         upperHolding = newUpperHolding;
         setHarvestValue(getHarvestValue() + 2);
-        // if (newUpperHolding->getUpperHolding() != NULL)
-        // {
-        //     setHarvestValue(getHarvestValue() + 6 * 3);     // Crystal Initial Harvest Value = 6
-        // }
     }
 }
 
-void Mine::setUpperHolding(CrystalMine* newUpperHolding)
+void Mine::setUpperHolding(CrystalMine* newUpperHolding)        // Add Crystal Mine if Mine has linked Gold Mine
 {
     if (newUpperHolding != NULL)
     {
@@ -240,7 +235,20 @@ void Mine::setUpperHolding(CrystalMine* newUpperHolding)
             return;
         }
         getUpperHolding()->setUpperHolding(newUpperHolding);
-        setHarvestValue((getHarvestValue() + 5) + 6 * 3);   // Crystal Initial Harvest Value = 6
+        setHarvestValue((getHarvestValue() + 5) + 6 * 3);       // Crystal Initial Harvest Value = 6
+    }
+}
+
+void Mine::printUpperHoldings() 
+{
+    if (getUpperHolding() != NULL)
+    {
+        cout << " <-> " << getUpperHolding()->getName();
+
+        if (getUpperHolding()->getUpperHolding() != NULL)
+        {
+            cout << " <-> " << getUpperHolding()->getUpperHolding()->getName();
+        }
     }
 }
 
@@ -255,25 +263,17 @@ GoldMine::GoldMine(string newName)
     setType(GOLD_MINE);
 }
 
-Mine *GoldMine::getSubHolding()
+Mine *GoldMine::getSubHolding()                                    
 {
-    if (subHolding == NULL)
-    {
-        cout << getName() << " does not have a Mine!" << endl;
-    }
     return subHolding;
 }
 
-CrystalMine *GoldMine::getUpperHolding()
+CrystalMine *GoldMine::getUpperHolding()                                
 {
-    if (upperHolding == NULL)
-    {
-        cout << getName() << " does not have a Crystal Mine!" << endl;
-    }
     return upperHolding;
 }
 
-void GoldMine::setSubHolding(Mine *newSubHolding)
+void GoldMine::setSubHolding(Mine *newSubHolding)                   // Linking Mine to Gold Mine
 {
     if (newSubHolding != NULL)
     {
@@ -282,16 +282,18 @@ void GoldMine::setSubHolding(Mine *newSubHolding)
             cout << getName() << " already has a Mine!" << endl;
             return;
         }
+
         subHolding = newSubHolding;
-        setHarvestValue(getHarvestValue() + 4);
-        if (upperHolding != NULL)
+        setHarvestValue(getHarvestValue() + 4);                     
+        
+        if (upperHolding != NULL)                                   // Check if any Upper Holding is already linked
         {
-            setHarvestValue(getHarvestValue() + 5 * 2); // Starting Harvest value = 5
+            setHarvestValue(getHarvestValue() + 5 * 2);             // Starting Gold Harvest value = 5
         }
     }
 }
 
-void GoldMine::setUpperHolding(CrystalMine *newUpperHolding)
+void GoldMine::setUpperHolding(CrystalMine *newUpperHolding)        // Linking Crystal Mine to Gold Mine
 {
     if (newUpperHolding != NULL)
     {
@@ -300,11 +302,26 @@ void GoldMine::setUpperHolding(CrystalMine *newUpperHolding)
             cout << getName() << " already has a Crystal Mine!" << endl;
             return;
         }
+
         upperHolding = newUpperHolding;
         setHarvestValue(getHarvestValue() + 5);
-        if (subHolding != NULL)
+
+        if (subHolding != NULL)                                      // Checking if any Sub Holding is already linked
         {
-            setHarvestValue(getHarvestValue() + 5 * 2); // Starting Harvest value = 5
+            setHarvestValue(getHarvestValue() + 5 * 2);              // Starting Gold Mine Harvest value = 5
+        }
+    }
+}
+
+void GoldMine::printHoldings()
+{
+    if (getSubHolding() != NULL)
+    {
+        cout << " <-> " << getSubHolding()->getName();
+        
+        if (getUpperHolding() != NULL)
+        {
+            cout << " <-> " << getUpperHolding()->getName();
         }
     }
 }
@@ -322,10 +339,6 @@ CrystalMine::CrystalMine(string newName)
 
 GoldMine* CrystalMine::getSubHolding()
 {
-    if (subHolding == NULL)
-    {
-        cout << getName() << " does not have a Gold Mine!" << endl;
-    }
     return subHolding;
 }
 
@@ -338,12 +351,9 @@ void CrystalMine::setSubHolding(GoldMine* newSubHolding)
             cout << getName() << " already has a Gold Mine!" << endl;
             return;
         }
+
         subHolding = newSubHolding;
-        setHarvestValue(getHarvestValue() + getHarvestValue()); // <-- TODO add Mine
-        // if (newSubHolding->getSubHolding() != NULL)
-        // {
-        //     setHarvestValue(getHarvestValue() + 6 * 3); // Starting Harvest value = 6
-        // }
+        setHarvestValue(getHarvestValue() + getHarvestValue());
     }
 }
 
@@ -356,8 +366,22 @@ void CrystalMine::setSubHolding(Mine* newSubHolding)
             cout << "Can not attach Crystal Mine." << endl;
             return;
         }
+        
         getSubHolding()->setSubHolding(newSubHolding);
-        setHarvestValue((getHarvestValue() + 5) + 6 * 3);   // Crystal Initial Harvest Value = 6
+        setHarvestValue((getHarvestValue() + 5) + 6 * 3);              // Crystal Mine Initial Harvest Value = 6
+    }
+}
+
+void CrystalMine::printSubHoldings()
+{
+    if (getSubHolding() != NULL)
+    {
+        cout << " <-> " << getSubHolding()->getName();
+
+        if (getSubHolding()->getSubHolding() != NULL)
+        {
+            cout << " <-> " << getSubHolding()->getSubHolding()->getName();
+        }
     }
 }
 

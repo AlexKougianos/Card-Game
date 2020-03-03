@@ -2,6 +2,7 @@
 #define _GAMEBOARD_HPP_
 
 #include <iostream>
+#include <windows.h>
 
 #include "Player.hpp"
 
@@ -25,7 +26,10 @@ class GameBoard {
         void equipPhase(int);
         void battlePhase(int, int);
         void economyPhase(int);
-        void finalPhase(int);
+        void finalPhase(int, int);
+
+        void discardSurplusFateCard(int);
+        void printArena(int, int);
         int checkWinningCondition(int, int);
 
         Player* getPlayer(int);
