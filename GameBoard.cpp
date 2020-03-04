@@ -250,7 +250,7 @@ int GameBoard::getCurrentPhase()
 
 void GameBoard::enterToContinue()
 {
-    cout << BCYN("\nPress Enter to Continue\n") << endl;
+    cout << BCYN("\nPress Enter to Continue\n");
     cin.ignore();
 }
 

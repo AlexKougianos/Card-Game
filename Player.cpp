@@ -664,13 +664,16 @@ void Player::battle(Player *enemy)
     if (attackMinusDefence > 5)
     {
         cout << BBLU("Attacker wins!") << endl;
-        cout << BBLU("Defender's army died") << endl;
+
+        cout << BBLU("Defender lost:") << endl;
 
         Personality *personality;
         list<Personality *>::iterator it;
 
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
+            personality = *it;
+            cout << "\t" << personality->getName() << " died!" << endl;
             enemy->getArmy()->erase(it);
             it = enemy->getArmy()->begin();
         }
@@ -694,26 +697,29 @@ void Player::battle(Player *enemy)
     else if (attackMinusDefence > 0 && attackMinusDefence <= 5)
     {
         cout << BBLU("Attacker wins!") << endl;
-        cout << BBLU("Defender's army died") << endl;
+        cout << BBLU("Defender lost:") << endl;
 
         Personality *personality;
         list<Personality *>::iterator it;
 
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
+            personality = *it;
+            cout << "\t" << personality->getName() << " died!" << endl;
             enemy->getArmy()->erase(it);
             it = enemy->getArmy()->begin();
         }
 
-        cout << BBLU("The attacked province was not destroyed!") << endl;
+        cout << BBLU("The attacked province was NOT destroyed!") << endl;
 
-        cout << BBLU("Attacker also loses certain personalities!") << endl;
+        cout << BBLU("Attacker lost:") << endl;
 
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
             personality = *it;
             if (personality->getAttack() > attackMinusDefence)
             {
+                cout << "\t" << personality->getName() << " died!" << endl;
                 getArmy()->erase(it);
                 it = getArmy()->begin();
             }
@@ -727,33 +733,43 @@ void Player::battle(Player *enemy)
         Personality *personality;
         list<Personality *>::iterator it;
 
+        cout << BBLU("Defender lost:") << endl;
+
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
-            getArmy()->erase(it);
-            it = getArmy()->begin();
-        }
-
-        for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
-        {
+            personality = *it;
+            cout << "\t" << personality->getName() << " died!" << endl;
             enemy->getArmy()->erase(it);
             it = enemy->getArmy()->begin();
+        }
+
+        cout << BBLU("Attacker lost:") << endl;
+
+        for (it = getArmy()->begin(); it != getArmy()->end(); it++)
+        {
+            personality = *it;
+            cout << "\t" << personality->getName() << " died!" << endl;
+            getArmy()->erase(it);
+            it = getArmy()->begin();
         }
     }
     else
     {
         cout << BBLU("Defender wins!") << endl;
-        cout << BBLU("Attacker's army died") << endl;
+        cout << BBLU("Attacker lost:") << endl;
 
         Personality *personality;
         list<Personality *>::iterator it;
 
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
+            personality = *it;
+            cout << "\t" << personality->getName() << " died!" << endl;
             getArmy()->erase(it);
             it = getArmy()->begin();
         }
 
-        cout << BBLU("Defender also loses certain army or followers!") << endl;
+        cout << BBLU("Defender lost:") << endl;
         attackMinusDefence *= -1;   // because it's negative
 
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
@@ -761,6 +777,7 @@ void Player::battle(Player *enemy)
             personality = *it;
             if (personality->getAttack() > attackMinusDefence)
             {
+                cout << "\t" << personality->getName() << " died!" << endl;
                 enemy->getArmy()->erase(it);
                 it = enemy->getArmy()->begin();
             }
@@ -841,7 +858,7 @@ void Player::economy()
 
 void Player::enterToContinue()
 {
-    cout << BCYN("\nPress Enter to Continue\n") << endl;
+    cout << BCYN("\nPress Enter to Continue\n");
     cin.ignore();
 }
 
