@@ -25,7 +25,7 @@ void GameBoard::gameplay()
 {
     do
     {
-        cout << BGRN("----- STARTING PHASE: -----\n") << endl;
+        cout << BGRN("\n----- STARTING PHASE: -----\n") << endl;
         sleep(2);
         startingPhase(1);
         enterToContinue();
@@ -33,7 +33,7 @@ void GameBoard::gameplay()
         startingPhase(2);
         enterToContinue();
 
-        cout << BGRN("----- EQUIP PHASE: -----\n") << endl;
+        cout << BGRN("----- EQUIP PHASE: -----") << endl;
         sleep(2);
         equipPhase(1);
         enterToContinue();
@@ -41,20 +41,20 @@ void GameBoard::gameplay()
         equipPhase(2);
         enterToContinue();
 
-        cout << BGRN("----- BATTLE PHASE: -----\n") << endl;
+        cout << BGRN("\n----- BATTLE PHASE: -----\n") << endl;
         sleep(2);
         battlePhase(1, 2);
         enterToContinue();
 
-        cout << BGRN("----- ECONOMY PHASE: -----\n") << endl;
+        cout << BGRN("\n----- ECONOMY PHASE: -----\n") << endl;
         sleep(1);
         economyPhase(1);
         enterToContinue();
 
         economyPhase(2);
         enterToContinue();
-        
-        cout << BGRN("----- FINAL PHASE: -----\n") << endl;
+
+        cout << BGRN("\n----- FINAL PHASE: -----\n") << endl;
         sleep(3);
         finalPhase(1, 2);
 
@@ -84,7 +84,7 @@ void GameBoard::startingPhase(int player)
 void GameBoard::equipPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << BOLD("PLAYER ") << player << ":\n" << endl;
+    cout << endl << BOLD("PLAYER ") << player << ":\n" << endl;
 
     currentPlayer->equip();
 }
@@ -104,7 +104,7 @@ void GameBoard::battlePhase(int player1, int player2)
     // Tapping for battle
     cout << BOLD("PLAYER ") << player1 << BOLD(": PREPARING\n") << endl;
     currentPlayer1->prepareBattle(currentPlayer2);
-    
+
     cout << BOLD("PLAYER ") << player2 << BOLD(": PREPARING\n") << endl;
     currentPlayer2->prepareBattle(currentPlayer1);
 
@@ -147,24 +147,17 @@ void GameBoard::discardSurplusFateCard(int player)
         list<GreenCard*>::iterator it;
         GreenCard* tempCard;
         int handCard, i;
-        bool discarded = false;
 
         cout << BRED("Too many Fate Cards!") << endl;
-        cout << BRED("Pick cards to discard. (0 to exit)");
+        cout << BRED("Pick card to discard.");
         currentPlayer->printHand();
-        
+
         do
         {
             cin >> handCard;
 
-            if (handCard >= 0 && handCard <= MAXHANDSIZE + 1)
+            if (handCard > 0 && handCard <= MAXHANDSIZE + 1)
             {
-                if (handCard == 0 && discarded == false)
-                {
-                    cout << BRED("You must discard a card! Try again.") << endl;
-                    continue;
-                }
-                discarded = true;
                 i = 1;
                 for (it = currentPlayer->getHand()->begin(); it != currentPlayer->getHand()->end(); it++)
                 {
@@ -177,15 +170,13 @@ void GameBoard::discardSurplusFateCard(int player)
                     }
                     i++;
                 }
-
-                cout << BRED("Discard More?") << endl;
             }
             else
             {
                 cout << BRED("Wrong input. Try again!") << endl;
             }
-            
-        } while (handCard != 0 || discarded == false);
+
+        } while (handCard <= 0 && handCard > MAXHANDSIZE);
     }
 
     enterToContinue();
@@ -196,7 +187,8 @@ void GameBoard::printArena(int player1, int player2)
     Player* p1 = getPlayer(player1);
     Player* p2 = getPlayer(player2);
 
-    cout << BOLD("#########") << endl
+    cout << endl
+         << BOLD("#########") << endl
          << BOLD("# ARENA #") << endl
          << BOLD("#########") << endl;
 
@@ -211,6 +203,8 @@ void GameBoard::printArena(int player1, int player2)
     p2->printHoldings();
     p2->printProvinces();
     p2->printStronghold();
+
+    enterToContinue();
 }
 
 int GameBoard::checkWinningCondition(int player, int enemy)
@@ -258,19 +252,19 @@ void GameBoard::enterToContinue()
 }
 
 void GameBoard::winnigMessage(int winner, int loser) {
-    cout << "       _____________________________________________         " <<endl
-         << "      / # # # # # # # # # # # # # # # # # # # # # # \\       " <<endl
-         << "     / # #                                       # # \\      " <<endl
-         << "     | #         P L A Y E R   "<< winner <<"   WON ! ! !       # |       " <<endl
-         << "     \\ # #                                       # # /      " <<endl
-         << "      \\ # # # # # # # # # # # # # # # # # # # # # # /       " <<endl<<endl<<endl;
+    cout << BGRN("       _____________________________________________         ") <<endl
+         << BGRN("      / # # # # # # # # # # # # # # # # # # # # # # \\       ") <<endl
+         << BGRN("     / # #                                       # # \\      ") <<endl
+         << BGRN("     | #         P L A Y E R   "<< winner <<"   WON ! ! !       # |       ") <<endl
+         << BGRN("     \\ # #                                       # # /      ") <<endl
+         << BGRN("      \\ # # # # # # # # # # # # # # # # # # # # # # /       ") <<endl<<endl<<endl;
 
-    cout << "       _____________________________________________         " <<endl
-         << "      / ------------------------------------------- \\       " <<endl
-         << "     / ___            P L A Y E R   "<< loser <<"            ___ \\      " <<endl
-         << "     | _            P E R F O R M I N G            _ |       " <<endl
-         << "     \\ ___           S E P P U K U !             ___ /      " <<endl
-         << "      \\ ------------------------------------------- /       " <<endl<<endl;
+    cout << BRED("       _____________________________________________         ") <<endl
+         << BRED("      / ------------------------------------------- \\       ") <<endl
+         << BRED("     / ___            P L A Y E R   "<< loser <<"            ___ \\      ") <<endl
+         << BRED("     | _            P E R F O R M I N G            _ |       ") <<endl
+         << BRED("     \\ ___           S E P P U K U !             ___ /      ") <<endl
+         << BRED("      \\ ------------------------------------------- /       ") <<endl<<endl;
 
     cout << "##############################|  ############################" <<endl
          << "###########################|       |#########################" <<endl

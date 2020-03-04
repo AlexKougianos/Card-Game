@@ -10,7 +10,7 @@
 using namespace std;
 
 int main() {
-    cout << "\n\nInitializing Game...\n\n" << endl;
+    cout << "\n\nInitializing Game...\n\n";
 
     GameBoard* gameboard = new GameBoard();
     gameboard->initializeGameBoard();
@@ -20,5 +20,5 @@ int main() {
 
 // TODO
 
-// honour 
+// honour
 // links

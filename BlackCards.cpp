@@ -53,7 +53,7 @@ void Personality::print()
 {
     cout << getName() << " with ";
     cout << getHonour() << " Honour." << endl;
-    
+
     // Printing items
     cout << "\tItems: ";
     Item *item;
@@ -221,7 +221,7 @@ void Mine::setUpperHolding(GoldMine* newUpperHolding)           // Linking Gold 
             return;
         }
         upperHolding = newUpperHolding;
-        setHarvestValue(getHarvestValue() + 2);
+        newUpperHolding->setHarvestValue(this->getHarvestValue() + 2);
     }
 }
 
@@ -234,12 +234,12 @@ void Mine::setUpperHolding(CrystalMine* newUpperHolding)        // Add Crystal M
             cout << "Can not attach Crystal Mine." << endl;
             return;
         }
-        getUpperHolding()->setUpperHolding(newUpperHolding);
-        setHarvestValue((getHarvestValue() + 5) + 6 * 3);       // Crystal Initial Harvest Value = 6
+        this->getUpperHolding()->setUpperHolding(newUpperHolding);
+        newUpperHolding->setHarvestValue((this->getHarvestValue() + 5) + 6 * 3);       // Crystal Initial Harvest Value = 6
     }
 }
 
-void Mine::printUpperHoldings() 
+void Mine::printUpperHoldings()
 {
     if (getUpperHolding() != NULL)
     {
@@ -263,12 +263,12 @@ GoldMine::GoldMine(string newName)
     setType(GOLD_MINE);
 }
 
-Mine *GoldMine::getSubHolding()                                    
+Mine *GoldMine::getSubHolding()
 {
     return subHolding;
 }
 
-CrystalMine *GoldMine::getUpperHolding()                                
+CrystalMine *GoldMine::getUpperHolding()
 {
     return upperHolding;
 }
@@ -284,11 +284,11 @@ void GoldMine::setSubHolding(Mine *newSubHolding)                   // Linking M
         }
 
         subHolding = newSubHolding;
-        setHarvestValue(getHarvestValue() + 4);                     
-        
+        newSubHolding->setHarvestValue(this->getHarvestValue() + 4);
+
         if (upperHolding != NULL)                                   // Check if any Upper Holding is already linked
         {
-            setHarvestValue(getHarvestValue() + 5 * 2);             // Starting Gold Harvest value = 5
+            newSubHolding->setHarvestValue(this->getHarvestValue() + 5 * 2);             // Starting Gold Harvest value = 5
         }
     }
 }
@@ -304,11 +304,11 @@ void GoldMine::setUpperHolding(CrystalMine *newUpperHolding)        // Linking C
         }
 
         upperHolding = newUpperHolding;
-        setHarvestValue(getHarvestValue() + 5);
+        newUpperHolding->setHarvestValue(this->getHarvestValue() + 5);
 
-        if (subHolding != NULL)                                      // Checking if any Sub Holding is already linked
+        if (subHolding != NULL)                                                     // Checking if any Sub Holding is already linked
         {
-            setHarvestValue(getHarvestValue() + 5 * 2);              // Starting Gold Mine Harvest value = 5
+            newUpperHolding->setHarvestValue(this->getHarvestValue() + 5 * 2);      // Starting Gold Mine Harvest value = 5
         }
     }
 }
@@ -318,7 +318,7 @@ void GoldMine::printHoldings()
     if (getSubHolding() != NULL)
     {
         cout << " <-> " << getSubHolding()->getName();
-        
+
         if (getUpperHolding() != NULL)
         {
             cout << " <-> " << getUpperHolding()->getName();
@@ -353,7 +353,7 @@ void CrystalMine::setSubHolding(GoldMine* newSubHolding)
         }
 
         subHolding = newSubHolding;
-        setHarvestValue(getHarvestValue() + getHarvestValue());
+        newSubHolding->setHarvestValue(this->getHarvestValue() + this->getHarvestValue());
     }
 }
 
@@ -366,9 +366,9 @@ void CrystalMine::setSubHolding(Mine* newSubHolding)
             cout << "Can not attach Crystal Mine." << endl;
             return;
         }
-        
+
         getSubHolding()->setSubHolding(newSubHolding);
-        setHarvestValue((getHarvestValue() + 5) + 6 * 3);              // Crystal Mine Initial Harvest Value = 6
+        newSubHolding->setHarvestValue((this->getHarvestValue() + 5) + 6 * 3);              // Crystal Mine Initial Harvest Value = 6
     }
 }
 

@@ -61,9 +61,37 @@ void Player::setArmy(list<Personality *> &) {}
 
 void Player::addHolding(Holding *holding)
 {
-    setHarvest(getHarvest() + holding->getHarvestValue());
+    if (holding->getType() == MINE)                                 // if card is Mine
+    {
+        if (!toSubHolding((Mine*)holding))                          // Check for Gold Mines to link
+        {
+            holdings->push_front(holding);                          // if not, add to Holings
+        }
+    }
 
-    holdings->push_front(holding);
+    else if (holding->getType() == GOLD_MINE) {                     // if card is Gold Mine
+
+        // Check for Crystal Mines or Mines to link
+        if (!toSubHolding((GoldMine*)holding) && !toUpperHolding((GoldMine*)holding))
+        {
+            holdings->push_front(holding);                          // if no Mine or Crystal Mines are available, add to Holdings
+        }
+    }
+
+    else if (holding->getType() == CRYSTAL_MINE)                    // if card is Crystal Mine
+    {
+        if (!toUpperHolding((CrystalMine*)holding))                 // Check for Gold Mines to link
+        {
+            holdings->push_front(holding);                          // if not, add to Holdings
+        }
+    }
+
+    else
+    {
+        holdings->push_front(holding);
+    }
+
+    setHarvest(getHarvest() + holding->getHarvestValue());
 }
 
 void Player::addPersonality(Personality *personality)
@@ -292,7 +320,7 @@ void Player::printHand(bool costs)
         {
             cout << " (" << tempCard->getCost() << "g, "
              << tempCard->getMinimumHonour() << " Minimum Honour";
-            
+
             if (tempCard->getType() == ITEM)
             {
                 cout << ", Item)";
@@ -301,7 +329,7 @@ void Player::printHand(bool costs)
             {
                 cout << ", Follower)";
             }
-            
+
         }
         cout << endl;
         i++;
@@ -322,8 +350,8 @@ void Player::printProvinces(bool costs)
         tempCard = *it;
         if (tempCard->getIsRevealed() == true)                   // Printing only revealed Provinces
         {
-            cout << i << ": " << tempCard->getName();           
-            if (costs)                                      
+            cout << i << ": " << tempCard->getName();
+            if (costs)
             {
                 cout << " (" << tempCard->getCost() << "g, ";    // Printing Costs and type for economy phase
 
@@ -351,7 +379,7 @@ void Player::printArmy(bool honour)
     Personality *tempCard;
     list<Personality *>::iterator it;
     int i = 1;
-    
+
     for (it = army->begin(); it != army->end(); it++)
     {
         tempCard = *it;
@@ -404,7 +432,7 @@ void Player::printArmy(bool honour)
                         cout << ", " << follower->getName();
                     i++;
                 }
-                cout << "\n";               
+                cout << "\n";
             }
         }
         i++;
@@ -618,7 +646,7 @@ void Player::battle(Player *enemy)                          // <----------------
 
     // printing battle statistics
     cout << BOLD("\nAttacker:") << endl;                    // couts are divided because UNDL() is faulty sometimes !!
-        cout << "\t" << UNDL("Attack");                     
+        cout << "\t" << UNDL("Attack");
         cout << ": " << getTotalAttack() << endl;
         cout << "\t" << UNDL("Defence");
         cout << ": " << getTotalDefence() << endl;
@@ -712,45 +740,13 @@ void Player::economy()
                         enterToContinue();
                         getProvinces()->erase(it);                                  // Erase it from provinces
                         setMoney(getMoney() - tempCard->getCost());
-                        
-                        drawDynastyCard();                                          // Replacing it with new, not revealed card
+
                         count--;                                                    // if count reaches 0, there are no revealed Provinces left
 
                         // putting purchased card to holdings or army
                         if (getCorrectType(tempCard->getType()) == HOLDING)         // Check is card is Holding or Personality
                         {
-
-                            if (tempCard->getType() == MINE)                        // if card is Mine
-                            {
-                                if (!toSubHolding((Mine*)tempCard))                 // Check for Gold Mines to link
-                                {
-                                    addHolding((Holding*)tempCard);                 // if not, add to Holings
-                                }
-                            }
-
-                            else if (tempCard->getType() == GOLD_MINE)              // if card is Gold Mine
-                            {
-                                // Check for Crystal Mines or Mines to link
-                                if (!toSubHolding((GoldMine*)tempCard) && !toUpperHolding((GoldMine*)tempCard))             
-                                {
-                                    // if no Mine or Crystal Mines are available, add to Holdings
-                                    addHolding((Holding*)tempCard);
-                                }
-                            }
-
-                            else if (tempCard->getType() == CRYSTAL_MINE)           // if card is Crystal Mine
-                            {
-                                if (!toUpperHolding((CrystalMine*)tempCard))        // Check for Gold Mines to link
-                                {
-                                    addHolding((Holding*)tempCard);                 // if not, add to Holdings
-                                }
-                            }
-
-                            else                                                    // if card is other Holdings
-                            {
-                                addHolding((Holding *)tempCard);                    // Add to Holdings
-                            }
-
+                            addHolding((Holding*)tempCard);                         // if card is Holding, add to Holdings
                         }
 
                         else if (getCorrectType(tempCard->getType()) == PERSONALITY)
@@ -758,6 +754,7 @@ void Player::economy()
                             addPersonality((Personality *)tempCard);    	        // if card is Personality, add to army
                         }
 
+                        drawDynastyCard();                                          // Replacing it with new, not revealed card
                     }
 
                     else
@@ -807,7 +804,7 @@ bool Player::toSubHolding (Mine* newMine)
                 cout << tempCard->getName() << endl << endl;
                 enterToContinue();
 
-                return true;         // Mine linked
+                return true;     // Mine linked
             }
         }
 
@@ -829,7 +826,7 @@ bool Player::toSubHolding (Mine* newMine)
         }
     }
 
-    return false;        // No Gold or Crystal Mines available to link
+    return false;     // No Gold or Crystal Mines available to link
 }
 
 // Check for available Upper Holding linkings
@@ -854,9 +851,9 @@ bool Player::toSubHolding (GoldMine* newGoldMine)
 
                 return true;        // Gold Mine linked
             }
-            
+
         }
-        
+
     }
 
     return false;        // No Crystal Mines available to link
@@ -884,14 +881,14 @@ bool Player::toUpperHolding(GoldMine* newGoldMine)
 
                 return true;        // Gold Mine linked
             }
-            
+
         }
-        
+
     }
 
     return false;        // No Mines available to link
 }
-        
+
 // Check for available Sub Holding linkings
 bool Player::toUpperHolding(CrystalMine* newCrystalMine)
 {
