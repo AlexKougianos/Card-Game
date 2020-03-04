@@ -5,7 +5,6 @@ GameBoard::GameBoard()
     player1 = new Player();
     player2 = new Player();
     playerTurn = 0;
-    currentPhase = starting;
 }
 
 void GameBoard::initializeGameBoard()
@@ -26,7 +25,7 @@ void GameBoard::gameplay()
     do
     {
         cout << BGRN("---------- STARTING PHASE: ----------\n") << endl;
-        // sleep(2);
+        sleep(2);
         startingPhase(1);
         enterToContinue();
 
@@ -34,7 +33,7 @@ void GameBoard::gameplay()
         enterToContinue();
 
         cout << BGRN("---------- EQUIP PHASE: ----------\n") << endl;
-        // sleep(2);
+        sleep(2);
         equipPhase(1);
         enterToContinue();
 
@@ -42,12 +41,12 @@ void GameBoard::gameplay()
         enterToContinue();
 
         cout << BGRN("---------- BATTLE PHASE: ----------\n") << endl;
-        // sleep(2);
+        sleep(2);
         battlePhase(1, 2);
         enterToContinue();
 
         cout << BGRN("---------- ECONOMY PHASE: ----------\n") << endl;
-        // sleep(1);
+        sleep(2);
         economyPhase(1);
         enterToContinue();
 
@@ -55,7 +54,7 @@ void GameBoard::gameplay()
         enterToContinue();
         
         cout << BGRN("---------- FINAL PHASE: ----------\n") << endl;
-        // sleep(3);
+        sleep(2);
         finalPhase(1, 2);
 
     } while (checkWinningCondition(1, 2) == 0);
@@ -241,11 +240,6 @@ Player* GameBoard::getPlayer(int i)
     default:
         return NULL;
     }
-}
-
-int GameBoard::getCurrentPhase()
-{
-    return currentPhase;
 }
 
 void GameBoard::enterToContinue()

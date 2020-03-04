@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <windows.h>
 
 #include "Player.hpp"
 
@@ -51,13 +50,6 @@ void Player::setHarvest(int newHarvest) { harvest = newHarvest; }
 void Player::setToAttack(int _toAttack) { toAttack = _toAttack; }
 void Player::setTotalAttack(int _totalAttack) { totalAttack = _totalAttack; }
 void Player::setTotalDefence(int _totalDefence) { totalDefence = _totalDefence; }
-// void Player::setStronghold(Stronghold &) {}
-// void Player::setFateDeck(list<GreenCard *> &) {}
-// void Player::setDynastyDeck(list<BlackCard *> &) {}
-// void Player::setHand(list<GreenCard *> &) {}
-// void Player::setProvinces(list<BlackCard *> &) {}
-// void Player::setHoldings(list<Holding *> &) {}
-// void Player::setArmy(list<Personality *> &) {}
 
 void Player::addHolding(Holding *holding)
 {
@@ -111,7 +103,7 @@ bool Player::addItem(Personality *personality, Item *item)
     if (personality->getHonour() < item->getMinimumHonour())
     {
         cout << item->getMinimumHonour() << BRED(" honour is required to attach ");
-        cout << item->getName() << BRED(" to ") << personality->getName() << endl;
+        cout << item->getName() << BRED(" to ") << personality->getName() << endl << endl;
 
         return false;
     }
@@ -673,9 +665,11 @@ void Player::battle(Player *enemy)
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            cout << "\t" << personality->getName() << " died!" << endl;
-            enemy->getArmy()->erase(it);
-            it = enemy->getArmy()->begin();
+            if(personality->getIsTapped() == true){
+                cout << "\t" << personality->getName() << " died!" << endl;
+                enemy->getArmy()->erase(it);
+                it = enemy->getArmy()->begin();
+            }
         }
 
         cout << BBLU("The attacked province was destroyed!") << endl;
@@ -705,9 +699,11 @@ void Player::battle(Player *enemy)
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            cout << "\t" << personality->getName() << " died!" << endl;
-            enemy->getArmy()->erase(it);
-            it = enemy->getArmy()->begin();
+            if(personality->getIsTapped() == true){
+                cout << "\t" << personality->getName() << " died!" << endl;
+                enemy->getArmy()->erase(it);
+                it = enemy->getArmy()->begin();
+            }
         }
 
         cout << BBLU("The attacked province was NOT destroyed!") << endl;
@@ -717,7 +713,7 @@ void Player::battle(Player *enemy)
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
             personality = *it;
-            if (personality->getAttack() > attackMinusDefence)
+            if (personality->getAttack() > attackMinusDefence && personality->getIsTapped() == true)
             {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 getArmy()->erase(it);
@@ -735,12 +731,14 @@ void Player::battle(Player *enemy)
 
         cout << BBLU("Defender lost:") << endl;
 
-        for (it = getArmy()->begin(); it != getArmy()->end(); it++)
+        for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            cout << "\t" << personality->getName() << " died!" << endl;
-            enemy->getArmy()->erase(it);
-            it = enemy->getArmy()->begin();
+            if(personality->getIsTapped() == true){
+                cout << "\t" << personality->getName() << " died!" << endl;
+                enemy->getArmy()->erase(it);
+                it = enemy->getArmy()->begin();
+            }
         }
 
         cout << BBLU("Attacker lost:") << endl;
@@ -748,9 +746,11 @@ void Player::battle(Player *enemy)
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
             personality = *it;
-            cout << "\t" << personality->getName() << " died!" << endl;
-            getArmy()->erase(it);
-            it = getArmy()->begin();
+            if(personality->getIsTapped() == true) {
+                cout << "\t" << personality->getName() << " died!" << endl;
+                getArmy()->erase(it);
+                it = getArmy()->begin();
+            }
         }
     }
     else
@@ -764,9 +764,11 @@ void Player::battle(Player *enemy)
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
             personality = *it;
-            cout << "\t" << personality->getName() << " died!" << endl;
-            getArmy()->erase(it);
-            it = getArmy()->begin();
+            if(personality->getIsTapped() == true){
+                cout << "\t" << personality->getName() << " died!" << endl;
+                getArmy()->erase(it);
+                it = getArmy()->begin();
+            }
         }
 
         cout << BBLU("Defender lost:") << endl;
@@ -775,7 +777,7 @@ void Player::battle(Player *enemy)
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            if (personality->getAttack() > attackMinusDefence)
+            if (personality->getAttack() > attackMinusDefence && personality->getIsTapped() == true)
             {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 enemy->getArmy()->erase(it);

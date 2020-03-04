@@ -3,7 +3,6 @@
 
 #include <string>
 #include <list>
-// #include <windows.h>
 
 #include "BlackCards.hpp"
 #include "GreenCards.hpp"
@@ -57,13 +56,6 @@ class Player {
         void setToAttack(int);
         void setTotalAttack(int);
         void setTotalDefence(int);
-        // void setStronghold(Stronghold&);
-        // void setFateDeck(list<GreenCard*>&);
-        // void setDynastyDeck(list<BlackCard*>&);
-        // void setHand(list<GreenCard*>&);
-        // void setProvinces(list<BlackCard*>&);
-        // void setHoldings(list<Holding*>&);
-        // void setArmy(list<Personality*>&);
 
         bool toSubHolding(Mine*);
         bool toSubHolding(GoldMine*);
