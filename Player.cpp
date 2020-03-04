@@ -61,9 +61,37 @@ void Player::setTotalDefence(int _totalDefence) { totalDefence = _totalDefence; 
 
 void Player::addHolding(Holding *holding)
 {
-    setHarvest(getHarvest() + holding->getHarvestValue());
+    if (holding->getType() == MINE)                                 // if card is Mine
+    {
+        if (!toSubHolding((Mine*)holding))                          // Check for Gold Mines to link
+        {
+            holdings->push_front(holding);                          // if not, add to Holings
+        }
+    }
 
-    holdings->push_front(holding);
+    else if (holding->getType() == GOLD_MINE) {                     // if card is Gold Mine
+
+        // Check for Crystal Mines or Mines to link
+        if (!toSubHolding((GoldMine*)holding) && !toUpperHolding((GoldMine*)holding))
+        {
+            holdings->push_front(holding);                          // if no Mine or Crystal Mines are available, add to Holdings
+        }
+    }
+
+    else if (holding->getType() == CRYSTAL_MINE)                    // if card is Crystal Mine
+    {
+        if (!toUpperHolding((CrystalMine*)holding))                 // Check for Gold Mines to link
+        {
+            holdings->push_front(holding);                          // if not, add to Holdings
+        }
+    }
+
+    else
+    {
+        holdings->push_front(holding);
+    }
+
+    setHarvest(getHarvest() + holding->getHarvestValue());
 }
 
 void Player::addPersonality(Personality *personality)
@@ -775,49 +803,20 @@ void Player::economy()
                         getProvinces()->erase(it); // Erase it from provinces
                         setMoney(getMoney() - tempCard->getCost());
 
-                        drawDynastyCard(); // Replacing it with new, not revealed card
-                        count--;           // if count reaches 0, there are no revealed Provinces left
+                        count--;                                                    // if count reaches 0, there are no revealed Provinces left
 
                         // putting purchased card to holdings or army
                         if (getCorrectType(tempCard->getType()) == HOLDING) // Check is card is Holding or Personality
                         {
-
-                            if (tempCard->getType() == MINE) // if card is Mine
-                            {
-                                if (!toSubHolding((Mine *)tempCard)) // Check for Gold Mines to link
-                                {
-                                    addHolding((Holding *)tempCard); // if not, add to Holings
-                                }
-                            }
-
-                            else if (tempCard->getType() == GOLD_MINE) // if card is Gold Mine
-                            {
-                                // Check for Crystal Mines or Mines to link
-                                if (!toSubHolding((GoldMine *)tempCard) && !toUpperHolding((GoldMine *)tempCard))
-                                {
-                                    // if no Mine or Crystal Mines are available, add to Holdings
-                                    addHolding((Holding *)tempCard);
-                                }
-                            }
-
-                            else if (tempCard->getType() == CRYSTAL_MINE) // if card is Crystal Mine
-                            {
-                                if (!toUpperHolding((CrystalMine *)tempCard)) // Check for Gold Mines to link
-                                {
-                                    addHolding((Holding *)tempCard); // if not, add to Holdings
-                                }
-                            }
-
-                            else // if card is other Holdings
-                            {
-                                addHolding((Holding *)tempCard); // Add to Holdings
-                            }
+                            addHolding((Holding*)tempCard);                         // if card is Holding, add to Holdings
                         }
 
                         else if (getCorrectType(tempCard->getType()) == PERSONALITY)
                         {
                             addPersonality((Personality *)tempCard); // if card is Personality, add to army
                         }
+
+                        drawDynastyCard();                                          // Replacing it with new, not revealed card
                     }
 
                     else
@@ -868,7 +867,7 @@ bool Player::toSubHolding(Mine *newMine)
                      << endl;
                 enterToContinue();
 
-                return true; // Mine linked
+                return true;     // Mine linked
             }
         }
 
@@ -891,7 +890,7 @@ bool Player::toSubHolding(Mine *newMine)
         }
     }
 
-    return false; // No Gold or Crystal Mines available to link
+    return false;     // No Gold or Crystal Mines available to link
 }
 
 // Check for available Upper Holding linkings
@@ -996,5 +995,5 @@ bool Player::toUpperHolding(CrystalMine *newCrystalMine)
         }
     }
 
-    return false; // No Gold Mines or Mines available to link
+    return false;        // No Gold Mines or Mines available to link
 }

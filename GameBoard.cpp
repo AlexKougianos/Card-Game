@@ -147,24 +147,17 @@ void GameBoard::discardSurplusFateCard(int player)
         list<GreenCard*>::iterator it;
         GreenCard* tempCard;
         int handCard, i;
-        bool discarded = false;
 
         cout << BRED("Too many Fate Cards!") << endl;
-        cout << BRED("Pick cards to discard. (0 to exit)");
+        cout << BRED("Pick card to discard.");
         currentPlayer->printHand();
-        
+
         do
         {
             cin >> handCard;
 
-            if (handCard >= 0 && handCard <= MAXHANDSIZE + 1)
+            if (handCard > 0 && handCard <= MAXHANDSIZE + 1)
             {
-                if (handCard == 0 && discarded == false)
-                {
-                    cout << BRED("You must discard a card! Try again.") << endl;
-                    continue;
-                }
-                discarded = true;
                 i = 1;
                 for (it = currentPlayer->getHand()->begin(); it != currentPlayer->getHand()->end(); it++)
                 {
@@ -177,15 +170,13 @@ void GameBoard::discardSurplusFateCard(int player)
                     }
                     i++;
                 }
-
-                cout << BRED("Discard More?") << endl;
             }
             else
             {
                 cout << BRED("Wrong input. Try again!") << endl;
             }
-            
-        } while (handCard != 0 || discarded == false);
+
+        } while (handCard <= 0 && handCard > MAXHANDSIZE);
     }
 
     enterToContinue();
@@ -264,19 +255,19 @@ void GameBoard::enterToContinue()
 }
 
 void GameBoard::winnigMessage(int winner, int loser) {
-    cout << "       _____________________________________________         " <<endl
-         << "      / # # # # # # # # # # # # # # # # # # # # # # \\       " <<endl
-         << "     / # #                                       # # \\      " <<endl
-         << "     | #         P L A Y E R   "<< winner <<"   WON ! ! !       # |       " <<endl
-         << "     \\ # #                                       # # /      " <<endl
-         << "      \\ # # # # # # # # # # # # # # # # # # # # # # /       " <<endl<<endl<<endl;
+    cout << BGRN("       _____________________________________________         ") <<endl
+         << BGRN("      / # # # # # # # # # # # # # # # # # # # # # # \\       ") <<endl
+         << BGRN("     / # #                                       # # \\      ") <<endl
+         << BGRN("     | #         P L A Y E R   "<< winner <<"   WON ! ! !       # |       ") <<endl
+         << BGRN("     \\ # #                                       # # /      ") <<endl
+         << BGRN("      \\ # # # # # # # # # # # # # # # # # # # # # # /       ") <<endl<<endl<<endl;
 
-    cout << "       _____________________________________________         " <<endl
-         << "      / ------------------------------------------- \\       " <<endl
-         << "     / ___            P L A Y E R   "<< loser <<"            ___ \\      " <<endl
-         << "     | _            P E R F O R M I N G            _ |       " <<endl
-         << "     \\ ___           S E P P U K U !             ___ /      " <<endl
-         << "      \\ ------------------------------------------- /       " <<endl<<endl;
+    cout << BRED("       _____________________________________________         ") <<endl
+         << BRED("      / ------------------------------------------- \\       ") <<endl
+         << BRED("     / ___            P L A Y E R   "<< loser <<"            ___ \\      ") <<endl
+         << BRED("     | _            P E R F O R M I N G            _ |       ") <<endl
+         << BRED("     \\ ___           S E P P U K U !             ___ /      ") <<endl
+         << BRED("      \\ ------------------------------------------- /       ") <<endl<<endl;
 
     cout << "##############################|  ############################" <<endl
          << "###########################|       |#########################" <<endl
