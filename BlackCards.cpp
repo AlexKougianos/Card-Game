@@ -23,6 +23,12 @@ void BlackCard::setType(int newType) { type = newType; }
 //# Personality Cards #
 //#####################
 
+// Destructor
+Personality::~Personality() {
+    followers->clear();
+    items->clear();
+}
+
 // Getters
 int Personality::getAttack() { return attack; }
 int Personality::getDefence() { return defence; }

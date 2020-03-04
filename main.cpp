@@ -9,10 +9,11 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     cout << "\n\nInitializing Game...\n\n";
 
-    GameBoard* gameboard = new GameBoard();
+    GameBoard *gameboard = new GameBoard();
     gameboard->initializeGameBoard();
     gameboard->gameplay();
 }

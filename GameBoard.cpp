@@ -7,6 +7,12 @@ GameBoard::GameBoard()
     playerTurn = 0;
 }
 
+GameBoard::~GameBoard()
+{
+    delete player1;
+    delete player2;
+}
+
 void GameBoard::initializeGameBoard()
 {
     int handSize = STARTINGHANDSIZE;
@@ -52,7 +58,7 @@ void GameBoard::gameplay()
 
         economyPhase(2);
         enterToContinue();
-        
+
         cout << BGRN("---------- FINAL PHASE: ----------\n") << endl;
         sleep(2);
         finalPhase(1, 2);
@@ -63,11 +69,12 @@ void GameBoard::gameplay()
 void GameBoard::startingPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n"
+         << endl;
 
     // Adding Money from harvest Value
     cout << BYEL("You are granted with extra ") << Bold << currentPlayer->getHarvest() << RST;
-    cout << BYEL(" gold from your Harvest!") <<endl;
+    cout << BYEL(" gold from your Harvest!") << endl;
 
     currentPlayer->setMoney(currentPlayer->getMoney() + currentPlayer->getHarvest());
     cout << BYEL("You now have ") << Bold << currentPlayer->getMoney() << RST << BYEL(" gold.") << endl;
@@ -83,7 +90,8 @@ void GameBoard::startingPhase(int player)
 void GameBoard::equipPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n"
+         << endl;
 
     currentPlayer->equip();
 }
@@ -94,7 +102,7 @@ void GameBoard::battlePhase(int player1, int player2)
     Player *currentPlayer2 = getPlayer(player2);
 
     // if both players do not have an army we skip the battle phase
-    if(currentPlayer1->getArmy()->size() == 0 && currentPlayer2->getArmy()->size() == 0)
+    if (currentPlayer1->getArmy()->size() == 0 && currentPlayer2->getArmy()->size() == 0)
     {
         cout << BRED("Players do not have armies to battle!\n") << endl;
         return;
@@ -103,21 +111,24 @@ void GameBoard::battlePhase(int player1, int player2)
     // Tapping for battle
     cout << BOLD("     PLAYER ") << player1 << BOLD(": PREPARING\n") << endl;
     currentPlayer1->prepareBattle(currentPlayer2);
-    
+
     cout << BOLD("     PLAYER ") << player2 << BOLD(": PREPARING\n") << endl;
     currentPlayer2->prepareBattle(currentPlayer1);
 
-    cout << endl << BOLD("     PLAYER ") << player1 << BOLD(": BATTLE!\n") << endl;
+    cout << endl
+         << BOLD("     PLAYER ") << player1 << BOLD(": BATTLE!\n") << endl;
     currentPlayer1->battle(currentPlayer2);
 
-    cout << endl << BOLD("     PLAYER ") << player2 << BOLD(": BATTLE!\n") << endl;
+    cout << endl
+         << BOLD("     PLAYER ") << player2 << BOLD(": BATTLE!\n") << endl;
     currentPlayer2->battle(currentPlayer1);
 }
 
 void GameBoard::economyPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n"
+         << endl;
 
     currentPlayer->economy();
 }
@@ -132,19 +143,20 @@ void GameBoard::finalPhase(int player1, int player2)
 
 void GameBoard::discardSurplusFateCard(int player)
 {
-    Player* currentPlayer = getPlayer(player);
+    Player *currentPlayer = getPlayer(player);
 
     if (currentPlayer->getHand()->size() <= MAXHANDSIZE)
     {
         return;
     }
 
-    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n"
+         << endl;
 
     if (currentPlayer->getHand()->size() > MAXHANDSIZE)
     {
-        list<GreenCard*>::iterator it;
-        GreenCard* tempCard;
+        list<GreenCard *>::iterator it;
+        GreenCard *tempCard;
         int handCard, i;
 
         cout << BRED("Too many Fate Cards!") << endl;
@@ -183,8 +195,8 @@ void GameBoard::discardSurplusFateCard(int player)
 
 void GameBoard::printArena(int player1, int player2)
 {
-    Player* p1 = getPlayer(player1);
-    Player* p2 = getPlayer(player2);
+    Player *p1 = getPlayer(player1);
+    Player *p2 = getPlayer(player2);
 
     cout << BOLD("###################") << endl
          << BOLD("#      ARENA      #") << endl
@@ -192,7 +204,9 @@ void GameBoard::printArena(int player1, int player2)
 
     enterToContinue();
 
-    cout << endl << "     PLAYER " << player1 << ":\n" << endl;
+    cout << endl
+         << "     PLAYER " << player1 << ":\n"
+         << endl;
     p1->printArmy();
     p1->printHoldings();
     p1->printProvinces();
@@ -200,7 +214,9 @@ void GameBoard::printArena(int player1, int player2)
 
     enterToContinue();
 
-    cout << endl << "     PLAYER " << player2 << ":\n" << endl;
+    cout << endl
+         << "     PLAYER " << player2 << ":\n"
+         << endl;
     p2->printArmy();
     p2->printHoldings();
     p2->printProvinces();
@@ -211,13 +227,15 @@ void GameBoard::printArena(int player1, int player2)
 
 int GameBoard::checkWinningCondition(int player, int enemy)
 {
-    Player* currentPlayer = getPlayer(player);
-    Player* currentEnemy = getPlayer(enemy);
-    if(currentEnemy->getProvinces()->size() == 0) {
+    Player *currentPlayer = getPlayer(player);
+    Player *currentEnemy = getPlayer(enemy);
+    if (currentEnemy->getProvinces()->size() == 0)
+    {
         winnigMessage(player, enemy);
         return player;
     }
-    else if(currentPlayer->getProvinces()->size() == 0) {
+    else if (currentPlayer->getProvinces()->size() == 0)
+    {
         winnigMessage(enemy, player);
         return enemy;
     }
@@ -226,10 +244,11 @@ int GameBoard::checkWinningCondition(int player, int enemy)
 
 void GameBoard::printGameStatistics()
 {
-    cout << "Printing Statistics...\n" << endl;
+    cout << "Printing Statistics...\n"
+         << endl;
 }
 
-Player* GameBoard::getPlayer(int i)
+Player *GameBoard::getPlayer(int i)
 {
     switch (i)
     {
@@ -248,44 +267,48 @@ void GameBoard::enterToContinue()
     cin.ignore();
 }
 
-void GameBoard::winnigMessage(int winner, int loser) {
-    cout << BGRN("       _____________________________________________         ") <<endl
-         << BGRN("      / # # # # # # # # # # # # # # # # # # # # # # \\       ") <<endl
-         << BGRN("     / # #                                       # # \\      ") <<endl
-         << BGRN("     | #         P L A Y E R   "<< winner <<"   WON ! ! !       # |       ") <<endl
-         << BGRN("     \\ # #                                       # # /      ") <<endl
-         << BGRN("      \\ # # # # # # # # # # # # # # # # # # # # # # /       ") <<endl<<endl<<endl;
+void GameBoard::winnigMessage(int winner, int loser)
+{
+    cout << BGRN("       _____________________________________________         ") << endl
+         << BGRN("      / # # # # # # # # # # # # # # # # # # # # # # \\       ") << endl
+         << BGRN("     / # #                                       # # \\      ") << endl
+         << BGRN("     | #         P L A Y E R   " << winner << "   WON ! ! !       # |       ") << endl
+         << BGRN("     \\ # #                                       # # /      ") << endl
+         << BGRN("      \\ # # # # # # # # # # # # # # # # # # # # # # /       ") << endl
+         << endl
+         << endl;
 
-    cout << BRED("       _____________________________________________         ") <<endl
-         << BRED("      / ------------------------------------------- \\       ") <<endl
-         << BRED("     / ___            P L A Y E R   "<< loser <<"            ___ \\      ") <<endl
-         << BRED("     | _            P E R F O R M I N G            _ |       ") <<endl
-         << BRED("     \\ ___           S E P P U K U !             ___ /      ") <<endl
-         << BRED("      \\ ------------------------------------------- /       ") <<endl<<endl;
+    cout << BRED("       _____________________________________________         ") << endl
+         << BRED("      / ------------------------------------------- \\       ") << endl
+         << BRED("     / ___            P L A Y E R   " << loser << "            ___ \\      ") << endl
+         << BRED("     | _            P E R F O R M I N G            _ |       ") << endl
+         << BRED("     \\ ___           S E P P U K U !             ___ /      ") << endl
+         << BRED("      \\ ------------------------------------------- /       ") << endl
+         << endl;
 
-    cout << "##############################|  ############################" <<endl
-         << "###########################|       |#########################" <<endl
-         << "########################|_____________|######################" <<endl
-         << "###########################|_        |#######################" <<endl
-         << "##########################/ -       /########################" <<endl
-         << "###########################\\__      |########################"<<endl
-         << "############################|__    /#########################" <<endl
-         << "##############################\\__ |_#########################"<<endl
-         << "#############################/ /    |########################" <<endl
-         << "############################| |     \\########################"<<endl
-         << "############################|  \\     \\#######################"<<endl
-         << "###########################/    \\     |######################"<<endl
-         << "###############__#########/      |     |#####################" <<endl
-         << "############___||---------|/    /     /------_###############" <<endl
-         << "###########|/_/_| _______ | -- /     /______\\ \\##############"<<endl
-         << "###############||---------|\\  /    /--------/-###############"<<endl
-         << "#########################/  /     ||#########################" <<endl
-         << "#######################/    -/-/-//##########################" <<endl
-         << "####################/         ___/###########################" <<endl
-         << "###############_-/     __       \\   ___-#####################"<<endl
-         << "##############|          -______  /     \\####################"<<endl
-         << "################\\-                       |###################"<<endl
-         << "###################\\________________--\\__|###################"<<endl
-         << "#############################################################" <<endl
-         <<endl;
+    cout << "##############################|  ############################" << endl
+         << "###########################|       |#########################" << endl
+         << "########################|_____________|######################" << endl
+         << "###########################|_        |#######################" << endl
+         << "##########################/ -       /########################" << endl
+         << "###########################\\__      |########################" << endl
+         << "############################|__    /#########################" << endl
+         << "##############################\\__ |_#########################" << endl
+         << "#############################/ /    |########################" << endl
+         << "############################| |     \\########################" << endl
+         << "############################|  \\     \\#######################" << endl
+         << "###########################/    \\     |######################" << endl
+         << "###############__#########/      |     |#####################" << endl
+         << "############___||---------|/    /     /------_###############" << endl
+         << "###########|/_/_| _______ | -- /     /______\\ \\##############" << endl
+         << "###############||---------|\\  /    /--------/-###############" << endl
+         << "#########################/  /     ||#########################" << endl
+         << "#######################/    -/-/-//##########################" << endl
+         << "####################/         ___/###########################" << endl
+         << "###############_-/     __       \\   ___-#####################" << endl
+         << "##############|          -______  /     \\####################" << endl
+         << "################\\-                       |###################" << endl
+         << "###################\\________________--\\__|###################" << endl
+         << "#############################################################" << endl
+         << endl;
 }

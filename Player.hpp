@@ -32,6 +32,7 @@ class Player {
         list<Personality*>* army;
     public:
         Player();
+        ~Player();
 
         int getHonour();
         int getNumberOfProvinces();

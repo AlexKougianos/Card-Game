@@ -45,6 +45,8 @@ class Personality : public BlackCard {
         list<Follower*>* followers = new list<Follower*>();
         list<Item*>* items = new list<Item*>();
     public:
+        ~Personality();
+
         virtual int getAttack();
         virtual int getDefence();
         virtual int getHonour();

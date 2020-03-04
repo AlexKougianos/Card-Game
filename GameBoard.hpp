@@ -14,6 +14,8 @@ class GameBoard {
         int playerTurn;
     public:
         GameBoard();
+        ~GameBoard();
+
         void initializeGameBoard();
         void printGameStatistics();
         void gameplay();

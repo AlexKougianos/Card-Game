@@ -24,6 +24,16 @@ Player::Player()
     army = new list<Personality *>();
 }
 
+Player::~Player()
+{
+    delete stronghold;
+    delete deckBuilder;
+    holdings->clear();
+    army->clear();
+    hand->clear();
+    provinces->clear();
+}
+
 // Getters
 
 int Player::getHonour() { return honour; }
@@ -53,28 +63,29 @@ void Player::setTotalDefence(int _totalDefence) { totalDefence = _totalDefence; 
 
 void Player::addHolding(Holding *holding)
 {
-    if (holding->getType() == MINE)                                 // if card is Mine
+    if (holding->getType() == MINE) // if card is Mine
     {
-        if (!toSubHolding((Mine*)holding))                          // Check for Gold Mines to link
+        if (!toSubHolding((Mine *)holding)) // Check for Gold Mines to link
         {
-            holdings->push_front(holding);                          // if not, add to Holings
+            holdings->push_front(holding); // if not, add to Holings
         }
     }
 
-    else if (holding->getType() == GOLD_MINE) {                     // if card is Gold Mine
+    else if (holding->getType() == GOLD_MINE)
+    { // if card is Gold Mine
 
         // Check for Crystal Mines or Mines to link
-        if (!toSubHolding((GoldMine*)holding) && !toUpperHolding((GoldMine*)holding))
+        if (!toSubHolding((GoldMine *)holding) && !toUpperHolding((GoldMine *)holding))
         {
-            holdings->push_front(holding);                          // if no Mine or Crystal Mines are available, add to Holdings
+            holdings->push_front(holding); // if no Mine or Crystal Mines are available, add to Holdings
         }
     }
 
-    else if (holding->getType() == CRYSTAL_MINE)                    // if card is Crystal Mine
+    else if (holding->getType() == CRYSTAL_MINE) // if card is Crystal Mine
     {
-        if (!toUpperHolding((CrystalMine*)holding))                 // Check for Gold Mines to link
+        if (!toUpperHolding((CrystalMine *)holding)) // Check for Gold Mines to link
         {
-            holdings->push_front(holding);                          // if not, add to Holdings
+            holdings->push_front(holding); // if not, add to Holdings
         }
     }
 
@@ -103,7 +114,8 @@ bool Player::addItem(Personality *personality, Item *item)
     if (personality->getHonour() < item->getMinimumHonour())
     {
         cout << item->getMinimumHonour() << BRED(" honour is required to attach ");
-        cout << item->getName() << BRED(" to ") << personality->getName() << endl << endl;
+        cout << item->getName() << BRED(" to ") << personality->getName() << endl
+             << endl;
 
         return false;
     }
@@ -313,11 +325,11 @@ void Player::printHand(bool costs)
             cout << " (" << tempCard->getCost() << "g, "
                  << tempCard->getMinimumHonour() << " Minimum Honour";
 
-            if (tempCard->getType() == ITEM)
+            if (getCorrectType(tempCard->getType()) == ITEM)
             {
                 cout << ", Item)";
             }
-            else if (tempCard->getType() == FOLLOWER)
+            else if (getCorrectType(tempCard->getType()) == FOLLOWER)
             {
                 cout << ", Follower)";
             }
@@ -561,17 +573,16 @@ void Player::equip()
 // prepare battle
 void Player::prepareBattle(Player *enemyPlayer)
 {
+    // initialize toAttack, attack, defence
     toAttack = 0;
+    setTotalAttack(0);
+    setTotalDefence(stronghold->getInitialDefence());
 
     if (getArmy()->size() == 0)
     {
         cout << BRED("Player does not have an army to battle!\n") << endl;
         return;
     }
-
-    // initialize attack, defence
-    setTotalAttack(0);
-    setTotalDefence(stronghold->getInitialDefence());
 
     cout << BBLU("\nEnemy Provinces: ") << endl;
     enemyPlayer->printProvinces();
@@ -665,7 +676,8 @@ void Player::battle(Player *enemy)
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            if(personality->getIsTapped() == true){
+            if (personality->getIsTapped() == true)
+            {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 enemy->getArmy()->erase(it);
                 it = enemy->getArmy()->begin();
@@ -699,7 +711,8 @@ void Player::battle(Player *enemy)
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            if(personality->getIsTapped() == true){
+            if (personality->getIsTapped() == true)
+            {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 enemy->getArmy()->erase(it);
                 it = enemy->getArmy()->begin();
@@ -734,7 +747,8 @@ void Player::battle(Player *enemy)
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
             personality = *it;
-            if(personality->getIsTapped() == true){
+            if (personality->getIsTapped() == true)
+            {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 enemy->getArmy()->erase(it);
                 it = enemy->getArmy()->begin();
@@ -746,7 +760,8 @@ void Player::battle(Player *enemy)
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
             personality = *it;
-            if(personality->getIsTapped() == true) {
+            if (personality->getIsTapped() == true)
+            {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 getArmy()->erase(it);
                 it = getArmy()->begin();
@@ -764,7 +779,8 @@ void Player::battle(Player *enemy)
         for (it = getArmy()->begin(); it != getArmy()->end(); it++)
         {
             personality = *it;
-            if(personality->getIsTapped() == true){
+            if (personality->getIsTapped() == true)
+            {
                 cout << "\t" << personality->getName() << " died!" << endl;
                 getArmy()->erase(it);
                 it = getArmy()->begin();
@@ -772,7 +788,7 @@ void Player::battle(Player *enemy)
         }
 
         cout << BBLU("Defender lost:") << endl;
-        attackMinusDefence *= -1;   // because it's negative
+        attackMinusDefence *= -1; // because it's negative
 
         for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
         {
@@ -822,12 +838,12 @@ void Player::economy()
                         getProvinces()->erase(it); // Erase it from provinces
                         setMoney(getMoney() - tempCard->getCost());
 
-                        count--;                                                    // if count reaches 0, there are no revealed Provinces left
+                        count--; // if count reaches 0, there are no revealed Provinces left
 
                         // putting purchased card to holdings or army
                         if (getCorrectType(tempCard->getType()) == HOLDING) // Check is card is Holding or Personality
                         {
-                            addHolding((Holding*)tempCard);                         // if card is Holding, add to Holdings
+                            addHolding((Holding *)tempCard); // if card is Holding, add to Holdings
                         }
 
                         else if (getCorrectType(tempCard->getType()) == PERSONALITY)
@@ -835,7 +851,7 @@ void Player::economy()
                             addPersonality((Personality *)tempCard); // if card is Personality, add to army
                         }
 
-                        drawDynastyCard();                                          // Replacing it with new, not revealed card
+                        drawDynastyCard(); // Replacing it with new, not revealed card
                     }
 
                     else
@@ -886,7 +902,7 @@ bool Player::toSubHolding(Mine *newMine)
                      << endl;
                 enterToContinue();
 
-                return true;     // Mine linked
+                return true; // Mine linked
             }
         }
 
@@ -909,7 +925,7 @@ bool Player::toSubHolding(Mine *newMine)
         }
     }
 
-    return false;     // No Gold or Crystal Mines available to link
+    return false; // No Gold or Crystal Mines available to link
 }
 
 // Check for available Upper Holding linkings
@@ -1014,5 +1030,5 @@ bool Player::toUpperHolding(CrystalMine *newCrystalMine)
         }
     }
 
-    return false;        // No Gold Mines or Mines available to link
+    return false; // No Gold Mines or Mines available to link
 }
