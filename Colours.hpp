@@ -25,4 +25,6 @@
 #define BOLD(x) "\x1B[1m" x RST
 #define UNDL(x) "\x1B[4m" x RST
 
+#define Bold "\x1B[1m"
+
 #endif

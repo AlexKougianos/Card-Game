@@ -25,37 +25,37 @@ void GameBoard::gameplay()
 {
     do
     {
-        cout << BGRN("----- STARTING PHASE: -----\n") << endl;
-        sleep(2);
+        cout << BGRN("---------- STARTING PHASE: ----------\n") << endl;
+        // sleep(2);
         startingPhase(1);
         enterToContinue();
 
         startingPhase(2);
         enterToContinue();
 
-        cout << BGRN("----- EQUIP PHASE: -----\n") << endl;
-        sleep(2);
+        cout << BGRN("---------- EQUIP PHASE: ----------\n") << endl;
+        // sleep(2);
         equipPhase(1);
         enterToContinue();
 
         equipPhase(2);
         enterToContinue();
 
-        cout << BGRN("----- BATTLE PHASE: -----\n") << endl;
-        sleep(2);
+        cout << BGRN("---------- BATTLE PHASE: ----------\n") << endl;
+        // sleep(2);
         battlePhase(1, 2);
         enterToContinue();
 
-        cout << BGRN("----- ECONOMY PHASE: -----\n") << endl;
-        sleep(1);
+        cout << BGRN("---------- ECONOMY PHASE: ----------\n") << endl;
+        // sleep(1);
         economyPhase(1);
         enterToContinue();
 
         economyPhase(2);
         enterToContinue();
         
-        cout << BGRN("----- FINAL PHASE: -----\n") << endl;
-        sleep(3);
+        cout << BGRN("---------- FINAL PHASE: ----------\n") << endl;
+        // sleep(3);
         finalPhase(1, 2);
 
     } while (checkWinningCondition(1, 2) == 0);
@@ -64,14 +64,14 @@ void GameBoard::gameplay()
 void GameBoard::startingPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << BOLD("PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
 
     // Adding Money from harvest Value
-    cout << BYEL("You are granted with extra ") << currentPlayer->getHarvest();
+    cout << BYEL("You are granted with extra ") << Bold << currentPlayer->getHarvest() << RST;
     cout << BYEL(" gold from your Harvest!") <<endl;
 
     currentPlayer->setMoney(currentPlayer->getMoney() + currentPlayer->getHarvest());
-    cout << BYEL("You now have ") << currentPlayer->getMoney() << BYEL(" gold.") << endl;
+    cout << BYEL("You now have ") << Bold << currentPlayer->getMoney() << RST << BYEL(" gold.") << endl;
 
     currentPlayer->untapEverything();
     currentPlayer->drawFateCard();
@@ -84,7 +84,7 @@ void GameBoard::startingPhase(int player)
 void GameBoard::equipPhase(int player)
 {
     Player *currentPlayer = getPlayer(player);
-    cout << BOLD("PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
 
     currentPlayer->equip();
 }
@@ -94,7 +94,7 @@ void GameBoard::battlePhase(int player1, int player2)
     Player *currentPlayer1 = getPlayer(player1);
     Player *currentPlayer2 = getPlayer(player2);
 
-    // if one player does not have an army we skip the battle phase
+    // if both players do not have an army we skip the battle phase
     if(currentPlayer1->getArmy()->size() == 0 && currentPlayer2->getArmy()->size() == 0)
     {
         cout << BRED("Players do not have armies to battle!\n") << endl;
@@ -102,10 +102,10 @@ void GameBoard::battlePhase(int player1, int player2)
     }
 
     // Tapping for battle
-    cout << BOLD("PLAYER ") << player1 << BOLD(": PREPARING\n") << endl;
+    cout << BOLD("     PLAYER ") << player1 << BOLD(": PREPARING\n") << endl;
     currentPlayer1->prepareBattle(currentPlayer2);
     
-    cout << BOLD("PLAYER ") << player2 << BOLD(": PREPARING\n") << endl;
+    cout << BOLD("     PLAYER ") << player2 << BOLD(": PREPARING\n") << endl;
     currentPlayer2->prepareBattle(currentPlayer1);
 
     cout << endl << BOLD("     PLAYER ") << player1 << BOLD(": BATTLE!\n") << endl;
@@ -140,7 +140,7 @@ void GameBoard::discardSurplusFateCard(int player)
         return;
     }
 
-    cout << BOLD("PLAYER ") << player << ":\n" << endl;
+    cout << BOLD("     PLAYER ") << player << ":\n" << endl;
 
     if (currentPlayer->getHand()->size() > MAXHANDSIZE)
     {
@@ -196,21 +196,27 @@ void GameBoard::printArena(int player1, int player2)
     Player* p1 = getPlayer(player1);
     Player* p2 = getPlayer(player2);
 
-    cout << BOLD("#########") << endl
-         << BOLD("# ARENA #") << endl
-         << BOLD("#########") << endl;
+    cout << BOLD("###################") << endl
+         << BOLD("#      ARENA      #") << endl
+         << BOLD("###################") << endl;
 
-    cout << endl << BCYN("PLAYER ") << player1 << ":\n" << endl;
+    enterToContinue();
+
+    cout << endl << "     PLAYER " << player1 << ":\n" << endl;
     p1->printArmy();
     p1->printHoldings();
     p1->printProvinces();
     p1->printStronghold();
 
-    cout << endl << BCYN("PLAYER ") << player2 << ":\n" << endl;
+    enterToContinue();
+
+    cout << endl << "     PLAYER " << player2 << ":\n" << endl;
     p2->printArmy();
     p2->printHoldings();
     p2->printProvinces();
     p2->printStronghold();
+
+    enterToContinue();
 }
 
 int GameBoard::checkWinningCondition(int player, int enemy)
@@ -253,7 +259,7 @@ int GameBoard::getCurrentPhase()
 
 void GameBoard::enterToContinue()
 {
-    cout << BCYN("\nPress Enter to Continue\n");
+    cout << BCYN("\nPress Enter to Continue\n") << endl;
     cin.ignore();
 }
 

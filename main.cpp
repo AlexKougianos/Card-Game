@@ -16,9 +16,3 @@ int main() {
     gameboard->initializeGameBoard();
     gameboard->gameplay();
 }
-
-
-// TODO
-
-// honour 
-// links

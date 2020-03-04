@@ -51,13 +51,13 @@ void Player::setHarvest(int newHarvest) { harvest = newHarvest; }
 void Player::setToAttack(int _toAttack) { toAttack = _toAttack; }
 void Player::setTotalAttack(int _totalAttack) { totalAttack = _totalAttack; }
 void Player::setTotalDefence(int _totalDefence) { totalDefence = _totalDefence; }
-void Player::setStronghold(Stronghold &) {}
-void Player::setFateDeck(list<GreenCard *> &) {}
-void Player::setDynastyDeck(list<BlackCard *> &) {}
-void Player::setHand(list<GreenCard *> &) {}
-void Player::setProvinces(list<BlackCard *> &) {}
-void Player::setHoldings(list<Holding *> &) {}
-void Player::setArmy(list<Personality *> &) {}
+// void Player::setStronghold(Stronghold &) {}
+// void Player::setFateDeck(list<GreenCard *> &) {}
+// void Player::setDynastyDeck(list<BlackCard *> &) {}
+// void Player::setHand(list<GreenCard *> &) {}
+// void Player::setProvinces(list<BlackCard *> &) {}
+// void Player::setHoldings(list<Holding *> &) {}
+// void Player::setArmy(list<Personality *> &) {}
 
 void Player::addHolding(Holding *holding)
 {
@@ -244,9 +244,9 @@ void Player::drawFateCard()
     cout << "Draw Fate Card..." << endl;
 
     GreenCard *tempCard;
-    tempCard = fateDeck->front();       // Getting the first item of Fate Date
-    hand->push_front(tempCard);         // Putting it in Hand
-    fateDeck->pop_front();              // Deleting it from the Fate Deck
+    tempCard = fateDeck->front(); // Getting the first item of Fate Date
+    hand->push_front(tempCard);   // Putting it in Hand
+    fateDeck->pop_front();        // Deleting it from the Fate Deck
 }
 
 void Player::drawDynastyCard()
@@ -259,12 +259,12 @@ void Player::drawDynastyCard()
         return;
     }
     BlackCard *tempCard;
-    tempCard = dynastyDeck->front();    // Getting the first item of Dynasty Date
-    provinces->push_back(tempCard);     // Putting it in Provinces
-    dynastyDeck->pop_front();           // Deleting it from the Dynasty Deck
+    tempCard = dynastyDeck->front(); // Getting the first item of Dynasty Date
+    provinces->push_back(tempCard);  // Putting it in Provinces
+    dynastyDeck->pop_front();        // Deleting it from the Dynasty Deck
 }
 
-void Player::revealProvinces()          // Making all Provinces revealed
+void Player::revealProvinces() // Making all Provinces revealed
 {
     cout << "Reveal Provinces..." << endl;
     BlackCard *tempCard;
@@ -291,8 +291,8 @@ void Player::printHand(bool costs)
         if (costs)
         {
             cout << " (" << tempCard->getCost() << "g, "
-             << tempCard->getMinimumHonour() << " Minimum Honour";
-            
+                 << tempCard->getMinimumHonour() << " Minimum Honour";
+
             if (tempCard->getType() == ITEM)
             {
                 cout << ", Item)";
@@ -301,7 +301,6 @@ void Player::printHand(bool costs)
             {
                 cout << ", Follower)";
             }
-            
         }
         cout << endl;
         i++;
@@ -320,12 +319,12 @@ void Player::printProvinces(bool costs)
     for (it = provinces->begin(); it != provinces->end(); it++)
     {
         tempCard = *it;
-        if (tempCard->getIsRevealed() == true)                   // Printing only revealed Provinces
+        if (tempCard->getIsRevealed() == true) // Printing only revealed Provinces
         {
-            cout << i << ": " << tempCard->getName();           
-            if (costs)                                      
+            cout << i << ": " << tempCard->getName();
+            if (costs)
             {
-                cout << " (" << tempCard->getCost() << "g, ";    // Printing Costs and type for economy phase
+                cout << " (" << tempCard->getCost() << "g, "; // Printing Costs and type for economy phase
 
                 if (getCorrectType(tempCard->getType()) == HOLDING)
                 {
@@ -351,7 +350,7 @@ void Player::printArmy(bool honour)
     Personality *tempCard;
     list<Personality *>::iterator it;
     int i = 1;
-    
+
     for (it = army->begin(); it != army->end(); it++)
     {
         tempCard = *it;
@@ -377,7 +376,7 @@ void Player::printArmy(bool honour)
                 for (it = tempCard->getItems()->begin(); it != tempCard->getItems()->end(); it++)
                 {
                     item = *it;
-                    if(i == 1)
+                    if (i == 1)
                         cout << item->getName();
                     else
                         cout << ", " << item->getName();
@@ -398,13 +397,13 @@ void Player::printArmy(bool honour)
                 for (it2 = tempCard->getFollowers()->begin(); it2 != tempCard->getFollowers()->end(); it2++)
                 {
                     follower = *it2;
-                    if(i == 1)
+                    if (i == 1)
                         cout << follower->getName();
                     else
                         cout << ", " << follower->getName();
                     i++;
                 }
-                cout << "\n";               
+                cout << "\n";
             }
         }
         i++;
@@ -428,15 +427,15 @@ void Player::printHoldings()
         // Print sub and upper holdings for Mine Cards
         if (tempCard->getType() == MINE)
         {
-            ((Mine*)tempCard)->printUpperHoldings();
+            ((Mine *)tempCard)->printUpperHoldings();
         }
         else if (tempCard->getType() == GOLD_MINE)
         {
-            ((GoldMine*)tempCard)->printHoldings();
+            ((GoldMine *)tempCard)->printHoldings();
         }
         else if (tempCard->getType() == CRYSTAL_MINE)
         {
-            ((CrystalMine*)tempCard)->printSubHoldings();
+            ((CrystalMine *)tempCard)->printSubHoldings();
         }
 
         cout << endl;
@@ -459,11 +458,11 @@ void Player::equip()
         return;
     }
 
-    list<Personality*>::iterator armyIt;
-    Personality* personality;
+    list<Personality *>::iterator armyIt;
+    Personality *personality;
 
-    list<GreenCard*>::iterator handIt;
-    GreenCard* tempCard;
+    list<GreenCard *>::iterator handIt;
+    GreenCard *tempCard;
 
     int handCard, armyCard, i;
 
@@ -603,7 +602,7 @@ void Player::prepareBattle(Player *enemyPlayer)
 }
 
 // battle
-void Player::battle(Player *enemy)                          // <----------------- Battle not complete
+void Player::battle(Player *enemy)
 {
     if (getToAttack() == 0)
     {
@@ -617,22 +616,24 @@ void Player::battle(Player *enemy)                          // <----------------
     enterToContinue();
 
     // printing battle statistics
-    cout << BOLD("\nAttacker:") << endl;                    // couts are divided because UNDL() is faulty sometimes !!
-        cout << "\t" << UNDL("Attack");                     
-        cout << ": " << getTotalAttack() << endl;
-        cout << "\t" << UNDL("Defence");
-        cout << ": " << getTotalDefence() << endl;
+    cout << BOLD("\nAttacker:") << endl;
+    cout << "\t" << UNDL("Attack");
+    cout << ": " << getTotalAttack() << endl;
+    cout << "\t" << UNDL("Defence");
+    cout << ": " << getTotalDefence() << endl;
 
-    cout << BOLD("\nDefender:") << endl;                    // couts are divided because UNDL() is faulty sometimes !!
-        cout << "\t" << UNDL("Attack");
-        cout << ": " << enemy->getTotalAttack() << endl;
-        cout << "\t" << UNDL("Defence: ");
-        cout << ": " << enemy->getTotalDefence() << endl;
+    cout << BOLD("\nDefender:") << endl;
+    cout << "\t" << UNDL("Attack");
+    cout << ": " << enemy->getTotalAttack() << endl;
+    cout << "\t" << UNDL("Defence: ");
+    cout << ": " << enemy->getTotalDefence() << endl;
 
     enterToContinue();
 
     // determining winner
-    if (getTotalAttack() > enemy->getTotalDefence())           // <----TODO
+    int attackMinusDefence = getTotalAttack() - enemy->getTotalDefence();
+
+    if (attackMinusDefence > 5)
     {
         cout << BBLU("Attacker wins!") << endl;
         cout << BBLU("Defender's army died") << endl;
@@ -646,35 +647,96 @@ void Player::battle(Player *enemy)                          // <----------------
             it = enemy->getArmy()->begin();
         }
 
-        cout << "army size = " << enemy->getArmy()->size() << endl;
+        cout << BBLU("The attacked province was destroyed!") << endl;
 
-        cout << "Destroying the attacked province" << endl;
-
-        BlackCard* tempCard;
-        list<BlackCard*>::iterator it2;
+        BlackCard *tempCard;
+        list<BlackCard *>::iterator it2;
         int i = 1;
 
-        for(it2 = enemy->getProvinces()->begin(); it2 != enemy->getProvinces()->end(); it2)
+        for (it2 = enemy->getProvinces()->begin(); it2 != enemy->getProvinces()->end(); it2)
         {
-            if(i == toAttack){
+            if (i == toAttack)
+            {
                 enemy->getProvinces()->erase(it2);
                 break;
             }
-
             i++;
         }
-
-        cout << "enemy provinces = " << enemy->getProvinces()->size() << endl;
     }
-
-    else if (getTotalAttack() < enemy->getTotalDefence())
+    else if (attackMinusDefence > 0 && attackMinusDefence <= 5)
     {
-        cout << BBLU("Defender wins!") << endl;
-    }
+        cout << BBLU("Attacker wins!") << endl;
+        cout << BBLU("Defender's army died") << endl;
 
-    else
+        Personality *personality;
+        list<Personality *>::iterator it;
+
+        for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
+        {
+            enemy->getArmy()->erase(it);
+            it = enemy->getArmy()->begin();
+        }
+
+        cout << BBLU("The attacked province was not destroyed!") << endl;
+
+        cout << BBLU("Attacker also loses certain personalities!") << endl;
+
+        for (it = getArmy()->begin(); it != getArmy()->end(); it++)
+        {
+            personality = *it;
+            if (personality->getAttack() > attackMinusDefence)
+            {
+                getArmy()->erase(it);
+                it = getArmy()->begin();
+            }
+        }
+    }
+    else if (attackMinusDefence == 0)
     {
         cout << BBLU("It's a tie!") << endl;
+        cout << BBLU("Both players lose their army!") << endl;
+
+        Personality *personality;
+        list<Personality *>::iterator it;
+
+        for (it = getArmy()->begin(); it != getArmy()->end(); it++)
+        {
+            getArmy()->erase(it);
+            it = getArmy()->begin();
+        }
+
+        for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
+        {
+            enemy->getArmy()->erase(it);
+            it = enemy->getArmy()->begin();
+        }
+    }
+    else
+    {
+        cout << BBLU("Defender wins!") << endl;
+        cout << BBLU("Attacker's army died") << endl;
+
+        Personality *personality;
+        list<Personality *>::iterator it;
+
+        for (it = getArmy()->begin(); it != getArmy()->end(); it++)
+        {
+            getArmy()->erase(it);
+            it = getArmy()->begin();
+        }
+
+        cout << BBLU("Defender also loses certain army or followers!") << endl;
+        attackMinusDefence *= -1;   // because it's negative
+
+        for (it = enemy->getArmy()->begin(); it != enemy->getArmy()->end(); it++)
+        {
+            personality = *it;
+            if (personality->getAttack() > attackMinusDefence)
+            {
+                enemy->getArmy()->erase(it);
+                it = enemy->getArmy()->begin();
+            }
+        }
     }
 }
 
@@ -685,10 +747,10 @@ void Player::economy()
     BlackCard *tempCard;
     int answer, i, count = 4;
 
-    do          // A loop that shows available Provinces to buy
+    do // A loop that shows available Provinces to buy
     {
         printProvinces(true);
-        cout << BYEL("\nYou have ") << getMoney() << BYEL(" gold") << endl;
+        cout << BYEL("\nYou have ") << Bold << getMoney() << RST << BYEL(" gold") << endl;
 
         cout << BYEL("Give number you want to buy. (0 to exit)") << endl;
         cin >> answer;
@@ -697,10 +759,10 @@ void Player::economy()
             break;
         }
 
-        if (answer <= count)        // Answer has to be revealed Province
+        if (answer <= count) // Answer has to be revealed Province
         {
             i = 1;
-            for (it = getProvinces()->begin(); it != getProvinces()->end(); it++)   // Loop to find picked Province
+            for (it = getProvinces()->begin(); it != getProvinces()->end(); it++) // Loop to find picked Province
             {
                 if (i == answer)
                 {
@@ -708,56 +770,54 @@ void Player::economy()
 
                     if (getMoney() >= tempCard->getCost())
                     {
-                        cout << BYEL("You Purchased ") << tempCard->getName() << endl;    // Purchase the card
+                        cout << BYEL("You Purchased ") << tempCard->getName() << endl; // Purchase the card
                         enterToContinue();
-                        getProvinces()->erase(it);                                  // Erase it from provinces
+                        getProvinces()->erase(it); // Erase it from provinces
                         setMoney(getMoney() - tempCard->getCost());
-                        
-                        drawDynastyCard();                                          // Replacing it with new, not revealed card
-                        count--;                                                    // if count reaches 0, there are no revealed Provinces left
+
+                        drawDynastyCard(); // Replacing it with new, not revealed card
+                        count--;           // if count reaches 0, there are no revealed Provinces left
 
                         // putting purchased card to holdings or army
-                        if (getCorrectType(tempCard->getType()) == HOLDING)         // Check is card is Holding or Personality
+                        if (getCorrectType(tempCard->getType()) == HOLDING) // Check is card is Holding or Personality
                         {
 
-                            if (tempCard->getType() == MINE)                        // if card is Mine
+                            if (tempCard->getType() == MINE) // if card is Mine
                             {
-                                if (!toSubHolding((Mine*)tempCard))                 // Check for Gold Mines to link
+                                if (!toSubHolding((Mine *)tempCard)) // Check for Gold Mines to link
                                 {
-                                    addHolding((Holding*)tempCard);                 // if not, add to Holings
+                                    addHolding((Holding *)tempCard); // if not, add to Holings
                                 }
                             }
 
-                            else if (tempCard->getType() == GOLD_MINE)              // if card is Gold Mine
+                            else if (tempCard->getType() == GOLD_MINE) // if card is Gold Mine
                             {
                                 // Check for Crystal Mines or Mines to link
-                                if (!toSubHolding((GoldMine*)tempCard) && !toUpperHolding((GoldMine*)tempCard))             
+                                if (!toSubHolding((GoldMine *)tempCard) && !toUpperHolding((GoldMine *)tempCard))
                                 {
                                     // if no Mine or Crystal Mines are available, add to Holdings
-                                    addHolding((Holding*)tempCard);
+                                    addHolding((Holding *)tempCard);
                                 }
                             }
 
-                            else if (tempCard->getType() == CRYSTAL_MINE)           // if card is Crystal Mine
+                            else if (tempCard->getType() == CRYSTAL_MINE) // if card is Crystal Mine
                             {
-                                if (!toUpperHolding((CrystalMine*)tempCard))        // Check for Gold Mines to link
+                                if (!toUpperHolding((CrystalMine *)tempCard)) // Check for Gold Mines to link
                                 {
-                                    addHolding((Holding*)tempCard);                 // if not, add to Holdings
+                                    addHolding((Holding *)tempCard); // if not, add to Holdings
                                 }
                             }
 
-                            else                                                    // if card is other Holdings
+                            else // if card is other Holdings
                             {
-                                addHolding((Holding *)tempCard);                    // Add to Holdings
+                                addHolding((Holding *)tempCard); // Add to Holdings
                             }
-
                         }
 
                         else if (getCorrectType(tempCard->getType()) == PERSONALITY)
                         {
-                            addPersonality((Personality *)tempCard);    	        // if card is Personality, add to army
+                            addPersonality((Personality *)tempCard); // if card is Personality, add to army
                         }
-
                     }
 
                     else
@@ -765,7 +825,7 @@ void Player::economy()
                         cout << BRED("You do not have enough money!") << endl;
                     }
 
-                    break;               // Start the initial loop again
+                    break; // Start the initial loop again
                 }
 
                 i++;
@@ -782,15 +842,15 @@ void Player::economy()
 
 void Player::enterToContinue()
 {
-    cout << BCYN("\nPress Enter to Continue\n");
+    cout << BCYN("\nPress Enter to Continue\n") << endl;
     cin.ignore();
 }
 
 // Check for available Upper Holding linkings
-bool Player::toSubHolding (Mine* newMine)
+bool Player::toSubHolding(Mine *newMine)
 {
-    list<Holding*>::iterator it;
-    Holding* tempCard;
+    list<Holding *>::iterator it;
+    Holding *tempCard;
 
     for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
     {
@@ -799,44 +859,46 @@ bool Player::toSubHolding (Mine* newMine)
         // Check if current Holding is Gold Mine and available to link
         if (tempCard->getType() == GOLD_MINE)
         {
-            if (((GoldMine*)tempCard)->getSubHolding() == NULL)
+            if (((GoldMine *)tempCard)->getSubHolding() == NULL)
             {
-                ((GoldMine*)tempCard)->setSubHolding(newMine);
+                ((GoldMine *)tempCard)->setSubHolding(newMine);
 
                 cout << newMine->getName() << BCYN(" linked to: ");
-                cout << tempCard->getName() << endl << endl;
+                cout << tempCard->getName() << endl
+                     << endl;
                 enterToContinue();
 
-                return true;         // Mine linked
+                return true; // Mine linked
             }
         }
 
         // Check if current is Crystal Mine with Gold Mine and available to link
         if (tempCard->getType() == CRYSTAL_MINE)
         {
-            if (((CrystalMine*)tempCard)->getSubHolding() != NULL)
+            if (((CrystalMine *)tempCard)->getSubHolding() != NULL)
             {
-                if (((CrystalMine*)tempCard)->getSubHolding()->getSubHolding() == NULL)
+                if (((CrystalMine *)tempCard)->getSubHolding()->getSubHolding() == NULL)
                 {
-                    ((CrystalMine*)tempCard)->setSubHolding(newMine);
+                    ((CrystalMine *)tempCard)->setSubHolding(newMine);
 
                     cout << newMine->getName() << BCYN(" linked to: ");
-                    cout << tempCard->getName() << endl << endl;
+                    cout << tempCard->getName() << endl
+                         << endl;
 
-                    return true;    // Mine linked
+                    return true; // Mine linked
                 }
             }
         }
     }
 
-    return false;        // No Gold or Crystal Mines available to link
+    return false; // No Gold or Crystal Mines available to link
 }
 
 // Check for available Upper Holding linkings
-bool Player::toSubHolding (GoldMine* newGoldMine)
+bool Player::toSubHolding(GoldMine *newGoldMine)
 {
-    list<Holding*>::iterator it;
-    Holding* tempCard;
+    list<Holding *>::iterator it;
+    Holding *tempCard;
 
     for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
     {
@@ -845,28 +907,27 @@ bool Player::toSubHolding (GoldMine* newGoldMine)
         // Check if current Holding is Crystal Mine and available to link
         if (tempCard->getType() == CRYSTAL_MINE)
         {
-            if (((CrystalMine*)tempCard)->getSubHolding() == NULL)
+            if (((CrystalMine *)tempCard)->getSubHolding() == NULL)
             {
-                ((CrystalMine*)tempCard)->setSubHolding(newGoldMine);
+                ((CrystalMine *)tempCard)->setSubHolding(newGoldMine);
 
                 cout << newGoldMine->getName() << BCYN(" linked to: ");
-                cout << tempCard->getName() << endl << endl;
+                cout << tempCard->getName() << endl
+                     << endl;
 
-                return true;        // Gold Mine linked
+                return true; // Gold Mine linked
             }
-            
         }
-        
     }
 
-    return false;        // No Crystal Mines available to link
+    return false; // No Crystal Mines available to link
 }
 
 // Check for available Sub Holding linkings
-bool Player::toUpperHolding(GoldMine* newGoldMine)
+bool Player::toUpperHolding(GoldMine *newGoldMine)
 {
-    list<Holding*>::iterator it;
-    Holding* tempCard;
+    list<Holding *>::iterator it;
+    Holding *tempCard;
 
     for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
     {
@@ -875,28 +936,27 @@ bool Player::toUpperHolding(GoldMine* newGoldMine)
         // Check if current Holding is Mine and available to link
         if (tempCard->getType() == MINE)
         {
-            if (((Mine*)tempCard)->getUpperHolding() == NULL)
+            if (((Mine *)tempCard)->getUpperHolding() == NULL)
             {
-                ((Mine*)tempCard)->setUpperHolding(newGoldMine);
+                ((Mine *)tempCard)->setUpperHolding(newGoldMine);
 
                 cout << newGoldMine->getName() << BCYN(" linked to: ");
-                cout << tempCard->getName() << endl << endl;
+                cout << tempCard->getName() << endl
+                     << endl;
 
-                return true;        // Gold Mine linked
+                return true; // Gold Mine linked
             }
-            
         }
-        
     }
 
-    return false;        // No Mines available to link
+    return false; // No Mines available to link
 }
-        
+
 // Check for available Sub Holding linkings
-bool Player::toUpperHolding(CrystalMine* newCrystalMine)
+bool Player::toUpperHolding(CrystalMine *newCrystalMine)
 {
-    list<Holding*>::iterator it;
-    Holding* tempCard;
+    list<Holding *>::iterator it;
+    Holding *tempCard;
 
     for (it = getHoldings()->begin(); it != getHoldings()->end(); it++)
     {
@@ -905,34 +965,36 @@ bool Player::toUpperHolding(CrystalMine* newCrystalMine)
         // Check if current Holding is Gold Mine and available to link
         if (tempCard->getType() == GOLD_MINE)
         {
-            if (((GoldMine*)tempCard)->getUpperHolding() == NULL)
+            if (((GoldMine *)tempCard)->getUpperHolding() == NULL)
             {
-                ((GoldMine*)tempCard)->setUpperHolding(newCrystalMine);
+                ((GoldMine *)tempCard)->setUpperHolding(newCrystalMine);
 
                 cout << newCrystalMine->getName() << BCYN(" linked to: ");
-                cout << tempCard->getName() << endl << endl;
+                cout << tempCard->getName() << endl
+                     << endl;
 
-                return true;         // Mine linked
+                return true; // Mine linked
             }
         }
 
         // Check if current is Crystal Mine with Gold Mine and available to link
         if (tempCard->getType() == MINE)
         {
-            if (((Mine*)tempCard)->getUpperHolding() != NULL)
+            if (((Mine *)tempCard)->getUpperHolding() != NULL)
             {
-                if (((Mine*)tempCard)->getUpperHolding()->getUpperHolding() == NULL)
+                if (((Mine *)tempCard)->getUpperHolding()->getUpperHolding() == NULL)
                 {
-                    ((Mine*)tempCard)->setUpperHolding(newCrystalMine);
+                    ((Mine *)tempCard)->setUpperHolding(newCrystalMine);
 
                     cout << newCrystalMine->getName() << BCYN(" linked to: ");
-                    cout << tempCard->getName() << endl << endl;
+                    cout << tempCard->getName() << endl
+                         << endl;
 
-                    return true;    // Mine linked
+                    return true; // Mine linked
                 }
             }
         }
     }
 
-    return false;        // No Gold Mines or Mines available to link
+    return false; // No Gold Mines or Mines available to link
 }
