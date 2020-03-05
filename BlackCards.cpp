@@ -330,6 +330,16 @@ void GoldMine::printHoldings()
             cout << " <-> " << getUpperHolding()->getName();
         }
     }
+    else if(getUpperHolding() != NULL)
+    {
+        cout << " <-> " << getUpperHolding()->getName();
+
+        if(getSubHolding() != NULL)
+        {
+            cout << " <-> " << getSubHolding()->getName();
+        }
+    }
+    
 }
 
 // Crystal
